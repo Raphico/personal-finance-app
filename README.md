@@ -19,13 +19,19 @@ This is a solution to the [Personal finance app challenge on Frontend Mentor](ht
 - [] Navigate the whole app and perform all actions using only their keyboard
 - [] View the optimal layout for the interface depending on their device's screen size
 
-## Running locally
+## Project setup
 
 1. Clone repository
 
 ```bash
     git clone git@github.com:Raphico/personal-finance-app.git
     cd personal-finance-app
+```
+
+2. Install dependencies
+
+```bash
+    pnpm install
 ```
 
 ## License
