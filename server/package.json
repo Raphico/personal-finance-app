@@ -1,0 +1,20 @@
+{
+  "name": "personal-finance-app-server",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "main": "./src/index.js",
+  "scripts": {
+    "dev": "nodemon",
+    "lint": "eslint --quiet",
+    "format": "prettier --write src/"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.14.0",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.4.2"
+  }
+}
