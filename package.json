@@ -1,0 +1,32 @@
+{
+  "name": "personal-finance-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "vue.js",
+    "node",
+    "express",
+    "finance-app",
+    "fullstack"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Raphico/personal-finance-app"
+  },
+  "author": {
+    "name": "raphico",
+    "email": "contactraphico@gmail.com",
+    "url": "https://github.com/raphico"
+  },
+  "license": "MIT",
+  "description": "a solution to the personal finance app on frontend mentor",
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "husky": "^9.1.7"
+  }
+}
