@@ -10,7 +10,8 @@
     "test:unit": "vitest",
     "test:e2e": "playwright test",
     "lint": "eslint --quiet",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "format:check": "prettier --check src/"
   },
   "dependencies": {
     "pinia": "^2.3.0",

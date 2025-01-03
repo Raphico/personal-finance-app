@@ -1,0 +1,86 @@
+name: Code Check
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+    paths-ignore:
+      - "**.md"
+      - "LICENSE"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: install dependencies
+        shell: bash
+        run: pnpm install
+        env:
+          HUSKY: "0"
+
+  lint_and_format:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Lint and format client
+        run: |
+          cd client
+          pnpm lint
+          pnpm format:check
+
+      - name: Lint and format server
+        run: |
+          cd server
+          pnpm lint
+          pnpm format:check
+
+  unit_tests:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Run unit tests for client
+        run: |
+          cd client
+          pnpm test:unit
+
+      - name: Run unit tests for server
+        run: |
+          cd server
+          pnpm run --if-present test:unit
+
+  e2e_tests:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Run e2e tests for client
+        run: |
+          cd client
+          pnpm test:e2e
+
+      - name: Run e2e tests for server
+        run: |
+          cd server
+          pnpm run --if-present test:e2e
