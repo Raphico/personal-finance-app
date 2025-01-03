@@ -11,10 +11,9 @@ runs:
       with:
         version: 9
 
-    - name: Use Node.js ${{ inputs.node-version }}
-      uses: actions/setup-node@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: ${{ inputs.node-version }}
+        node-version: 20
         cache: "pnpm"
 
     - name: Install dependencies
