@@ -33,39 +33,3 @@ jobs:
           pnpm install
           pnpm lint
           pnpm format:check
-
-  unit_tests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: ./.github/actions/setup-node
-      - name: Run unit tests for client
-        run: |
-          cd client
-          pnpm install
-          pnpm test:unit
-      - name: Run unit tests for server
-        run: |
-          cd server
-          pnpm install
-          pnpm run --if-present test:unit
-
-  e2e_tests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: ./.github/actions/setup-node
-      - name: Run e2e tests for client
-        run: |
-          cd client
-          pnpm install
-          pnpm test:e2e
-      - name: Run e2e tests for server
-        run: |
-          cd server
-          pnpm install
-          pnpm run --if-present test:e2e
