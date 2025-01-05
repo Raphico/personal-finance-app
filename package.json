@@ -2,6 +2,7 @@
   "name": "personal-finance-app",
   "description": "a solution to the personal finance app on frontend mentor",
   "private": true,
+  "type": "module",
   "author": {
     "name": "raphico",
     "url": "https://github.com/raphico"
