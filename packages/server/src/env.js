@@ -2,6 +2,9 @@ import { z } from "zod";
 
 export const { data: env } = z
   .object({
+    NODE_ENV: z
+      .enum(["development", "test", "production"])
+      .default("development"),
     PORT: z
       .number({ coerce: true })
       .default(8080)
