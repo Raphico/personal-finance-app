@@ -1,0 +1,22 @@
+{
+  "name": "@repo/eslint-config",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "./base": "./base.js",
+    "./vue-js": "./vue.js",
+    "./server-js": "./server.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@vitest/eslint-plugin": "^1.1.24",
+    "@vue/eslint-config-prettier": "^10.1.0",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-playwright": "^2.1.0",
+    "eslint-plugin-vue": "^9.32.0",
+    "eslint-plugin-vuejs-accessibility": "^2.4.1",
+    "eslint-plugin-turbo": "^2.3.0",
+    "globals": "^15.14.0"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "personal-finance-app",
+  "description": "a solution to the personal finance app on frontend mentor",
+  "private": true,
+  "author": {
+    "name": "raphico",
+    "url": "https://github.com/raphico"
+  },
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{js,md,vue}\"",
+    "format:check": "prettier --check \"**/*.{js,md,vue}\"",
+    "prepare": "husky"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
+    "prettier": "^3.4.2",
+    "server": "^1.0.41",
+    "turbo": "^2.3.3"
+  }
+}

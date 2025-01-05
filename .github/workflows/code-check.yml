@@ -1,0 +1,36 @@
+name: Code check
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: "*"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: ./.github/actions/setup-node
+        with:
+          node-version: 20
+          pnpm-version: 9
+      - run: pnpm lint
+
+  check-format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: ./.github/actions/setup-node
+        with:
+          node-version: 20
+          pnpm-version: 9
+      - run: pnpm format:check
