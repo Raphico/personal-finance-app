@@ -1,4 +1,5 @@
 import { env } from "../env.js";
+import { logger } from "../logging.js";
 import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
 
@@ -8,6 +9,8 @@ export function errorMiddleware(error, request, response, next) {
   const errorMessage = isApiError
     ? error.message
     : "Something went wrong. Please try again later";
+
+  logger.error(errorMessage);
 
   response.status(statusCode).json(
     new ApiResponse({
