@@ -14,3 +14,10 @@ export const signupSchema = z.object({
     .string({ required_error: "password is required" })
     .min(8, { message: "password must be at least 8 characters long" }),
 });
+
+export const verifyEmailSchema = z.object({
+  code: z
+    .string({ required_error: "verification code is required" })
+    .min(6, { message: "verification code must be 6 characters long" })
+    .max(6, { message: "verification code must be 6 characters long" }),
+});

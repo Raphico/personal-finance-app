@@ -6,12 +6,11 @@ import { db } from "../../db/index.js";
 import { eq } from "drizzle-orm";
 import { users } from "../../db/schema.js";
 import { ApiResponse } from "../../utils/api-response.js";
-import { generateVerificationToken } from "../../services/token.service.js";
+import { generateVerificationCode } from "../../services/token.service.js";
 import {
   emailVerificationTemplate,
   sendEmail,
 } from "../../services/mail.service.js";
-import { VERIFICATION_TOKEN_EXPIRY } from "../../config.js";
 
 export const signup = asyncHandler(async function signup(request, response) {
   const { error, data } = signupSchema.safeParse(request.body);
@@ -40,7 +39,7 @@ export const signup = asyncHandler(async function signup(request, response) {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const { unHashedToken, hashedToken, expiresAt } = generateVerificationToken();
+  const { unHashedCode, hashedCode, expiresAt } = generateVerificationCode();
 
   const user = await db
     .insert(users)
@@ -48,7 +47,7 @@ export const signup = asyncHandler(async function signup(request, response) {
       name,
       email,
       password: hashedPassword,
-      emailVerificationToken: hashedToken,
+      emailVerificationCode: hashedCode,
       emailVerificationExpiry: expiresAt,
     })
     .returning({ id: users.id, name: users.name, email: users.email });
@@ -56,8 +55,7 @@ export const signup = asyncHandler(async function signup(request, response) {
   await sendEmail({
     emailContent: emailVerificationTemplate({
       username: name,
-      emailVerificationLink: `${request.protocol}//:${request.get("host")}/api/v1/auth/verify-email/${unHashedToken}`,
-      expiresIn: `${VERIFICATION_TOKEN_EXPIRY / 60000} minutes`,
+      emailVerificationCode: unHashedCode,
     }),
     to: email,
     subject: "Email verification",
@@ -67,7 +65,7 @@ export const signup = asyncHandler(async function signup(request, response) {
     new ApiResponse({
       data: user,
       message:
-        "User signup successful. A verification email has been sent to your email",
+        "User signup successful. A verification code has been sent to your email",
       status: "ok",
     })
   );

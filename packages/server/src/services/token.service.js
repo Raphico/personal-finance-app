@@ -1,19 +1,19 @@
 import crypto from "node:crypto";
-import { VERIFICATION_TOKEN_EXPIRY } from "../config.js";
+import { VERIFICATION_EXPIRY } from "../config.js";
 
-/**@description generates temporary tokens for email verification, password reset etc. */
-export function generateVerificationToken() {
-  const unHashedToken = crypto.randomBytes(20).toString("hex");
-  const hashedToken = crypto
+/**@description generates temporary codes for email verification. */
+export function generateVerificationCode() {
+  const unHashedCode = crypto.randomInt(100000, 999999).toString();
+  const hashedCode = crypto
     .createHash("sha256")
-    .update(unHashedToken)
+    .update(unHashedCode)
     .digest("hex");
 
-  const expiresAt = new Date(Date.now() + VERIFICATION_TOKEN_EXPIRY);
+  const expiresAt = new Date(Date.now() + VERIFICATION_EXPIRY);
 
   return {
-    unHashedToken,
-    hashedToken,
+    unHashedCode,
+    hashedCode,
     expiresAt,
   };
 }

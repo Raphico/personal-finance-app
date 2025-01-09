@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-// expiry for email verifications, password resets email, etc
-export const VERIFICATION_TOKEN_EXPIRY = 30 * 60 * 1000; // 30 minutes
+// expiry for email verifications codes, password resets email, etc
+export const VERIFICATION_EXPIRY = 15 * 60 * 1000; // 15 minutes
 
 export const { data: env } = z
   .object({

@@ -55,28 +55,23 @@ export async function sendEmail({ emailContent, to, subject }) {
 /**
  * Generates the email content template for user email verification
  * @export
- * @param {{ username: string; emailVerificationLink: string; expiresIn: string }} options
+ * @param {{ username: string; emailVerificationCode: string }} options
  * @returns { Mailgen.Content }
  */
-export function emailVerificationTemplate({
-  username,
-  emailVerificationLink,
-  expiresIn,
-}) {
+export function emailVerificationTemplate({ username, emailVerificationCode }) {
   return {
     body: {
       name: username,
       intro:
-        "Welcome to Personal finance app! Please, verify your email to access your account fully. Click the button below to complete the process.",
+        "Enter this temporary verification code to continue and fully access your account:",
       action: {
         button: {
           color: "#201F24",
-          text: "Verify your email",
-          link: `${emailVerificationLink}`,
+          text: `${emailVerificationCode}`,
         },
       },
       outro: [
-        `Please note that this link will expire in ${expiresIn}. If the link has expired, you can request a new verification email by visiting our website.`,
+        `Please note that this code will expire shortly. If the code has expired, you can request a new verification code by visiting our website.`,
         `If you didn’t create an account with us, you can safely ignore this email.`,
       ],
     },
