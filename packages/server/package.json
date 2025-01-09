@@ -18,12 +18,16 @@
   },
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.38.3",
     "express": "^4.21.2",
     "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mailgen": "^2.0.28",
     "morgan": "^1.10.0",
+    "nodemailer": "^6.9.16",
     "pg": "^8.13.1",
     "winston": "^3.17.0",
     "zod": "^3.24.1"

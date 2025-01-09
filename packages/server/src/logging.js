@@ -1,6 +1,6 @@
 import morgan from "morgan";
 import winston from "winston";
-import { env } from "./env.js";
+import { env } from "./config.js";
 
 const colors = {
   error: "red",
