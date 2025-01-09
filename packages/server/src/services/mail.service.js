@@ -68,6 +68,7 @@ export function emailVerificationTemplate({ username, emailVerificationCode }) {
         button: {
           color: "#201F24",
           text: `${emailVerificationCode}`,
+          link: "#",
         },
       },
       outro: [

@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
-import { VERIFICATION_EXPIRY } from "../config.js";
+import jwt from "jsonwebtoken";
+import { env, VERIFICATION_EXPIRY } from "../config.js";
 
 /**@description generates temporary codes for email verification. */
 export function generateVerificationCode() {
@@ -16,4 +17,16 @@ export function generateVerificationCode() {
     hashedCode,
     expiresAt,
   };
+}
+
+export function generateAccessToken(payload) {
+  return jwt.sign(payload, env.ACCESS_TOKEN_SECRET, {
+    expiresIn: env.ACCESS_TOKEN_EXPIRY,
+  });
+}
+
+export function generateRefreshToken(payload) {
+  return jwt.sign(payload, env.REFRESH_TOKEN_SECRET, {
+    expiresIn: env.REFRESH_TOKEN_EXPIRY,
+  });
 }

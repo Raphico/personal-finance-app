@@ -15,6 +15,11 @@ export const { data: env } = z
     SMTP_PASSWORD: z.string(),
     SENDER_EMAIL_ADDRESS: z.string().email(),
     CLIENT_URL: z.string().url(),
+    ACCESS_TOKEN_SECRET: z.string(),
+    REFRESH_TOKEN_SECRET: z.string(),
+    ACCESS_TOKEN_EXPIRY: z.string(),
+    REFRESH_TOKEN_EXPIRY: z.string(),
+    REDIS_URL: z.string(),
     PORT: z
       .number({ coerce: true })
       .default(8080)
