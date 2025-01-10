@@ -1,6 +1,7 @@
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { env } from "./config.js";
 import { errorMiddleware } from "./middleware/error.middleware.js";
 import { morganMiddleware } from "./logging.js";
@@ -18,6 +19,7 @@ app.use(
   })
 );
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -73,6 +73,9 @@ importers:
       bcrypt:
         specifier: ^5.1.1
         version: 5.1.1
+      cookie-parser:
+        specifier: ^1.4.7
+        version: 1.4.7
       cors:
         specifier: ^2.8.5
         version: 2.8.5

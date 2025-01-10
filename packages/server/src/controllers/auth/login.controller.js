@@ -85,7 +85,6 @@ export const login = asyncHandler(async function login(request, response) {
           id: user.id,
           name: user.name,
           email: user.email,
-          isEmailVerified: user.isEmailVerified,
         },
         message: "login successful",
         status: "ok",
