@@ -19,6 +19,7 @@ export const { data: env } = z
     REFRESH_TOKEN_SECRET: z.string(),
     ACCESS_TOKEN_EXPIRY: z.string(),
     REFRESH_TOKEN_EXPIRY: z.string(),
+    CLIENT_PASSWORD_RESET_URL: z.string().url(),
     REDIS_URL: z.string(),
     PORT: z
       .number({ coerce: true })

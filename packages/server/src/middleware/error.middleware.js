@@ -16,7 +16,7 @@ export function errorMiddleware(error, request, response, next) {
     new ApiResponse({
       data: null,
       message: errorMessage,
-      status: "error",
+      status: statusCode < 300 ? "ok" : "error",
       ...(env.NODE_ENV == "development" ? { stack: error?.stack } : {}),
     })
   );

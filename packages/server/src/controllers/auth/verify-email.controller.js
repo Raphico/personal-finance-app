@@ -1,4 +1,3 @@
-import crypto from "node:crypto";
 import { eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { ApiError } from "../../utils/api-error.js";
@@ -6,6 +5,7 @@ import { asyncHandler } from "../../utils/async-handler.js";
 import { users } from "../../db/schema.js";
 import { ApiResponse } from "../../utils/api-response.js";
 import { verifyEmailSchema } from "../../validators/auth.validator.js";
+import { generateHash } from "../../services/token.service.js";
 
 export const verifyEmail = asyncHandler(
   async function verifyEmail(request, response) {
@@ -20,7 +20,7 @@ export const verifyEmail = asyncHandler(
 
     const { code } = data;
 
-    const hashedCode = crypto.createHash("sha256").update(code).digest("hex");
+    const hashedCode = generateHash(code);
 
     const user = await db.query.users.findFirst({
       columns: {

@@ -72,9 +72,33 @@ export function emailVerificationTemplate({ username, emailVerificationCode }) {
         },
       },
       outro: [
-        `Please note that this code will expire shortly. If the code has expired, you can request a new verification code by visiting our website.`,
+        `Please note that this code will expire shortly`,
         `If you didn’t create an account with us, you can safely ignore this email.`,
       ],
+    },
+  };
+}
+
+/**
+ * Generates the email content template for password resets
+ * @export
+ * @param {{ username: string; passwordResetUrl: string }} options
+ * @returns { Mailgen.Content }
+ */
+export function passwordResetTemplate({ username, passwordResetUrl }) {
+  return {
+    body: {
+      name: username,
+      intro:
+        "A password change has been requested for your account. If this was you, please use the link below to reset your password.",
+      action: {
+        button: {
+          text: "Reset your password",
+          link: passwordResetUrl,
+          color: "#201F24",
+        },
+      },
+      outro: `Please note that this link will expire shortly.`,
     },
   };
 }
