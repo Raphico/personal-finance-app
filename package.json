@@ -13,6 +13,8 @@
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{js,md,vue}\"",
     "format:check": "prettier --check \"**/*.{js,md,vue}\"",
+    "test:unit": "turbo test:unit",
+    "test:e2e": "turbo test:e2e",
     "prepare": "husky"
   },
   "license": "MIT",

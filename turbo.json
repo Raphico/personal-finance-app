@@ -10,6 +10,16 @@
     "lint": {
       "dependsOn": ["^lint"]
     },
+    "test:unit": {
+      "dependsOn": ["^test:unit"],
+      "cache": false,
+      "persistent": true
+    },
+    "test:e2e": {
+      "dependsOn": ["^test:e2e"],
+      "cache": false,
+      "persistent": true
+    },
     "dev": {
       "cache": false,
       "persistent": true

@@ -1,0 +1,114 @@
+@font-face {
+  font-family: "Public Sans";
+  src: url("./fonts/PublicSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Public Sans";
+  src: url("./fonts/PublicSans-Bold.woff2") format("woff2");
+  font-weight: 700;
+}
+
+:root {
+  --clr-beige-500: #98908b;
+  --clr-beige-100: #f8f4f0;
+  --clr-grey-900: #201f24;
+  --clr-grey-500: #696868;
+  --clr-grey-300: #b3b3b3;
+  --clr-grey-100: #f2f2f2;
+  --clr-green: #277c78;
+  --clr-yellow: #f2cdac;
+  --clr-cyan: #82c9d7;
+  --clr-navy: #626070;
+  --clr-red: #c94736;
+  --clr-purple: #826cb0;
+  --clr-pink: #af81ba;
+  --clr-white: #ffffff;
+  --clr-turquoise: #597c7c;
+  --clr-brown: #93674f;
+  --clr-magenta: #934f6f;
+  --clr-blue: #3f82b2;
+  --clr-navy-grey: #97a0ac;
+  --clr-army-green: #7f9161;
+  --clr-gold: #cab361;
+  --clr-orange: #be6c49;
+
+  --ff: "Public Sans", serif;
+
+  --fw-regular: 400;
+  --fw-bold: 700;
+
+  --fs-200: 0.75rem;
+  --fs-300: 0.875rem;
+  --fs-400: 1rem;
+  --fs-500: 1.25rem;
+  --fs-600: 2rem;
+
+  --spacing-500: 2.5rem;
+  --spacing-400: 2rem;
+  --spacing-300: 1.5rem;
+  --spacing-250: 1.25rem;
+  --spacing-200: 1rem;
+  --spacing-150: 0.75rem;
+  --spacing-100: 0.5rem;
+  --spacing-50: 0.25;
+
+  --transition-easing: cubic-bezier(0.5, 0, 0.5, 1);
+  --transition-duration: 200ms;
+}
+
+body {
+  font-family: var(--ff);
+  background-color: var(--clr-beige-100);
+  color: var(--clr-grey-900);
+}
+
+.text-preset-1 {
+  font-size: var(--fs-600);
+  font-weight: var(--fw-bold);
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.text-preset-2 {
+  font-size: var(--fs-500);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+.text-preset-3 {
+  font-size: var(--fs-400);
+  line-height: 1.5;
+  letter-spacing: 0;
+  font-weight: var(--fw-bold);
+}
+
+.text-preset-4-regular {
+  font-size: var(--fs-300);
+  font-weight: var(--fw-regular);
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.text-preset-4-bold {
+  font-size: var(--fs-300);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+.text-preset-5-regular {
+  font-size: var(--fs-200);
+  font-weight: var(--fw-regular);
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+.text-preset-5-bold {
+  font-size: var(--fs-200);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0;
+  line-height: 1.5;
+}
