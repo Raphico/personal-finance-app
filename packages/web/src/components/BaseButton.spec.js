@@ -43,7 +43,7 @@ describe("BaseButton Component", () => {
   it("should throw a warn if an invalid variant is passed", () => {
     const consoleSpy = vi.spyOn(console, "warn");
 
-    const wrapper = shallowMount(BaseButton, {
+    shallowMount(BaseButton, {
       props: {
         variant: "invalid",
       },
