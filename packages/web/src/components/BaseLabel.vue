@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
   <label class="text-preset-5-bold">
     <slot />
   </label>
