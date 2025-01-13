@@ -128,9 +128,15 @@ importers:
       nodemon:
         specifier: ^3.1.9
         version: 3.1.9
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.8(@types/node@22.10.5)(jsdom@25.0.1)
 
   packages/web:
     dependencies:
+      "@unhead/vue":
+        specifier: ^1.11.15
+        version: 1.11.15(vue@3.5.13(typescript@5.7.2))
       pinia:
         specifier: ^2.3.0
         version: 2.3.0(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2))
@@ -2494,6 +2500,32 @@ packages:
         integrity: sha512-mCFtBbFBJDCNCWUl5y6sZSCHXw1DEFEk3c/M3nRK2a4XUB8StGFtmcEMizdjKuBzB6e/smJAAWYug3VrdLMr1w==,
       }
     engines: { node: ^18.18.0 || ^20.9.0 || >=21.1.0 }
+
+  "@unhead/dom@1.11.15":
+    resolution:
+      {
+        integrity: sha512-2OZ7zvZQLqlqkhvsKsNOhxxoO3vgjygzzrmtooQR9QNKY+3HjwJ3+QfjGswXI976YV7VJem57ydQSMk1ijB7yg==,
+      }
+
+  "@unhead/schema@1.11.15":
+    resolution:
+      {
+        integrity: sha512-UkLz1dqw4yoh4jELEyLsgSG7yrXc+gv68GkQeTv8LysEPa8sXtFqhfuqTBLhY3sHqSnP8RkDknhtFhG2S3fuKQ==,
+      }
+
+  "@unhead/shared@1.11.15":
+    resolution:
+      {
+        integrity: sha512-VT42ssmwpFGfixfXqAZ+Rn7KyNG0yFqWGsvLOXIgahiTzh3N1k2st1tPvuYFZU22dtWBNxG7cvy8yxUd1vunMQ==,
+      }
+
+  "@unhead/vue@1.11.15":
+    resolution:
+      {
+        integrity: sha512-2NT8Kph5AvB/qO+C8UKAc7cudbFRZTJk0eRpn8o1nG3yk2+mWvN0vsTTjnKvXixNF193I/R+zqo/NkcjgaWG9A==,
+      }
+    peerDependencies:
+      vue: ">=2.7 || >=3"
 
   "@vitejs/plugin-vue@5.2.1":
     resolution:
@@ -5944,6 +5976,12 @@ packages:
         integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==,
       }
 
+  packrup@0.1.2:
+    resolution:
+      {
+        integrity: sha512-ZcKU7zrr5GlonoS9cxxrb5HVswGnyj6jQvwFBa6p5VFw7G71VAHcUKL5wyZSU/ECtPM/9gacWxy2KFQKt1gMNA==,
+      }
+
   parent-module@1.0.1:
     resolution:
       {
@@ -7295,6 +7333,12 @@ packages:
         integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==,
       }
 
+  unhead@1.11.15:
+    resolution:
+      {
+        integrity: sha512-fA0rYB7qMHKY4sg0yzEXhi0cqiF/nl/OUKNaXOS9ChJwCjJxabpZvmQIUOiGS+1ckoFbZc3qZnhDLpdeNhOQwg==,
+      }
+
   unicode-canonical-property-names-ecmascript@2.0.1:
     resolution:
       {
@@ -7866,6 +7910,12 @@ packages:
         integrity: sha512-GQHQqAopRhwU8Kt1DDM8NjibDXHC8eoh1erhGAJPEyveY9qqVeXvVikNKrDz69sHowPMorbPUrH/mx8c50eiBQ==,
       }
     engines: { node: ">=18" }
+
+  zhead@2.2.4:
+    resolution:
+      {
+        integrity: sha512-8F0OI5dpWIA5IGG5NHUg9staDwz/ZPxZtvGVf01j7vHqSyZ0raHY+78atOVxRqb73AotX22uV1pXt3gYSstGag==,
+      }
 
   zod@3.24.1:
     resolution:
@@ -9250,6 +9300,29 @@ snapshots:
     dependencies:
       "@typescript-eslint/types": 8.19.0
       eslint-visitor-keys: 4.2.0
+
+  "@unhead/dom@1.11.15":
+    dependencies:
+      "@unhead/schema": 1.11.15
+      "@unhead/shared": 1.11.15
+
+  "@unhead/schema@1.11.15":
+    dependencies:
+      hookable: 5.5.3
+      zhead: 2.2.4
+
+  "@unhead/shared@1.11.15":
+    dependencies:
+      "@unhead/schema": 1.11.15
+      packrup: 0.1.2
+
+  "@unhead/vue@1.11.15(vue@3.5.13(typescript@5.7.2))":
+    dependencies:
+      "@unhead/schema": 1.11.15
+      "@unhead/shared": 1.11.15
+      hookable: 5.5.3
+      unhead: 1.11.15
+      vue: 3.5.13(typescript@5.7.2)
 
   "@vitejs/plugin-vue@5.2.1(vite@6.0.7(@types/node@22.10.5)(jiti@2.4.2)(yaml@2.6.1))(vue@3.5.13(typescript@5.7.2))":
     dependencies:
@@ -11373,6 +11446,8 @@ snapshots:
 
   package-json-from-dist@1.0.1: {}
 
+  packrup@0.1.2: {}
+
   parent-module@1.0.1:
     dependencies:
       callsites: 3.1.0
@@ -12152,6 +12227,13 @@ snapshots:
 
   undici-types@6.20.0: {}
 
+  unhead@1.11.15:
+    dependencies:
+      "@unhead/dom": 1.11.15
+      "@unhead/schema": 1.11.15
+      "@unhead/shared": 1.11.15
+      hookable: 5.5.3
+
   unicode-canonical-property-names-ecmascript@2.0.1: {}
 
   unicode-match-property-ecmascript@2.0.0:
@@ -12494,5 +12576,7 @@ snapshots:
   yocto-queue@1.1.1: {}
 
   yoctocolors@2.1.1: {}
+
+  zhead@2.2.4: {}
 
   zod@3.24.1: {}
