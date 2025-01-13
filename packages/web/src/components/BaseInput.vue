@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
   <input class="text-preset-4-regular" />
 </template>
 

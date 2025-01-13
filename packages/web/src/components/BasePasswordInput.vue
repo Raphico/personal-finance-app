@@ -26,6 +26,7 @@ const getButtonLabel = computed(() =>
 
 <template>
   <div class="container">
+    <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
     <input :type="getInputType" v-bind="$attrs" />
     <button
       :aria-label="getButtonLabel"
