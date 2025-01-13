@@ -52,16 +52,24 @@
   --spacing-200: 1rem;
   --spacing-150: 0.75rem;
   --spacing-100: 0.5rem;
-  --spacing-50: 0.25;
+  --spacing-50: 0.25rem;
 
   --transition-easing: cubic-bezier(0.5, 0, 0.5, 1);
   --transition-duration: 200ms;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   font-family: var(--ff);
   background-color: var(--clr-beige-100);
   color: var(--clr-grey-900);
+  padding: 0;
+  margin: 0;
 }
 
 .text-preset-1 {
