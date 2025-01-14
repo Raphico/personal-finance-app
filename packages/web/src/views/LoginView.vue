@@ -35,13 +35,13 @@ useHead({
       >
     </BaseFormItem>
     <BaseButton>login</BaseButton>
-    <p class="text-preset-4-regular">
-      Need to create an account?
-      <RouterLink to="/auth/signup" class="signup-link text-preset-4-bold"
-        >Sign up</RouterLink
-      >
-    </p>
   </BaseForm>
+  <p class="text-preset-4-regular">
+    Need to create an account?
+    <RouterLink to="/auth/signup" class="signup-link text-preset-4-bold"
+      >Sign up</RouterLink
+    >
+  </p>
 </template>
 
 <style scoped>
@@ -52,6 +52,7 @@ h1 {
 p {
   text-align: center;
   color: var(--clr-grey-500);
+  margin-top: var(--spacing-400);
 }
 
 .forgot-password {

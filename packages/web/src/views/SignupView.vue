@@ -8,18 +8,18 @@ import BasePasswordInput from "@/components/BasePasswordInput.vue";
 import { useHead } from "@unhead/vue";
 
 useHead({
-  title: "Signup - Personal Finance App",
+  title: "Sign up - Personal Finance App",
   meta: [
     {
       name: "description",
-      content: "Personal finance app signup page",
+      content: "Personal finance app sign up page",
     },
   ],
 });
 </script>
 
 <template>
-  <h1 class="text-preset-1">Signup</h1>
+  <h1 class="text-preset-1">Sign up</h1>
   <BaseForm>
     <BaseFormItem>
       <BaseLabel for="name">name</BaseLabel>
@@ -34,13 +34,13 @@ useHead({
       <BasePasswordInput id="password" name="password" />
     </BaseFormItem>
     <BaseButton>create account</BaseButton>
-    <p class="text-preset-4-regular">
-      Already have an account?
-      <RouterLink to="/auth/login" class="login-link text-preset-4-bold"
-        >login</RouterLink
-      >
-    </p>
   </BaseForm>
+  <p class="text-preset-4-regular">
+    Already have an account?
+    <RouterLink to="/auth/login" class="login-link text-preset-4-bold"
+      >login</RouterLink
+    >
+  </p>
 </template>
 
 <style scoped>
@@ -51,6 +51,7 @@ h1 {
 p {
   text-align: center;
   color: var(--clr-grey-500);
+  margin-top: var(--spacing-400);
 }
 
 .login-link {
