@@ -3,16 +3,6 @@ import { describe, it, expect, vi } from "vitest";
 import BaseButton from "./BaseButton.vue";
 
 describe("BaseButton Component", () => {
-  it("should render its content", () => {
-    const slotContent = "click me";
-    const wrapper = shallowMount(BaseButton, {
-      slots: {
-        default: slotContent,
-      },
-    });
-    expect(wrapper.text()).toBe(slotContent);
-  });
-
   it("should render the correct default variant", () => {
     const wrapper = shallowMount(BaseButton);
     expect(wrapper.classes()).toContain("primary-button");

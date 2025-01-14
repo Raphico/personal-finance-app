@@ -16,7 +16,7 @@ function toggleShowPassword() {
 }
 
 const getIcon = computed(() =>
-  state.showPassword ? IconShowPassword : IconHidePassword
+  state.showPassword ? IconHidePassword : IconShowPassword
 );
 const getInputType = computed(() => (state.showPassword ? "text" : "password"));
 const getButtonLabel = computed(() =>
@@ -27,11 +27,12 @@ const getButtonLabel = computed(() =>
 <template>
   <div class="container">
     <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
-    <input :type="getInputType" v-bind="$attrs" />
+    <input :type="getInputType" v-bind="$attrs" data-test="password-input" />
     <button
       :aria-label="getButtonLabel"
       @click="toggleShowPassword"
       type="button"
+      data-test="password-visibility-toggle"
     >
       <component :is="getIcon" />
     </button>
