@@ -30,6 +30,11 @@ useHead({
       <BaseFormItem>
         <BaseLabel for="password">password</BaseLabel>
         <BasePasswordInput id="password" name="password" />
+        <RouterLink
+          to="/forgot-password"
+          class="forgot-password text-preset-5-bold"
+          >Forgot password?</RouterLink
+        >
       </BaseFormItem>
       <BaseButton>login</BaseButton>
       <p class="text-preset-4-regular">
@@ -52,15 +57,15 @@ p {
   color: var(--clr-grey-500);
 }
 
+.forgot-password {
+  text-decoration: none;
+  text-align: right;
+  color: var(--clr-grey-900);
+}
+
 .signup-link {
   color: var(--clr-grey-900);
   text-decoration: 2px underline;
   text-underline-offset: 3px;
-  transition: color var(--transition-duration) var(--transition-easing);
-}
-
-.signup-link:hover,
-.signup-link:focus {
-  color: var(--clr-grey-500);
 }
 </style>
