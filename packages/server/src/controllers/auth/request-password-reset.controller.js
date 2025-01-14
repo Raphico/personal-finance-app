@@ -60,7 +60,7 @@ export const requestPasswordReset = asyncHandler(
         passwordResetUrl: `${env.CLIENT_PASSWORD_RESET_URL}/${unHashedToken}`,
       }),
       to: user.email,
-      subject: "Change personal finance app password",
+      subject: "Reset password",
     });
 
     response.status(200).json(

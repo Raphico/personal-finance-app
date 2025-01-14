@@ -21,7 +21,7 @@ import BaseLogo from "@/components/BaseLogo.vue";
       </div>
     </aside>
     <main>
-      <slot />
+      <RouterView />
     </main>
   </div>
 </template>
