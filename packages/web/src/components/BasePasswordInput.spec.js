@@ -1,4 +1,4 @@
-import { mount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import { describe, it, expect } from "vitest";
 import BasePasswordInput from "./BasePasswordInput.vue";
 import IconShowPassword from "./Icons/IconShowPassword.vue";
@@ -6,7 +6,7 @@ import IconHidePassword from "./Icons/IconHidePassword.vue";
 
 describe("BasePasswordInput", () => {
   it("renders with default password visibility", () => {
-    const wrapper = mount(BasePasswordInput);
+    const wrapper = shallowMount(BasePasswordInput);
 
     expect(wrapper.get("[data-test='password-input']").attributes("type")).toBe(
       "password"
@@ -20,7 +20,7 @@ describe("BasePasswordInput", () => {
   });
 
   it("toggles password visibility on button click", async () => {
-    const wrapper = mount(BasePasswordInput);
+    const wrapper = shallowMount(BasePasswordInput);
 
     await wrapper
       .get("[data-test='password-visibility-toggle']")

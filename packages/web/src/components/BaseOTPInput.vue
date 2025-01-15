@@ -57,6 +57,7 @@ function handleOnKeyInput(event, index) {
       @keyup="handleOnKeyInput($event, index)"
       maxlength="1"
       :aria-label="`OTP digit ${index + 1} of ${otpValues.length}`"
+      :data-test="`input-${index + 1}`"
     />
   </div>
 </template>
