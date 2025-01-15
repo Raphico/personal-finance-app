@@ -11,9 +11,11 @@ input {
   border-radius: 8px;
   padding: 0 var(--spacing-200);
   outline: none;
+  transition: var(--transition-duration) var(--transition-easing);
+  -webkit-transition: var(--transition-duration) var(--transition-easing);
 }
 
 input:focus {
-  border: 2px solid var(--clr-grey-500);
+  box-shadow: 0 0 0 var(--ring-offset-width) var(--clr-grey-900);
 }
 </style>

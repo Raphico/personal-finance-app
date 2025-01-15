@@ -59,10 +59,12 @@ input {
   outline: none;
   grid-column: 1 / 3;
   grid-row: 1 / 2;
+  transition: var(--transition-duration) var(--transition-easing);
+  -webkit-transition: var(--transition-duration) var(--transition-easing);
 }
 
 input:focus {
-  border: 2px solid var(--clr-grey-500);
+  box-shadow: 0 0 0 var(--ring-offset-width) var(--clr-grey-900);
 }
 
 button {

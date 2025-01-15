@@ -77,6 +77,9 @@ input {
   text-align: center;
   pointer-events: all;
   cursor: pointer;
+  outline: 0;
+  transition: var(--transition-duration) var(--transition-easing);
+  -webkit-transition: var(--transition-duration) var(--transition-easing);
 }
 
 @media (max-width: 700px) {
@@ -86,6 +89,6 @@ input {
 }
 
 input:focus {
-  outline-color: var(--clr-grey-900);
+  box-shadow: 0 0 0 var(--ring-offset-width) var(--clr-grey-900);
 }
 </style>
