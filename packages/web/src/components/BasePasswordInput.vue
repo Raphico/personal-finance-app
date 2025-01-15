@@ -27,7 +27,12 @@ const getButtonLabel = computed(() =>
 <template>
   <div class="container">
     <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
-    <input :type="getInputType" v-bind="$attrs" data-test="password-input" />
+    <input
+      :type="getInputType"
+      class="text-preset-4-regular"
+      v-bind="$attrs"
+      data-test="password-input"
+    />
     <button
       :aria-label="getButtonLabel"
       @click="toggleShowPassword"

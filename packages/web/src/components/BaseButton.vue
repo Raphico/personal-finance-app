@@ -47,7 +47,8 @@ const buttonClasses = computed(() => ({
 }
 
 .primary-button:hover,
-.primary-button:focus {
+.primary-button:focus,
+.primary-button:disabled {
   background-color: var(--clr-grey-500);
 }
 
