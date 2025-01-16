@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { ApiError } from "../../utils/api-error.js";
 import { asyncHandler } from "../../utils/async-handler.js";
-import { emailSchema } from "../../validators/auth.validator.js";
+import { emailSchema } from "@repo/shared-validators/auth";
 import { users } from "../../db/schema.js";
 import { generateVerificationCode } from "../../services/token.service.js";
 import {

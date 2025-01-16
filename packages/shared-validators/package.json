@@ -1,0 +1,11 @@
+{
+  "name": "@repo/shared-validators",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "./auth": "./auth.js"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  }
+}

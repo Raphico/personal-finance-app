@@ -34,3 +34,5 @@ export const verifyEmailSchema = z.object({
     .min(6, { message: "verification code must be 6 characters long" })
     .max(6, { message: "verification code must be 6 characters long" }),
 });
+
+export default loginSchema;

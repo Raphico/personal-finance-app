@@ -11,6 +11,8 @@
     "lint": "eslint ."
   },
   "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/shared-validators": "workspace:*",
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "drizzle-kit": "^0.30.1",

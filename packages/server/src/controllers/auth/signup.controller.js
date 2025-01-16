@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { ApiError } from "../../utils/api-error.js";
 import { asyncHandler } from "../../utils/async-handler.js";
-import { signupSchema } from "../../validators/auth.validator.js";
+import { signupSchema } from "@repo/shared-validators/auth";
 import { db } from "../../db/index.js";
 import { eq } from "drizzle-orm";
 import { users } from "../../db/schema.js";

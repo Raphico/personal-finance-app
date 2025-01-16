@@ -4,7 +4,7 @@ import { db } from "../../db/index.js";
 import { generateHash } from "../../services/token.service.js";
 import { ApiError } from "../../utils/api-error.js";
 import { asyncHandler } from "../../utils/async-handler.js";
-import { passwordSchema } from "../../validators/auth.validator.js";
+import { passwordSchema } from "@repo/shared-validators/auth";
 import { users } from "../../db/schema.js";
 import { ApiResponse } from "../../utils/api-response.js";
 
