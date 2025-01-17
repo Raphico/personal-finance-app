@@ -9,6 +9,10 @@ const { variant } = defineProps({
       return ["primary", "secondary", "tertiary", "destroy"].includes(value);
     },
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const buttonClasses = computed(() => ({
@@ -20,8 +24,9 @@ const buttonClasses = computed(() => ({
 </script>
 
 <template>
-  <button :class="buttonClasses">
-    <slot />
+  <button :class="buttonClasses" :disabled="loading">
+    <span aria-hidden="true" class="loader" v-if="loading"></span>
+    <slot v-else />
   </button>
 </template>
 
@@ -32,7 +37,8 @@ const buttonClasses = computed(() => ({
   justify-content: center;
   gap: 1rem;
   cursor: pointer;
-  padding: 1em;
+  padding-inline: 1em;
+  height: 53px;
   border: none;
   border-radius: 8px;
   transition-property: background, color, border, opacity;
@@ -41,14 +47,17 @@ const buttonClasses = computed(() => ({
   text-transform: capitalize;
 }
 
+.button:disabled {
+  pointer-events: none;
+}
+
 .primary-button {
   background-color: var(--clr-grey-900);
   color: var(--clr-white);
 }
 
 .primary-button:hover,
-.primary-button:focus,
-.primary-button:disabled {
+.primary-button:focus {
   background-color: var(--clr-grey-500);
 }
 

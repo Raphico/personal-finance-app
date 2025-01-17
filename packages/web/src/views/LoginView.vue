@@ -1,11 +1,16 @@
 <script setup>
+import { useForm } from "@/composables/useForm";
+import { auth } from "@/api/auth";
+import { useHead } from "@unhead/vue";
+import { loginSchema } from "@repo/shared-validators/auth";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseForm from "@/components/BaseForm.vue";
 import BaseFormItem from "@/components/BaseFormItem.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import BaseLabel from "@/components/BaseLabel.vue";
 import BasePasswordInput from "@/components/BasePasswordInput.vue";
-import { useHead } from "@unhead/vue";
+import BaseFormMessage from "@/components/BaseFormMessage.vue";
+import BaseAlert from "@/components/BaseAlert.vue";
 
 useHead({
   title: "Login - Personal Finance App",
@@ -16,25 +21,56 @@ useHead({
     },
   ],
 });
+
+const form = useForm({
+  email: "",
+  password: "",
+});
+
+function onsubmit() {
+  form.submit((fields) => {
+    loginSchema.parse(fields);
+    return auth.login(fields.email, fields.password);
+  });
+}
 </script>
 
 <template>
   <h1 class="text-preset-1">Login</h1>
-  <BaseForm>
+  <BaseForm @submit.prevent="onsubmit">
+    <BaseAlert v-if="form.error.general" :message="form.error.general" />
     <BaseFormItem>
-      <BaseLabel for="email">email</BaseLabel>
-      <BaseInput type="email" id="email" name="email" />
+      <BaseLabel for="email" :data-error="form.error.email">email</BaseLabel>
+      <BaseInput
+        :data-error="form.error.email"
+        v-model="form.fields.email"
+        type="email"
+        id="email"
+        name="email"
+      />
+      <BaseFormMessage v-if="form.error.email" :message="form.error.email" />
     </BaseFormItem>
     <BaseFormItem>
-      <BaseLabel for="password">password</BaseLabel>
-      <BasePasswordInput id="password" name="password" />
+      <BaseLabel for="password" :data-error="form.error.password"
+        >password</BaseLabel
+      >
+      <BasePasswordInput
+        v-model="form.fields.password"
+        id="password"
+        name="password"
+        :data-error="form.error.password"
+      />
+      <BaseFormMessage
+        v-if="form.error.password"
+        :message="form.error.password"
+      />
       <RouterLink
         to="/auth/forgot-password"
         class="forgot-password text-preset-5-bold"
-        >Forgot password?</RouterLink
+        >forgot password?</RouterLink
       >
     </BaseFormItem>
-    <BaseButton>login</BaseButton>
+    <BaseButton :loading="form.isLoading" type="submit">login</BaseButton>
   </BaseForm>
   <p class="text-preset-4-regular">
     Need to create an account?

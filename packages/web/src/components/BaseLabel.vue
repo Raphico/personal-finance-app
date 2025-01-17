@@ -10,4 +10,8 @@ label {
   color: var(--clr-grey-500);
   text-transform: capitalize;
 }
+
+label[data-error] {
+  color: var(--clr-red);
+}
 </style>

@@ -13,7 +13,7 @@ const emit = defineEmits(["complete"]);
 const otpValues = reactive(Array(size).fill(null));
 const otp = useTemplateRef("otp");
 
-function handleOnKeyInput(event, index) {
+function onkeyup(event, index) {
   const key = event.key;
 
   if (/^[0-9]$/.test(key)) {
@@ -54,7 +54,7 @@ function handleOnKeyInput(event, index) {
       :value="otpValues[index] ?? ''"
       type="text"
       :tabindex="index == 0 ? 0 : -1"
-      @keyup="handleOnKeyInput($event, index)"
+      @keyup="onkeyup($event, index)"
       maxlength="1"
       :aria-label="`OTP digit ${index + 1} of ${otpValues.length}`"
       :data-test="`input-${index + 1}`"

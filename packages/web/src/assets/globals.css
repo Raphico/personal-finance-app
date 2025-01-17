@@ -56,6 +56,7 @@
 
   --transition-easing: cubic-bezier(0.5, 0, 0.5, 1);
   --transition-duration: 200ms;
+  --shake-duration: 0.8s;
 
   --ring-offset-width: 1px;
 }
@@ -121,4 +122,47 @@ body {
   font-weight: var(--fw-bold);
   letter-spacing: 0;
   line-height: 1.5;
+}
+
+/* https://cssloaders.github.io/ */
+.loader {
+  --loader-clr: var(--clr-white);
+
+  width: 1.25em;
+  height: 1.25em;
+  border: 2px solid var(--clr-white);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shake {
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(1%);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-1%);
+  }
+  from,
+  to {
+    transform: none;
+  }
 }

@@ -13,12 +13,17 @@
   },
   "dependencies": {
     "@unhead/vue": "^1.11.15",
+    "axios": "^1.7.9",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.isequal": "^4.5.0",
     "pinia": "^2.3.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.1",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/shared-validators": "workspace:*",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/test-utils": "^2.4.6",
     "jsdom": "^25.0.1",

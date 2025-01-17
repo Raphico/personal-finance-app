@@ -10,7 +10,7 @@ export const emailSchema = z.object({
 
 export const passwordSchema = z.object({
   password: z
-    .string({ required_error: "password is required" })
+    .string({ required_error: "Please provide a password" })
     .min(8, { message: "password must be at least 8 characters long" }),
 });
 
@@ -21,7 +21,7 @@ export const loginSchema = z.object({
 
 export const signupSchema = z.object({
   name: z
-    .string({ required_error: "name is required" })
+    .string({ required_error: "Please provide a name" })
     .min(3, { message: "name must be at least 3 characters long" })
     .max(100, { message: "name must be less than 100 characters long" }),
   email: emailSchema.shape.email,
@@ -30,7 +30,7 @@ export const signupSchema = z.object({
 
 export const verifyEmailSchema = z.object({
   code: z
-    .string({ required_error: "verification code is required" })
+    .string({ required_error: "Please provide a verification code" })
     .min(6, { message: "verification code must be 6 characters long" })
     .max(6, { message: "verification code must be 6 characters long" }),
 });

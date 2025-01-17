@@ -3,6 +3,8 @@ import { computed, reactive } from "vue";
 import IconShowPassword from "./Icons/IconShowPassword.vue";
 import IconHidePassword from "./Icons/IconHidePassword.vue";
 
+const model = defineModel();
+
 defineOptions({
   inheritAttrs: false,
 });
@@ -30,6 +32,7 @@ const getButtonLabel = computed(() =>
     <input
       :type="getInputType"
       class="text-preset-4-regular"
+      v-model="model"
       v-bind="$attrs"
       data-test="password-input"
     />
@@ -51,6 +54,8 @@ const getButtonLabel = computed(() =>
 }
 
 input {
+  --clr-box-shadow: var(--clr-grey-900);
+
   display: block;
   height: 45px;
   border: 1px solid var(--clr-beige-500);
@@ -63,8 +68,15 @@ input {
   -webkit-transition: var(--transition-duration) var(--transition-easing);
 }
 
+input[data-error] {
+  --clr-box-shadow: var(--clr-red);
+
+  border-color: var(--clr-red);
+  animation: shake var(--shake-duration);
+}
+
 input:focus {
-  box-shadow: 0 0 0 var(--ring-offset-width) var(--clr-grey-900);
+  box-shadow: 0 0 0 var(--ring-offset-width) var(--clr-box-shadow);
 }
 
 button {
