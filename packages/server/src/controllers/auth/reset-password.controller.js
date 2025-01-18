@@ -43,7 +43,7 @@ export const resetPassword = asyncHandler(
     if (!user) {
       throw new ApiError({
         message: "invalid token",
-        statusCode: 401,
+        statusCode: 400,
       });
     }
 
