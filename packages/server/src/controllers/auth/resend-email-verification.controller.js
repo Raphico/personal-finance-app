@@ -58,7 +58,7 @@ export const resendEmailVerification = asyncHandler(
         emailVerificationCode: hashedCode,
         emailVerificationExpiry: expiresAt,
       })
-      .where(users.id, user.id);
+      .where(eq(users.id, user.id));
 
     await sendEmail({
       emailContent: emailVerificationTemplate({
