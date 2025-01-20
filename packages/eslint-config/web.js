@@ -13,13 +13,6 @@ export default [
   },
 
   {
-    rules: {
-      eqeqeq: "off",
-      "no-unused-vars": "warn",
-    },
-  },
-
-  {
     name: "app/files-to-ignore",
     ignores: ["**/dist/**", "**/dist-ssr/**", "**/coverage/**"],
   },
@@ -35,6 +28,12 @@ export default [
   {
     ...pluginPlaywright.configs["flat/recommended"],
     files: ["e2e/**/*.{test,spec}.{js,ts,jsx,tsx}"],
+  },
+  {
+    rules: {
+      eqeqeq: "off",
+      "no-unused-vars": "warn",
+    },
   },
   skipFormatting,
 ];
