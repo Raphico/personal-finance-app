@@ -41,11 +41,11 @@ export function useForm(fields) {
           this.isError = true;
           this.isSuccess = false;
 
-          this.setError(getError(error));
-
           if (hooks.onError) {
             await hooks.onError(error);
           }
+
+          this.setError(getError(error));
         },
         onComplete: async () => {
           this.isLoading = false;

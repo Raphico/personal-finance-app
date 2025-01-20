@@ -24,7 +24,7 @@ const buttonClasses = computed(() => ({
 </script>
 
 <template>
-  <button :class="buttonClasses" :disabled="loading">
+  <button :class="buttonClasses">
     <span aria-hidden="true" class="loader" v-if="loading"></span>
     <slot v-else />
   </button>
@@ -49,6 +49,7 @@ const buttonClasses = computed(() => ({
 
 .button:disabled {
   pointer-events: none;
+  background-color: var(--clr-grey-500);
 }
 
 .primary-button {

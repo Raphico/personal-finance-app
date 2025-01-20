@@ -1,5 +1,9 @@
 <script setup>
 import { useForm } from "@/composables/useForm";
+import { AxiosError } from "axios";
+import { useAuthStore } from "@/stores/auth";
+import { useRouter, useRoute } from "vue-router";
+import { useToast } from "vue-toast-notification";
 import { auth } from "@/api/auth";
 import { useHead } from "@unhead/vue";
 import { loginSchema } from "@repo/shared-validators/auth";
@@ -22,16 +26,43 @@ useHead({
   ],
 });
 
+const { login, updateSignupEmail } = useAuthStore();
+const router = useRouter();
+const route = useRoute();
+const toast = useToast();
 const form = useForm({
   email: "",
   password: "",
 });
 
 function onsubmit() {
-  form.submit((fields) => {
-    loginSchema.parse(fields);
-    return auth.login(fields.email, fields.password);
-  });
+  form.submit(
+    (fields) => {
+      const { email, password } = fields;
+      loginSchema.parse({
+        email,
+        password,
+      });
+      return auth.login(email, password);
+    },
+    {
+      onError(error) {
+        if (error instanceof AxiosError && error.status == 403) {
+          updateSignupEmail(form.fields.email);
+          const redirect = route.query?.redirect || "home";
+          toast.error("You need to verify your email before logging in", {
+            position: "top",
+          });
+          router.push(`/auth/verify-email?redirect=${redirect}`);
+        }
+      },
+      onSuccess: (response) => {
+        const redirect = route.query?.redirect || "home";
+        login(response.data.data);
+        router.push({ name: redirect });
+      },
+    }
+  );
 }
 </script>
 
@@ -70,7 +101,12 @@ function onsubmit() {
         >forgot password?</RouterLink
       >
     </BaseFormItem>
-    <BaseButton :loading="form.isLoading" type="submit">login</BaseButton>
+    <BaseButton
+      :loading="form.isLoading"
+      :disabled="form.isLoading"
+      type="submit"
+      >login</BaseButton
+    >
   </BaseForm>
   <p class="text-preset-4-regular">
     Need to create an account?

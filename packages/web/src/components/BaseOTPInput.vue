@@ -1,10 +1,14 @@
 <script setup>
-import { useTemplateRef, reactive } from "vue";
+import { useTemplateRef, reactive, watch } from "vue";
 
-const { size } = defineProps({
+const { size, isError } = defineProps({
   size: {
     type: Number,
     default: 6,
+  },
+  isError: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -43,6 +47,17 @@ function onkeyup(event, index) {
     }
   }
 }
+
+watch(
+  () => isError,
+  () => {
+    if (isError) {
+      const currentOtpIndex = otpValues.findIndex((value) => !value);
+      otp.value.children[currentOtpIndex].focus();
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>

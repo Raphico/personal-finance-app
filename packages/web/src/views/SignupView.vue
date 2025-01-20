@@ -1,11 +1,18 @@
 <script setup>
+import { useForm } from "@/composables/useForm";
+import { useHead } from "@unhead/vue";
+import { auth } from "@/api/auth";
+import { signupSchema } from "@repo/shared-validators/auth";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+import BaseAlert from "@/components/BaseAlert.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseForm from "@/components/BaseForm.vue";
 import BaseFormItem from "@/components/BaseFormItem.vue";
+import BaseFormMessage from "@/components/BaseFormMessage.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import BaseLabel from "@/components/BaseLabel.vue";
 import BasePasswordInput from "@/components/BasePasswordInput.vue";
-import { useHead } from "@unhead/vue";
 
 useHead({
   title: "Sign up - Personal Finance App",
@@ -16,24 +23,83 @@ useHead({
     },
   ],
 });
+
+const router = useRouter();
+const { updateSignupEmail } = useAuthStore();
+const form = useForm({
+  name: "",
+  email: "",
+  password: "",
+});
+
+function onsubmit() {
+  form.submit(
+    async (fields) => {
+      const { name, email, password } = fields;
+      signupSchema.parse({
+        name,
+        email,
+        password,
+      });
+      return auth.signup(name, email, password);
+    },
+    {
+      onSuccess() {
+        updateSignupEmail(form.fields.email);
+        router.push({ name: "verify-email" });
+      },
+    }
+  );
+}
 </script>
 
 <template>
   <h1 class="text-preset-1">Sign up</h1>
-  <BaseForm>
+  <BaseForm @submit.prevent="onsubmit">
+    <BaseAlert v-if="form.error.general" :message="form.error.general" />
     <BaseFormItem>
-      <BaseLabel for="name">name</BaseLabel>
-      <BaseInput type="name" id="name" name="name" />
+      <BaseLabel for="name" :data-error="form.error.name">name</BaseLabel>
+      <BaseInput
+        type="name"
+        v-model="form.fields.name"
+        :data-error="form.error.name"
+        id="name"
+        name="name"
+      />
+      <BaseFormMessage v-if="form.error.name" :message="form.error.name" />
     </BaseFormItem>
     <BaseFormItem>
-      <BaseLabel for="email">email</BaseLabel>
-      <BaseInput type="email" id="email" name="email" />
+      <BaseLabel :data-error="form.error.email" for="email">email</BaseLabel>
+      <BaseInput
+        :data-error="form.error.email"
+        v-model="form.fields.email"
+        type="email"
+        id="email"
+        name="email"
+      />
+      <BaseFormMessage v-if="form.error.email" :message="form.error.email" />
     </BaseFormItem>
     <BaseFormItem>
-      <BaseLabel for="password">password</BaseLabel>
-      <BasePasswordInput id="password" name="password" />
+      <BaseLabel for="password" :data-error="form.error.password"
+        >password</BaseLabel
+      >
+      <BasePasswordInput
+        id="password"
+        name="password"
+        :data-error="form.error.password"
+        v-model="form.fields.password"
+      />
+      <BaseFormMessage
+        v-if="form.error.password"
+        :message="form.error.password"
+      />
     </BaseFormItem>
-    <BaseButton>create account</BaseButton>
+    <BaseButton
+      :loading="form.isLoading"
+      :disabled="form.isLoading"
+      type="submit"
+      >create account</BaseButton
+    >
   </BaseForm>
   <p class="text-preset-4-regular">
     Already have an account?
