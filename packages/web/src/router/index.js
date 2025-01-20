@@ -1,3 +1,5 @@
+import { useNProgress } from "@/lib/nprogress";
+import "nprogress/nprogress.css";
 import { useAuthStore } from "@/stores/auth";
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -57,10 +59,12 @@ const router = createRouter({
   ],
 });
 
+const nProgress = useNProgress();
+
 router.beforeEach(async (to, _, next) => {
   const auth = useAuthStore();
 
-  await auth.ensureAuth();
+  nProgress.start();
 
   // If user is logged in, redirect to overview if trying to access auth pages
   if (auth.isAuthenticated && to.fullPath.includes("/auth")) {
@@ -74,6 +78,10 @@ router.beforeEach(async (to, _, next) => {
 
   // Allow access otherwise
   next();
+});
+
+router.afterEach(() => {
+  nProgress.done();
 });
 
 export default router;

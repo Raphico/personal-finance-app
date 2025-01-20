@@ -58,7 +58,7 @@ function onsubmit() {
       },
       onSuccess: (response) => {
         const redirect = route.query?.redirect || "home";
-        login(response.data.data);
+        login(response.data);
         router.push({ name: redirect });
       },
     }

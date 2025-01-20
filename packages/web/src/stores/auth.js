@@ -13,7 +13,7 @@ export const useAuthStore = defineStore("auth", () => {
     if (isAuthCheckDone.value) return;
 
     try {
-      const { data: response } = await userApi.getCurrentUser();
+      const response = await userApi.getCurrentUser();
       login(response.data);
     } catch (error) {
       logout();
@@ -21,6 +21,8 @@ export const useAuthStore = defineStore("auth", () => {
       isAuthCheckDone.value = true;
     }
   }
+
+  ensureAuth();
 
   function login(data) {
     user.value = data;
@@ -43,6 +45,5 @@ export const useAuthStore = defineStore("auth", () => {
     updateSignupEmail,
     login,
     logout,
-    ensureAuth,
   };
 });

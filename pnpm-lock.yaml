@@ -152,9 +152,15 @@ importers:
       lodash.clonedeep:
         specifier: ^4.5.0
         version: 4.5.0
+      lodash.debounce:
+        specifier: ^4.0.8
+        version: 4.0.8
       lodash.isequal:
         specifier: ^4.5.0
         version: 4.5.0
+      nprogress:
+        specifier: ^0.2.0
+        version: 0.2.0
       pinia:
         specifier: ^2.3.0
         version: 2.3.0(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2))
@@ -5919,6 +5925,12 @@ packages:
     engines: { node: ^14.17.0 || ^16.13.0 || >=18.0.0 }
     deprecated: This package is no longer supported.
 
+  nprogress@0.2.0:
+    resolution:
+      {
+        integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==,
+      }
+
   nth-check@2.1.1:
     resolution:
       {
@@ -11470,6 +11482,8 @@ snapshots:
       console-control-strings: 1.1.0
       gauge: 5.0.2
       set-blocking: 2.0.0
+
+  nprogress@0.2.0: {}
 
   nth-check@2.1.1:
     dependencies:

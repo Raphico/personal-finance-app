@@ -1,7 +1,11 @@
 import { auth } from "@/api/auth";
 import axios from "axios";
+import "nprogress/nprogress.css";
+import { useNProgress } from "./nprogress";
 
 let isRefreshingAccessToken = false;
+
+const nProgress = useNProgress();
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -17,12 +21,27 @@ const instance = axios.create({
   ],
 });
 
+instance.interceptors.request.use(
+  function (config) {
+    nProgress.start();
+
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
 // refreshes access token
 instance.interceptors.response.use(
   function (response) {
-    return response;
+    nProgress.done();
+
+    return Promise.resolve(response.data);
   },
   async function (error) {
+    nProgress.done();
+
     if (!axios.isAxiosError(error)) return Promise.reject(error);
 
     if (error.config.url.includes("refresh")) {
@@ -34,7 +53,7 @@ instance.interceptors.response.use(
 
       try {
         await auth.refreshAccessToken();
-        return axios(error.config);
+        return instance.request(error.config);
       } catch (error) {
         return Promise.reject(error);
       } finally {
