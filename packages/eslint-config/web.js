@@ -13,6 +13,13 @@ export default [
   },
 
   {
+    rules: {
+      eqeqeq: "off",
+      "no-unused-vars": "warn",
+    },
+  },
+
+  {
     name: "app/files-to-ignore",
     ignores: ["**/dist/**", "**/dist-ssr/**", "**/coverage/**"],
   },

@@ -4,7 +4,7 @@
   "type": "module",
   "exports": {
     "./base": "./base.js",
-    "./vue-js": "./vue.js",
+    "./web": "./web.js",
     "./server-js": "./server.js"
   },
   "devDependencies": {
