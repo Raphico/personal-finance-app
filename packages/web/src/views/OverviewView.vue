@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { auth } from "@/api/auth";
-import BaseButton from "@/components/BaseButton.vue";
+import { ref, nextTick } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
+import { auth } from "@/api/auth";
+import BaseButton from "@/components/BaseButton.vue";
 
 const { logout, user } = useAuthStore();
 const router = useRouter();
@@ -16,6 +16,7 @@ async function onLogout() {
   try {
     await auth.logout();
     logout();
+    await nextTick();
     router.push({ name: "auth" });
   } catch (error) {
     console.log(error);

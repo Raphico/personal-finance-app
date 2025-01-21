@@ -66,6 +66,8 @@ router.beforeEach(async (to, _, next) => {
 
   nProgress.start();
 
+  await auth.ensureAuth();
+
   // If user is logged in, redirect to overview if trying to access auth pages
   if (auth.isAuthenticated && to.fullPath.includes("/auth")) {
     return next({ name: "overview" });
@@ -73,7 +75,10 @@ router.beforeEach(async (to, _, next) => {
 
   // If user is not logged in and trying to access a non-auth page, redirect to login
   if (!auth.isAuthenticated && !to.fullPath.includes("/auth")) {
-    return next({ name: "login", query: { redirect: to.name } });
+    return next({
+      name: "login",
+      query: { redirect: encodeURIComponent(`${to.fullPath}`) },
+    });
   }
 
   // Allow access otherwise

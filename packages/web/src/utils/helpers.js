@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { z } from "zod";
+import { z } from "@repo/shared-validators";
 
 export function getError(error) {
   if (error instanceof z.ZodError) {
@@ -12,4 +12,13 @@ export function getError(error) {
   if (error instanceof AxiosError) {
     return { general: error.response.data?.message };
   }
+}
+
+export function serializeParams(params = {}) {
+  return Object.keys(params)
+    .filter((key) => params[key])
+    .map(function generateUrlParams(key) {
+      return `${key}=${encodeURIComponent(params[key])}`;
+    })
+    .join("&");
 }

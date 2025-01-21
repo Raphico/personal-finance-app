@@ -5,7 +5,6 @@ import { user as userApi } from "@/api/user";
 export const useAuthStore = defineStore("auth", () => {
   const user = ref(null);
   const isAuthCheckDone = ref(false);
-  const signupEmail = ref(null);
 
   const isAuthenticated = computed(() => !!user.value);
 
@@ -22,15 +21,8 @@ export const useAuthStore = defineStore("auth", () => {
     }
   }
 
-  ensureAuth();
-
   function login(data) {
     user.value = data;
-    signupEmail.value = null;
-  }
-
-  function updateSignupEmail(email) {
-    signupEmail.value = email;
   }
 
   function logout() {
@@ -41,8 +33,7 @@ export const useAuthStore = defineStore("auth", () => {
     isAuthCheckDone,
     isAuthenticated,
     user,
-    signupEmail,
-    updateSignupEmail,
+    ensureAuth,
     login,
     logout,
   };

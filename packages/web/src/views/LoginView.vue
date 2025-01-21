@@ -1,5 +1,7 @@
 <script setup>
+import { nextTick } from "vue";
 import { useForm } from "@/composables/useForm";
+import { serializeParams } from "@/utils/helpers";
 import { AxiosError } from "axios";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter, useRoute } from "vue-router";
@@ -26,12 +28,15 @@ useHead({
   ],
 });
 
-const { login, updateSignupEmail } = useAuthStore();
-const router = useRouter();
 const route = useRoute();
+const redirect = decodeURIComponent(route.query?.redirect || "/");
+const urlEncodedEmail = decodeURIComponent(route.query?.email || "");
+
+const { login } = useAuthStore();
+const router = useRouter();
 const toast = useToast();
 const form = useForm({
-  email: "",
+  email: urlEncodedEmail || "",
   password: "",
 });
 
@@ -48,18 +53,19 @@ function onsubmit() {
     {
       onError(error) {
         if (error instanceof AxiosError && error.status == 403) {
-          updateSignupEmail(form.fields.email);
-          const redirect = route.query?.redirect || "home";
           toast.error("You need to verify your email before logging in", {
             position: "top",
           });
-          router.push(`/auth/verify-email?redirect=${redirect}`);
+
+          router.push(
+            `/auth/verify-email?${serializeParams({ redirect, email: form.fields.email })}`
+          );
         }
       },
-      onSuccess: (response) => {
-        const redirect = route.query?.redirect || "home";
-        login(response.data);
-        router.push({ name: redirect });
+      async onSuccess(response) {
+        login({ email: form.fields.email });
+        await nextTick();
+        router.push(redirect);
       },
     }
   );
@@ -110,7 +116,9 @@ function onsubmit() {
   </BaseForm>
   <p class="text-preset-4-regular">
     Need to create an account?
-    <RouterLink to="/auth/signup" class="signup-link text-preset-4-bold"
+    <RouterLink
+      :to="`/auth/signup?${serializeParams({ redirect, email: form.fields.email })}`"
+      class="signup-link text-preset-4-bold"
       >Sign up</RouterLink
     >
   </p>

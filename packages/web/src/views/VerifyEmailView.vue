@@ -1,4 +1,5 @@
 <script setup>
+import { nextTick } from "vue";
 import { useForm } from "@/composables/useForm";
 import { useAuthStore } from "@/stores/auth";
 import { useRoute } from "vue-router";
@@ -22,10 +23,13 @@ useHead({
   ],
 });
 
-const { login, signupEmail } = useAuthStore();
+const route = useRoute();
+const redirect = decodeURIComponent(route.query?.redirect || "/");
+const urlEncodedEmail = decodeURIComponent(route.query?.email || "");
+
+const { login } = useAuthStore();
 const isResendingEmail = ref(false);
 const router = useRouter();
-const route = useRoute();
 const form = useForm({
   code: "",
 });
@@ -41,10 +45,10 @@ function onsubmit() {
       return auth.verifyEmail(code);
     },
     {
-      onSuccess(response) {
-        const redirect = route.query?.redirect || "home";
+      async onSuccess(response) {
         login(response.data);
-        router.push({ name: redirect });
+        await nextTick();
+        router.push(redirect);
       },
     }
   );
@@ -53,8 +57,8 @@ function onsubmit() {
 function resendCode() {
   form.submit(
     async () => {
-      emailSchema.parse({ email: signupEmail });
-      return auth.resendEmailVerification(signupEmail);
+      emailSchema.parse({ email: urlEncodedEmail });
+      return auth.resendEmailVerification(urlEncodedEmail);
     },
     {
       onBefore() {

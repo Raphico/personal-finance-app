@@ -1,10 +1,10 @@
 <script setup>
 import { useForm } from "@/composables/useForm";
+import { serializeParams } from "@/utils/helpers";
 import { useHead } from "@unhead/vue";
 import { auth } from "@/api/auth";
 import { signupSchema } from "@repo/shared-validators/auth";
-import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
+import { useRouter, useRoute } from "vue-router";
 import BaseAlert from "@/components/BaseAlert.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseForm from "@/components/BaseForm.vue";
@@ -24,11 +24,14 @@ useHead({
   ],
 });
 
+const route = useRoute();
+const redirect = decodeURIComponent(route.query?.redirect || "/");
+const urlEncodedEmail = decodeURIComponent(route.query?.email || "");
+
 const router = useRouter();
-const { updateSignupEmail } = useAuthStore();
 const form = useForm({
   name: "",
-  email: "",
+  email: urlEncodedEmail || "",
   password: "",
 });
 
@@ -45,8 +48,9 @@ function onsubmit() {
     },
     {
       onSuccess() {
-        updateSignupEmail(form.fields.email);
-        router.push({ name: "verify-email" });
+        router.push(
+          `/auth/verify-email?${serializeParams({ redirect, email: form.fields.email })}`
+        );
       },
     }
   );
@@ -103,7 +107,9 @@ function onsubmit() {
   </BaseForm>
   <p class="text-preset-4-regular">
     Already have an account?
-    <RouterLink to="/auth/login" class="login-link text-preset-4-bold"
+    <RouterLink
+      :to="`/auth/login?${serializeParams({ redirect, email: form.fields.email })}`"
+      class="login-link text-preset-4-bold"
       >login</RouterLink
     >
   </p>

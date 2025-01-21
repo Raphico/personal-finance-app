@@ -31,7 +31,7 @@ describe("BaseButton Component", () => {
   });
 
   it("should throw a warn if an invalid variant is passed", () => {
-    const consoleSpy = vi.spyOn(console, "warn");
+    const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
     shallowMount(BaseButton, {
       props: {

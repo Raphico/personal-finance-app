@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "type": "module",
   "exports": {
-    "./auth": "./auth.js"
+    "./auth": "./auth.js",
+    ".": "./index.js"
   },
   "dependencies": {
     "zod": "^3.24.1"
