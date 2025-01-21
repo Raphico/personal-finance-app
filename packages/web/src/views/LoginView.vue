@@ -63,7 +63,7 @@ function onsubmit() {
         }
       },
       async onSuccess(response) {
-        login({ email: form.fields.email });
+        login(response.data);
         await nextTick();
         router.push(redirect);
       },
