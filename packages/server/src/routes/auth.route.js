@@ -8,17 +8,23 @@ import { logout } from "../controllers/auth/logout.controller.js";
 import { verifyJWT } from "../middleware/auth.middleware.js";
 import { requestPasswordReset } from "../controllers/auth/request-password-reset.controller.js";
 import { resetPassword } from "../controllers/auth/reset-password.controller.js";
+import {
+  moderateLimiter,
+  strictLimiter,
+} from "../middleware/rate-limit.middleware.js";
 
 const router = Router();
 
-router.post("/signup", signup);
+router.use(moderateLimiter);
+
+router.post("/signup", strictLimiter, signup);
 router.post("/login", login);
 router.post("/logout", verifyJWT, logout);
 
 router.post("/verification", verifyEmail);
-router.post("/resend-verification", resendEmailVerification);
+router.post("/resend-verification", strictLimiter, resendEmailVerification);
 
-router.post("/password-reset-requests", requestPasswordReset);
+router.post("/password-reset-requests", strictLimiter, requestPasswordReset);
 router.patch("/password-resets/:token", resetPassword);
 
 router.post("/refresh", refreshToken);

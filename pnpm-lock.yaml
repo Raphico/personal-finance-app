@@ -85,6 +85,9 @@ importers:
       express:
         specifier: ^4.21.2
         version: 4.21.2
+      express-rate-limit:
+        specifier: ^7.5.0
+        version: 7.5.0(express@4.21.2)
       helmet:
         specifier: ^8.0.0
         version: 8.0.0
@@ -106,6 +109,9 @@ importers:
       redis:
         specifier: ^4.7.0
         version: 4.7.0
+      request-ip:
+        specifier: ^3.3.0
+        version: 3.3.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -4301,6 +4307,15 @@ packages:
       }
     engines: { node: ">=12.0.0" }
 
+  express-rate-limit@7.5.0:
+    resolution:
+      {
+        integrity: sha512-eB5zbQh5h+VenMPM3fh+nw1YExi5nMr6HUCR62ELSP11huvxm/Uir1H1QEyTkk5QX6A58pX6NmaTMceKZ0Eodg==,
+      }
+    engines: { node: ">= 16" }
+    peerDependencies:
+      express: ^4.11 || 5 || ^5.0.0-beta.1
+
   express-session@1.18.1:
     resolution:
       {
@@ -6597,6 +6612,12 @@ packages:
         integrity: sha512-cnE+y8bz4NhMjISKbgeVJtqNbtf5QpjZP+Bslo+UqkIt9QPnX9q095eiRRASJG1/tz6dlNr6Z5NsBiWYokp6EQ==,
       }
     hasBin: true
+
+  request-ip@3.3.0:
+    resolution:
+      {
+        integrity: sha512-cA6Xh6e0fDBBBwH77SLJaJPBmD3nWVAcF9/XAcsrIHdjhFzFiB5aNQFytdjCGPezU3ROwrR11IddKAM08vohxA==,
+      }
 
   require-directory@2.1.1:
     resolution:
@@ -10537,6 +10558,10 @@ snapshots:
 
   expect-type@1.1.0: {}
 
+  express-rate-limit@7.5.0(express@4.21.2):
+    dependencies:
+      express: 4.21.2
+
   express-session@1.18.1:
     dependencies:
       cookie: 0.7.2
@@ -11859,6 +11884,8 @@ snapshots:
   regjsparser@0.12.0:
     dependencies:
       jsesc: 3.0.2
+
+  request-ip@3.3.0: {}
 
   require-directory@2.1.1: {}
 

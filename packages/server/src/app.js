@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import { env } from "./config.js";
 import { errorMiddleware } from "./middleware/error.middleware.js";
 import { morganMiddleware } from "./logging.js";
+import { flexibleLimiter } from "./middleware/rate-limit.middleware.js";
+import requestIp from "request-ip";
 import authRoute from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 
@@ -20,6 +22,10 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(requestIp.mw());
+
+app.use(flexibleLimiter);
 
 app.use(cookieParser());
 app.use(express.json());
