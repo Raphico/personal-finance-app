@@ -1,9 +1,7 @@
 <script setup>
-import { nextTick } from "vue";
 import { useForm } from "@/composables/useForm";
-import { useAuthStore } from "@/stores/auth";
-import { useRoute } from "vue-router";
 import { useHead } from "@unhead/vue";
+import { useRedirect } from "@/composables/useRedirect";
 import { auth } from "@/api/auth";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
@@ -12,6 +10,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import BaseForm from "@/components/BaseForm.vue";
 import BaseOTPInput from "@/components/BaseOTPInput.vue";
 import BaseAlert from "@/components/BaseAlert.vue";
+import { useToast } from "vue-toast-notification";
 
 useHead({
   title: "Verify email - Personal Finance App",
@@ -23,13 +22,11 @@ useHead({
   ],
 });
 
-const route = useRoute();
-const redirect = decodeURIComponent(route.query?.redirect || "/");
-const urlEncodedEmail = decodeURIComponent(route.query?.email || "");
+const { redirect, urlEncodedEmail, goTo } = useRedirect();
 
-const { login } = useAuthStore();
 const isResendingEmail = ref(false);
 const router = useRouter();
+const toast = useToast();
 const form = useForm({
   code: "",
 });
@@ -45,10 +42,16 @@ function onsubmit() {
       return auth.verifyEmail(code);
     },
     {
-      async onSuccess(response) {
-        login(response.data);
-        await nextTick();
-        router.push(redirect);
+      async onSuccess() {
+        toast.success("Email successfully verified", {
+          position: "top",
+        });
+        router.push(
+          goTo("/auth/login", {
+            redirect,
+            email: urlEncodedEmail,
+          })
+        );
       },
     }
   );
@@ -63,6 +66,11 @@ function resendCode() {
     {
       onBefore() {
         isResendingEmail.value = true;
+      },
+      onSuccess() {
+        toast.success("Verification email has been sent", {
+          position: "top",
+        });
       },
       onComplete() {
         isResendingEmail.value = false;

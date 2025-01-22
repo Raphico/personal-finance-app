@@ -1,10 +1,10 @@
 <script setup>
 import { nextTick } from "vue";
 import { useForm } from "@/composables/useForm";
-import { serializeParams } from "@/utils/helpers";
+import { useRedirect } from "@/composables/useRedirect";
 import { AxiosError } from "axios";
 import { useAuthStore } from "@/stores/auth";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { useToast } from "vue-toast-notification";
 import { auth } from "@/api/auth";
 import { useHead } from "@unhead/vue";
@@ -28,15 +28,13 @@ useHead({
   ],
 });
 
-const route = useRoute();
-const redirect = decodeURIComponent(route.query?.redirect || "/");
-const urlEncodedEmail = decodeURIComponent(route.query?.email || "");
+const { urlEncodedEmail, redirect, goTo } = useRedirect();
 
 const { login } = useAuthStore();
 const router = useRouter();
 const toast = useToast();
 const form = useForm({
-  email: urlEncodedEmail || "",
+  email: urlEncodedEmail,
   password: "",
 });
 
@@ -58,7 +56,7 @@ function onsubmit() {
           });
 
           router.push(
-            `/auth/verify-email?${serializeParams({ redirect, email: form.fields.email })}`
+            goTo("/auth/verify-email", { redirect, email: form.fields.email })
           );
         }
       },
@@ -74,7 +72,7 @@ function onsubmit() {
 
 <template>
   <h1 class="text-preset-1">Login</h1>
-  <BaseForm @submit.prevent="onsubmit">
+  <BaseForm @submit.prevent="onsubmit" novalidate>
     <BaseAlert v-if="form.error.general" :message="form.error.general" />
     <BaseFormItem>
       <BaseLabel for="email" :data-error="form.error.email">email</BaseLabel>
@@ -102,7 +100,9 @@ function onsubmit() {
         :message="form.error.password"
       />
       <RouterLink
-        to="/auth/forgot-password"
+        :to="
+          goTo('/auth/forgot-password', { redirect, email: form.fields.email })
+        "
         class="forgot-password text-preset-5-bold"
         >forgot password?</RouterLink
       >
@@ -117,7 +117,7 @@ function onsubmit() {
   <p class="text-preset-4-regular">
     Need to create an account?
     <RouterLink
-      :to="`/auth/signup?${serializeParams({ redirect, email: form.fields.email })}`"
+      :to="goTo('/auth/signup', { redirect, email: form.fields.email })"
       class="signup-link text-preset-4-bold"
       >Sign up</RouterLink
     >

@@ -1,14 +1,18 @@
 <script setup>
+import { useRedirect } from "@/composables/useRedirect";
 import BaseButton from "@/components/BaseButton.vue";
+
+const { redirect, urlEncodedEmail, goTo } = useRedirect();
 </script>
 
 <template>
   <div class="confirmation">
     <h1 class="text-preset-1">Email sent</h1>
     <p class="text-preset-4-regular">
-      A link to reset your password has been sent to you on raphico@gmail.com.
+      A link to reset your password has been sent to you on
+      {{ urlEncodedEmail }}.
     </p>
-    <RouterLink to="/auth/login">
+    <RouterLink :to="goTo('/auth/login', { redirect, email: urlEncodedEmail })">
       <BaseButton>return to login</BaseButton>
     </RouterLink>
   </div>

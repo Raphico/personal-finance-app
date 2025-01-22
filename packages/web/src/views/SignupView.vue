@@ -1,10 +1,10 @@
 <script setup>
 import { useForm } from "@/composables/useForm";
-import { serializeParams } from "@/utils/helpers";
+import { useRedirect } from "@/composables/useRedirect";
 import { useHead } from "@unhead/vue";
 import { auth } from "@/api/auth";
 import { signupSchema } from "@repo/shared-validators/auth";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import BaseAlert from "@/components/BaseAlert.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseForm from "@/components/BaseForm.vue";
@@ -24,14 +24,12 @@ useHead({
   ],
 });
 
-const route = useRoute();
-const redirect = decodeURIComponent(route.query?.redirect || "/");
-const urlEncodedEmail = decodeURIComponent(route.query?.email || "");
+const { urlEncodedEmail, redirect, goTo } = useRedirect();
 
 const router = useRouter();
 const form = useForm({
   name: "",
-  email: urlEncodedEmail || "",
+  email: urlEncodedEmail,
   password: "",
 });
 
@@ -49,7 +47,7 @@ function onsubmit() {
     {
       onSuccess() {
         router.push(
-          `/auth/verify-email?${serializeParams({ redirect, email: form.fields.email })}`
+          goTo("/auth/verify-email", { redirect, email: form.fields.email })
         );
       },
     }
@@ -59,12 +57,12 @@ function onsubmit() {
 
 <template>
   <h1 class="text-preset-1">Sign up</h1>
-  <BaseForm @submit.prevent="onsubmit">
+  <BaseForm @submit.prevent="onsubmit" novalidate>
     <BaseAlert v-if="form.error.general" :message="form.error.general" />
     <BaseFormItem>
       <BaseLabel for="name" :data-error="form.error.name">name</BaseLabel>
       <BaseInput
-        type="name"
+        type="text"
         v-model="form.fields.name"
         :data-error="form.error.name"
         id="name"
@@ -108,7 +106,7 @@ function onsubmit() {
   <p class="text-preset-4-regular">
     Already have an account?
     <RouterLink
-      :to="`/auth/login?${serializeParams({ redirect, email: form.fields.email })}`"
+      :to="goTo('/auth/login', { redirect, email: form.fields.email })"
       class="login-link text-preset-4-bold"
       >login</RouterLink
     >

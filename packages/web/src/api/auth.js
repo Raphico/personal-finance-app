@@ -26,6 +26,14 @@ export const auth = {
   resendEmailVerification(email) {
     return http.post(`${this.baseUrl}/resend-verification`, { email });
   },
+  requestPasswordReset(email) {
+    return http.post(`${this.baseUrl}/password-reset-requests`, { email });
+  },
+  resetPassword(token, password) {
+    return http.patch(`${this.baseUrl}/password-resets/${token}`, {
+      password,
+    });
+  },
   logout() {
     return http.post(`${this.baseUrl}/logout`);
   },
