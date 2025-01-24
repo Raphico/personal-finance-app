@@ -700,3 +700,350 @@ paths:
                 data: "null"
                 message: Please, provide a valid email address
                 status: error
+  /auth/refresh:
+    post:
+      tags:
+        - 🔐 Authentication
+      summary: Refresh access token
+      description: >
+        The Refresh Access Token API renews an expired access token using a valid refresh token. It sets the new access token in a cookie, replacing the expired one, ensuring seamless access to protected resources without requiring the user to reauthenticate
+      operationId: refreshToken
+      responses:
+        "200":
+          description: Access token refresh successfully
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+            Set-Cookie:
+              schema:
+                type: string
+                example:
+                  refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDc2ZTM0ZWJlMWNmYjljYzA4YmQ0NDYiLCJpYXQiOjE2ODU1NjMyMjEsImV4cCI6MTY4NjQyNzIyMX0.TJpj8-2qU__GI_dKDdrHwQvUWCFSFXCfgOuV6MV05UI;
+                  Path=/; HttpOnly
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data: "null"
+                message: access token refresh successful
+                status: ok
+        "401":
+          description: Invalid refresh token
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data: "null"
+                message: invalid token
+                status: error
+  /auth/password-reset-requests:
+    post:
+      tags:
+        - 🔐 Authentication
+      summary: Reset password request
+      description: >
+        Allows users to request a password reset by providing their email address. A reset link is sent to enable them to update their password securely
+      operationId: requestResetPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+            example:
+              email: raphico@gmail.com
+      responses:
+        "200":
+          description: Password reset email sent successfully
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data: "null"
+                message: If your email is in our records, a password reset link will be sent shortly
+                status: ok
+        "400":
+          description: Invalid request body
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data: "null"
+                message: Please, provide a valid email address
+                status: error
+  /auth/password-resets/{token}:
+    post:
+      tags:
+        - 🔐 Authentication
+      summary: Reset user's password request
+      description: >
+        Enables users to securely reset their password by providing a new password and the reset token from the password reset email
+      operationId: resetPassword
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+            example:
+              email: password@999
+      responses:
+        "200":
+          description: Password reset email sent successfully
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data: "null"
+                message: password reset successful
+                status: ok
+        "400":
+          description: Invalid request body
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              examples:
+                Token is required:
+                  value:
+                    data: "null"
+                    message: password reset token is required
+                    status: error
+                Invalid token:
+                  value:
+                    data: "null"
+                    message: invalid token
+                    status: error
+                Expired link:
+                  value:
+                    data: "null"
+                    message: The reset link has expired. Please request a new password reset
+                    status: error
