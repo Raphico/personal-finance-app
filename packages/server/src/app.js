@@ -9,6 +9,7 @@ import { flexibleLimiter } from "./middleware/rate-limit.middleware.js";
 import requestIp from "request-ip";
 import authRoute from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
+import healthRoute from "./routes/health.route.js";
 
 export const app = express();
 
@@ -33,5 +34,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/health", healthRoute);
 
 app.use(errorMiddleware);
