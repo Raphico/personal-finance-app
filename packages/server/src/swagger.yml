@@ -18,9 +18,9 @@ paths:
     post:
       tags:
         - 🔐 Authentication
-      summary: User sign up.
+      summary: User sign up
       description: >
-        Allows a user to create an account or sign up. After successful user creation a verification code is sent to the user's email for email verification.
+        Allows a user to create an account or sign up. After successful user creation a verification code is sent to the user's email for email verification
       operationId: signup
       requestBody:
         content:
@@ -191,7 +191,7 @@ paths:
     post:
       tags:
         - 🔐 Authentication
-      summary: User login.
+      summary: User login
       description: >
         Allows a user to login securely to their account. If the user's login credentials are valid and the user's email is verified an access and refresh token is set in the client http only cookie for verification on every subsequent request
       operationId: login
@@ -270,7 +270,7 @@ paths:
                 message: login successful
                 status: ok
         "400":
-          description: Invalid request body.
+          description: Invalid request body
           headers:
             RateLimit-Limit:
               schema:
@@ -317,7 +317,7 @@ paths:
                 status: error
 
         "403":
-          description: User email is not verified.
+          description: User email is not verified
           headers:
             RateLimit-Limit:
               schema:
@@ -366,13 +366,13 @@ paths:
     post:
       tags:
         - 🔐 Authentication
-      summary: User logout.
+      summary: User logout
       description: >
-        Allows a user to securely logout from the application and destroys the access and refresh token stored on the client effectively logging the user out from the application.
+        Allows a user to securely logout from the application and destroys the access and refresh token stored on the client effectively logging the user out from the application
       operationId: login
       responses:
         "200":
-          description: User logout successful.
+          description: User logout successful
           headers:
             RateLimit-Limit:
               schema:
@@ -421,3 +421,282 @@ paths:
                 data: "null"
                 message: "logout successful"
                 status: "ok"
+  /auth/verification:
+    post:
+      tags:
+        - 🔐 Authentication
+      summary: User's email verification
+      description: >
+        Allows a user to verify their email by providing a verification code. If the verification code is valid, the user's email is marked as verified
+      operationId: verifyEmail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+            example:
+              code: "333333"
+      responses:
+        "200":
+          description: User email verified successfully
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      isEmailVerified:
+                        type: boolean
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data:
+                  isEmailVerified: true
+                message: email verification successful
+                status: "ok"
+        "400":
+          description: Invalid verification code
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              examples:
+                Invalid verification code:
+                  value:
+                    data: "null"
+                    message: invalid verification code
+                    status: error
+                Verification code expired:
+                  value:
+                    data: "null"
+                    message: verification code has expired
+                    status: error
+  /auth/resend-verification:
+    post:
+      tags:
+        - 🔐 Authentication
+      summary: Resend email verification
+      description: >
+        Allows users to request a new email verification code if the original verification email was missed, expired, or not delivered successfully.
+      operationId: resendEmailVerification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+            example:
+              email: raphico@gmail.com
+      responses:
+        "202":
+          description: The request to resend the email verification code has been accepted and has been sent
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data: "null"
+                message: If the email exists in our records, you will receive a verification code shortly
+                status: ok
+        "409":
+          description: User's email is already verified
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data: "null"
+                message: Your email is already verified. No further action is required
+                status: error
+        "400":
+          description: Invalid request body
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data: "null"
+                message: Please, provide a valid email address
+                status: error

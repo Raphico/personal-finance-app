@@ -72,7 +72,7 @@ export const resendEmailVerification = asyncHandler(
     response.status(202).json(
       new ApiResponse({
         data: null,
-        status: "accepted",
+        status: "ok",
         message:
           "If the email exists in our records, you will receive a verification code shortly.",
       })
