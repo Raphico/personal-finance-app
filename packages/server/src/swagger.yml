@@ -1047,3 +1047,115 @@ paths:
                     data: "null"
                     message: The reset link has expired. Please request a new password reset
                     status: error
+
+  /user:
+    get:
+      tags:
+        - 😃 user
+      summary: Retrieves the current user data
+      description: >
+        Retrieves the details of the currently logged in user
+      operationId: getCurrentUser
+      responses:
+        "200":
+          description: Returns logged in user
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      email:
+                        type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data:
+                  id: jj19g3x8ys4c5652guynd3u6
+                  email: raphico@gmail.com
+                  name: raphico
+                message: user retrieved successfully
+                status: "ok"
+        "401":
+          description: The user is not logged in
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data: "null"
+                message: unauthorized
+                status: error
