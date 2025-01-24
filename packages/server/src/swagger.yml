@@ -16,8 +16,11 @@ servers:
 paths:
   /auth/signup:
     post:
+      tags:
+        - 🔐 Authentication
       summary: User sign up.
-      description: Allows a user to create an account or sign up.
+      description: >
+        Allows a user to create an account or sign up. After successful user creation a verification code is sent to the user's email for email verification.
       operationId: signup
       requestBody:
         content:
@@ -27,13 +30,10 @@ paths:
               properties:
                 name:
                   type: string
-                  example: raphico
                 email:
                   type: string
-                  example: raphico@gmail.com
                 password:
                   type: string
-                  example: password@999
             example:
               name: raphico
               email: raphico@gmail.com
@@ -80,19 +80,14 @@ paths:
                     properties:
                       id:
                         type: string
-                        example: p0n0m3aeh1a54m25937zs90n
                       name:
                         type: string
-                        example: raphico
                       email:
                         type: string
-                        example: raphico@gmail.com
                   message:
                     type: string
-                    example: User signup successful. A verification code has been sent to your email
                   status:
                     type: string
-                    example: ok
               example:
                 data:
                   id: p0n0m3aeh1a54m25937zs90n
@@ -101,7 +96,7 @@ paths:
                 message: User signup successful. A verification code has been sent to your email
                 status: ok
         "400":
-          description: invalid request body
+          description: Invalid request body
           headers:
             RateLimit-Limit:
               schema:
@@ -138,13 +133,10 @@ paths:
                 properties:
                   data:
                     type: string
-                    example: "null"
                   message:
                     type: string
-                    example: Please provide a valid email address
                   status:
                     type: string
-                    example: error
               example:
                 data: "null"
                 message: Please provide a valid email address
@@ -187,14 +179,186 @@ paths:
                 properties:
                   data:
                     type: string
-                    example: "null"
                   message:
                     type: string
-                    example: user already exists
                   status:
                     type: string
-                    example: error
               example:
                 data: "null"
                 message: user already exists
+                status: error
+  /auth/login:
+    post:
+      tags:
+        - 🔐 Authentication
+      summary: User login.
+      description: >
+        Allows a user to login securely to their account. If the user's login credentials are valid and the user's email is verified an access and refresh token is set in the client http only cookie for verification on every subsequent request
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+            example:
+              email: raphico@gmail.com
+              password: raphico
+      responses:
+        "200":
+          description: Successful user login
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+            Set-Cookie:
+              schema:
+                type: string
+                example: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImpqMTlnM3g4eXM0YzU2NTJndXluZDN1NiIsImlhdCI6MTczNzcyNDA0NywiZXhwIjoxNzM4MzI4ODQ3fQ.1nzHb4KVxI-pAoC_4eERwIca3LCPobUKJ1-XpqfY0CE; Path=/; HttpOnly
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      email:
+                        type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data:
+                  id: jj19g3x8ys4c5652guynd3u6
+                  name: raphico
+                  email: raphico@gmail.com
+                message: login successful
+                status: ok
+        "400":
+          description: Invalid request body.
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data: "null"
+                message: invalid email or password
+                status: error
+
+        "403":
+          description: User email is not verified.
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data: "null"
+                message: Please, verify your email to login
                 status: error

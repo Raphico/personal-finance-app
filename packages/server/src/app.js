@@ -54,7 +54,7 @@ app.use(
   "/",
   swaggerUi.serve,
   swaggerUi.setup(swaggerDocument, {
-    customSiteTitle: "Personal finance app docs",
+    customSiteTitle: "Personal finance app API docs",
   })
 );
 
