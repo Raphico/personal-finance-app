@@ -4,7 +4,7 @@ This is a solution to the [Personal finance app challenge on Frontend Mentor](ht
 
 ## Features to implement
 
-- [] user authentication
+- [x] user authentication
 - [] See all of the personal finance app data at-a-glance on the overview page
 - [] View all transactions on the transactions page with pagination for every ten transactions
 - [] Search, sort, and filter transactions

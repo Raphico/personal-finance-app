@@ -9,6 +9,7 @@ export const { data: env } = z
       .enum(["development", "test", "production"])
       .default("development"),
     DATABASE_URL: z.string().url(),
+    HOST_URL: z.string().url().describe("identifies the server url"),
     SMTP_HOST: z.string(),
     SMTP_PORT: z.number({ coerce: true }),
     SMTP_USERNAME: z.string(),

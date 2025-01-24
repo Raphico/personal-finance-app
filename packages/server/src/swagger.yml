@@ -1,0 +1,200 @@
+openapi: 3.0.0
+info:
+  title: Personal finance app API
+  description: API for the personal-finance-app web application
+  version: 1.0.0
+  contact:
+    url: https://github.com/raphico/personal-finance-app
+  license:
+    name: MIT
+    url: https://opensource.org/license/mit
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development server
+
+paths:
+  /auth/signup:
+    post:
+      summary: User sign up.
+      description: Allows a user to create an account or sign up.
+      operationId: signup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: raphico
+                email:
+                  type: string
+                  example: raphico@gmail.com
+                password:
+                  type: string
+                  example: password@999
+            example:
+              name: raphico
+              email: raphico@gmail.com
+              password: password@999
+      responses:
+        "201":
+          description: User signup successful
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: p0n0m3aeh1a54m25937zs90n
+                      name:
+                        type: string
+                        example: raphico
+                      email:
+                        type: string
+                        example: raphico@gmail.com
+                  message:
+                    type: string
+                    example: User signup successful. A verification code has been sent to your email
+                  status:
+                    type: string
+                    example: ok
+              example:
+                data:
+                  id: p0n0m3aeh1a54m25937zs90n
+                  name: raphico
+                  email: raphico@gmail.com
+                message: User signup successful. A verification code has been sent to your email
+                status: ok
+        "400":
+          description: invalid request body
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "null"
+                  message:
+                    type: string
+                    example: Please provide a valid email address
+                  status:
+                    type: string
+                    example: error
+              example:
+                data: "null"
+                message: Please provide a valid email address
+                status: error
+        "409":
+          description: User already exists
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "null"
+                  message:
+                    type: string
+                    example: user already exists
+                  status:
+                    type: string
+                    example: error
+              example:
+                data: "null"
+                message: user already exists
+                status: error
