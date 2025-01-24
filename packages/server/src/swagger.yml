@@ -362,3 +362,62 @@ paths:
                 data: "null"
                 message: Please, verify your email to login
                 status: error
+  /auth/logout:
+    post:
+      tags:
+        - 🔐 Authentication
+      summary: User logout.
+      description: >
+        Allows a user to securely logout from the application and destroys the access and refresh token stored on the client effectively logging the user out from the application.
+      operationId: login
+      responses:
+        "200":
+          description: User logout successful.
+          headers:
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "3"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "2"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "803"
+            RateLimit-Policy:
+              schema:
+                type: string
+                example: 3;w=900
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: http://localhost:5173
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: default-src 'self';base-uri 'self'
+            Set-Cookie:
+              schema:
+                type: string
+                example: accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  message:
+                    type: string
+                  status:
+                    type: string
+              example:
+                data: "null"
+                message: "logout successful"
+                status: "ok"
