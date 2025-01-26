@@ -16,9 +16,7 @@
       "persistent": true
     },
     "test:e2e": {
-      "dependsOn": ["^test:e2e"],
-      "cache": false,
-      "persistent": true
+      "dependsOn": ["^test:e2e"]
     },
     "dev": {
       "cache": false,

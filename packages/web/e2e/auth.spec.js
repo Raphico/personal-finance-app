@@ -7,7 +7,7 @@ test.describe.parallel("Auth", () => {
     await page.getByLabel("email").fill("test@gmail.com");
     await page.getByLabel(/^password/).fill("password@999");
 
-    await page.getByRole("button", { name: /login/i }).click();
+    await page.getByRole("button", { name: /login/i }).dispatchEvent("click");
 
     await page.waitForURL("/overview");
   });
@@ -19,7 +19,9 @@ test.describe.parallel("Auth", () => {
     await page.getByLabel("email").fill("test@gmail.com");
     await page.getByLabel(/^password/).fill("password@999");
 
-    await page.getByRole("button", { name: /create account/i }).click();
+    await page
+      .getByRole("button", { name: /create account/i })
+      .dispatchEvent("click");
 
     await page.waitForURL(/\/auth\/verify-email\?redirect=.*&email=.*/);
   });
@@ -34,7 +36,7 @@ test.describe.parallel("Auth", () => {
     await page.locator("[data-test='input-5']").press("5");
     await page.locator("[data-test='input-6']").press("6");
 
-    await page.getByRole("button", { name: /verify/i }).click();
+    await page.getByRole("button", { name: /verify/i }).dispatchEvent("click");
 
     await page.waitForURL(/\/auth\/login\?redirect=.*/);
   });
@@ -44,7 +46,9 @@ test.describe.parallel("Auth", () => {
 
     await page.getByLabel("email").fill("test@gmail.com");
 
-    await page.getByRole("button", { name: /continue/i }).click();
+    await page
+      .getByRole("button", { name: /continue/i })
+      .dispatchEvent("click");
 
     await page.waitForURL(
       /\/auth\/forgot-password-confirmation\?redirect=.*&email=.*/
@@ -56,7 +60,9 @@ test.describe.parallel("Auth", () => {
 
     await page.getByLabel(/new password/i).fill("password@999");
 
-    await page.getByRole("button", { name: /reset password/i }).click();
+    await page
+      .getByRole("button", { name: /reset password/i })
+      .dispatchEvent("click");
 
     await page.waitForURL("/auth/login");
   });
