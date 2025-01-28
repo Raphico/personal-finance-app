@@ -89,7 +89,6 @@ nav a {
   text-decoration: none;
   text-transform: capitalize;
 }
-
 nav li {
   display: grid;
   place-content: center;
@@ -103,6 +102,10 @@ nav li:has(.active-link) {
   border-bottom: 4px solid var(--clr-green);
 }
 
+nav li:has(.active-link) .link-text {
+  color: var(--clr-grey-900);
+}
+
 .active-link {
   color: var(--clr-green);
 }
@@ -111,7 +114,7 @@ nav ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5em 0.75em 0;
+  padding: var(--spacing-100) var(--spacing-150) 0;
   list-style: none;
 }
 
@@ -138,6 +141,53 @@ nav ul {
 @media (min-width: 1024px) {
   .logo {
     display: block;
+    padding: var(--spacing-400);
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    min-height: 100vh;
+    gap: var(--spacing-500);
+  }
+
+  nav {
+    position: initial;
+    border-radius: 0 16px 16px 0;
+    padding-right: var(--spacing-300);
+  }
+
+  nav li {
+    place-content: initial;
+    width: 100%;
+    height: 100%;
+    padding: var(--spacing-150) 0 var(--spacing-150) var(--spacing-400);
+  }
+
+  nav li:has(.active-link) {
+    border-radius: 0 12px 12px 0;
+    border-bottom: 0;
+    border-left: 4px solid var(--clr-green);
+  }
+
+  nav a {
+    display: flex;
+    gap: var(--spacing-200);
+    width: 100%;
+  }
+
+  .link-text {
+    font-size: var(--fs-400);
+    line-height: 1.5;
+    letter-spacing: 0;
+    font-weight: var(--fw-bold);
+  }
+
+  nav ul {
+    display: grid;
+    gap: var(--spacing-150) 0;
+    padding: 0;
+    justify-content: initial;
   }
 }
 </style>
