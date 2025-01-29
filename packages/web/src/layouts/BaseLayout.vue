@@ -59,8 +59,8 @@ const links = [
         <source :srcset="getLogo" media="(min-width: 1025px)" />
         <img src="" alt="Company Logo" />
       </picture>
-      <ul v-for="link in links">
-        <li :key="link.name">
+      <ul>
+        <li v-for="link in links" :key="link.name">
           <RouterLink
             active-class="active-link"
             class="text-preset-5-bold"

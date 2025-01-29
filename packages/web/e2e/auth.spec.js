@@ -1,4 +1,4 @@
-import { test } from "./util";
+import { test, expect } from "./util";
 
 test.describe.parallel("Auth", () => {
   test("user can login with valid credentials", async ({ page }) => {
@@ -9,7 +9,7 @@ test.describe.parallel("Auth", () => {
 
     await page.getByRole("button", { name: /login/i }).dispatchEvent("click");
 
-    await page.waitForURL("/overview");
+    await expect(page).toHaveURL("/overview");
   });
 
   test("user can signup with valid credentials", async ({ page }) => {
@@ -23,7 +23,7 @@ test.describe.parallel("Auth", () => {
       .getByRole("button", { name: /create account/i })
       .dispatchEvent("click");
 
-    await page.waitForURL(/\/auth\/verify-email\?redirect=.*&email=.*/);
+    await expect(page).toHaveURL(/\/auth\/verify-email\?redirect=.*&email=.*/);
   });
 
   test("user should be able to verify their email", async ({ page }) => {
@@ -38,7 +38,7 @@ test.describe.parallel("Auth", () => {
 
     await page.getByRole("button", { name: /verify/i }).dispatchEvent("click");
 
-    await page.waitForURL(/\/auth\/login\?redirect=.*/);
+    await expect(page).toHaveURL(/\/auth\/login\?redirect=.*/);
   });
 
   test("user can request reset password", async ({ page }) => {
@@ -50,7 +50,7 @@ test.describe.parallel("Auth", () => {
       .getByRole("button", { name: /continue/i })
       .dispatchEvent("click");
 
-    await page.waitForURL(
+    await expect(page).toHaveURL(
       /\/auth\/forgot-password-confirmation\?redirect=.*&email=.*/
     );
   });
@@ -64,6 +64,6 @@ test.describe.parallel("Auth", () => {
       .getByRole("button", { name: /reset password/i })
       .dispatchEvent("click");
 
-    await page.waitForURL("/auth/login");
+    await expect(page).toHaveURL("/auth/login");
   });
 });
