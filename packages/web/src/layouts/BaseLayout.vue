@@ -1,73 +1,86 @@
 <script setup>
+import { ref, computed } from "vue";
+import IconMinimizeMenu from "@/components/Icons/IconMinimizeMenu.vue";
 import IconNavBudgets from "@/components/Icons/IconNavBudgets.vue";
 import IconNavOverview from "@/components/Icons/IconNavOverview.vue";
 import IconNavPots from "@/components/Icons/IconNavPots.vue";
 import IconNavRecurringBills from "@/components/Icons/IconNavRecurringBills.vue";
 import IconNavTransactions from "@/components/Icons/IconNavTransactions.vue";
+
+const isMenuMinimize = ref(false);
+
+function toggleIsMenuMinimize() {
+  isMenuMinimize.value = !isMenuMinimize.value;
+}
+
+const getLogo = computed(() =>
+  isMenuMinimize.value
+    ? "/src/assets/svg/logo-small.svg"
+    : "/src/assets/svg/logo-large.svg"
+);
+
+const links = [
+  {
+    to: "/overview",
+    name: "overview",
+    icon: IconNavOverview,
+  },
+  {
+    to: "/transactions",
+    name: "transactions",
+    icon: IconNavTransactions,
+  },
+  {
+    to: "/budgets",
+    name: "budgets",
+    icon: IconNavBudgets,
+  },
+  {
+    to: "/pots",
+    name: "pots",
+    icon: IconNavPots,
+  },
+  {
+    to: "/recurring-bills",
+    name: "recurring bills",
+    icon: IconNavRecurringBills,
+  },
+];
 </script>
 
 <template>
   <div class="container">
-    <nav>
+    <nav
+      id="primary-navigation"
+      :data-minimize="isMenuMinimize"
+      :aria-expanded="!isMenuMinimize"
+    >
       <picture class="logo">
-        <source
-          srcset="@/assets/svg/logo-large.svg"
-          media="(min-width: 1025px)"
-        />
+        <source :srcset="getLogo" media="(min-width: 1025px)" />
         <img src="" alt="Company Logo" />
       </picture>
-      <ul>
-        <li>
+      <ul v-for="link in links">
+        <li :key="link.name">
           <RouterLink
             active-class="active-link"
             class="text-preset-5-bold"
-            to="/overview"
+            :to="link.to"
           >
-            <IconNavOverview />
-            <span class="link-text">overview</span>
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink
-            active-class="active-link"
-            class="text-preset-5-bold"
-            to="/transactions"
-          >
-            <IconNavTransactions />
-            <span class="link-text">transactions</span>
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink
-            class="text-preset-5-bold"
-            active-class="active-link"
-            to="/budgets"
-          >
-            <IconNavBudgets />
-            <span class="link-text">budgets</span>
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink
-            class="text-preset-5-bold"
-            active-class="active-link"
-            to="/pots"
-          >
-            <IconNavPots />
-            <span class="link-text">pots</span>
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink
-            class="text-preset-5-bold"
-            active-class="active-link"
-            to="/recurring-bills"
-          >
-            <IconNavRecurringBills />
-            <span class="link-text">recurring bills</span>
+            <component :is="link.icon" />
+            <span class="link-text">{{ link.name }}</span>
           </RouterLink>
         </li>
       </ul>
+      <button
+        class="minimize-menu text-preset-3"
+        :aria-label="isMenuMinimize ? 'Maximize Menu' : 'Minimize Menu'"
+        aria-controls="primary-navigation"
+        :data-minimize="isMenuMinimize"
+        @click="toggleIsMenuMinimize"
+      >
+        <IconMinimizeMenu />
+        <span class="minimize-menu-text">minimize menu</span>
+      </button>
     </nav>
     <main>
       <RouterView />
@@ -88,7 +101,15 @@ nav a {
   color: var(--clr-grey-300);
   text-decoration: none;
   text-transform: capitalize;
+  transition-property: color;
+  transition-timing-function: var(--transition-easing);
+  transition-duration: var(--transition-duration);
 }
+
+nav a:is(:hover, :focus):not(.active-link) {
+  color: var(--clr-white);
+}
+
 nav li {
   display: grid;
   place-content: center;
@@ -120,9 +141,14 @@ nav ul {
 
 .link-text {
   display: none;
+  text-wrap: nowrap;
 }
 
 .logo {
+  display: none;
+}
+
+.minimize-menu {
   display: none;
 }
 
@@ -144,24 +170,84 @@ nav ul {
     padding: var(--spacing-400);
   }
 
+  .minimize-menu {
+    cursor: pointer;
+    border: 0;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding-left: var(--spacing-400);
+    color: var(--clr-grey-300);
+    text-transform: capitalize;
+    transition-property: color;
+    transition-timing-function: var(--transition-easing);
+    transition-duration: var(--transition-duration);
+    margin-top: auto;
+    text-wrap: nowrap;
+  }
+
+  .minimize-menu svg {
+    transition: transform var(--transition-duration) var(--transition-easing);
+  }
+
+  .minimize-menu:hover,
+  .minimize-menu:focus {
+    color: var(--clr-white);
+  }
+
+  .minimize-menu-text {
+    transition:
+      opacity var(--transition-duration) var(--transition-easing),
+      visibility var(--transition-duration) var(--transition-easing);
+    position: relative;
+  }
+
+  .minimize-menu[data-minimize="true"] .minimize-menu-text {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+  }
+
+  .minimize-menu[data-minimize="true"] svg {
+    transform: rotate(180deg);
+  }
+
   .container {
     display: grid;
     grid-template-columns: 300px 1fr;
     min-height: 100vh;
     gap: var(--spacing-500);
+    transition-property: grid-template-columns;
+    transition-timing-function: var(--transition-easing);
+    transition-duration: var(--transition-duration);
+  }
+
+  .container:has(nav[data-minimize="true"]) {
+    grid-template-columns: 88px 1fr;
   }
 
   nav {
-    position: initial;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
     border-radius: 0 16px 16px 0;
+    position: initial;
     padding-right: var(--spacing-300);
+    padding-bottom: var(--spacing-500);
+  }
+
+  nav[data-minimize="true"] .link-text {
+    opacity: 0;
+    visibility: hidden;
   }
 
   nav li {
+    overflow: hidden;
     place-content: initial;
     width: 100%;
-    height: 100%;
-    padding: var(--spacing-150) 0 var(--spacing-150) var(--spacing-400);
+    height: 48px;
+    padding: 0 0 0 var(--spacing-400);
   }
 
   nav li:has(.active-link) {
@@ -172,6 +258,7 @@ nav ul {
 
   nav a {
     display: flex;
+    align-items: center;
     gap: var(--spacing-200);
     width: 100%;
   }
@@ -180,6 +267,11 @@ nav ul {
     font-size: var(--fs-400);
     line-height: 1.5;
     letter-spacing: 0;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity var(--transition-duration) var(--transition-easing),
+      visibility var(--transition-duration) var(--transition-easing);
     font-weight: var(--fw-bold);
   }
 
