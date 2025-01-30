@@ -17,6 +17,7 @@ import BaseLabel from "@/components/BaseLabel.vue";
 import BasePasswordInput from "@/components/BasePasswordInput.vue";
 import BaseFormMessage from "@/components/BaseFormMessage.vue";
 import BaseAlert from "@/components/BaseAlert.vue";
+import PageHeader from "@/components/PageHeader.vue";
 
 useHead({
   title: "Login - Personal Finance App",
@@ -71,7 +72,7 @@ function onsubmit() {
 </script>
 
 <template>
-  <h1 class="text-preset-1">Login</h1>
+  <PageHeader>Login</PageHeader>
   <BaseForm @submit.prevent="onsubmit" novalidate>
     <BaseAlert v-if="form.error.general" :message="form.error.general" />
     <BaseFormItem>
@@ -125,10 +126,6 @@ function onsubmit() {
 </template>
 
 <style scoped>
-h1 {
-  margin-top: 0;
-}
-
 p {
   text-align: center;
   color: var(--clr-grey-500);

@@ -1,4 +1,5 @@
 <script setup>
+import { useToast } from "vue-toast-notification";
 import { useForm } from "@/composables/useForm";
 import { useHead } from "@unhead/vue";
 import { useRedirect } from "@/composables/useRedirect";
@@ -10,7 +11,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import BaseForm from "@/components/BaseForm.vue";
 import BaseOTPInput from "@/components/BaseOTPInput.vue";
 import BaseAlert from "@/components/BaseAlert.vue";
-import { useToast } from "vue-toast-notification";
+import PageHeader from "@/components/PageHeader.vue";
 
 useHead({
   title: "Verify email - Personal Finance App",
@@ -82,8 +83,8 @@ function resendCode() {
 
 <template>
   <div class="verify-email">
-    <h1>Verify Email</h1>
-    <p class="desc text-preset-4-regular">
+    <PageHeader class="text-center">Verify Email</PageHeader>
+    <p class="desc text-preset-4-regular text-center">
       Enter the verification code sent to your email to continue
     </p>
     <BaseForm @submit.prevent="onsubmit">
@@ -114,8 +115,7 @@ function resendCode() {
 </template>
 
 <style scoped>
-h1 {
-  margin: 0;
+.text-center {
   text-align: center;
 }
 
@@ -125,7 +125,6 @@ h1 {
 }
 
 .desc {
-  text-align: center;
   margin-block: var(--spacing-100) var(--spacing-200);
   color: var(--clr-grey-500);
 }

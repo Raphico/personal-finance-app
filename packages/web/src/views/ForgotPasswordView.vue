@@ -12,6 +12,7 @@ import BaseFormMessage from "@/components/BaseFormMessage.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import BaseLabel from "@/components/BaseLabel.vue";
 import BaseAlert from "@/components/BaseAlert.vue";
+import PageHeader from "@/components/PageHeader.vue";
 
 useHead({
   title: "Forgot Password - Personal Finance App",
@@ -52,7 +53,7 @@ function onsubmit() {
 </script>
 
 <template>
-  <h1 class="text-preset-1">Forgot Password?</h1>
+  <PageHeader>Forgot Password?</PageHeader>
   <p class="desc text-preset-4-regular">
     Enter your email address and we will send instructions to reset your
     password
@@ -85,10 +86,6 @@ function onsubmit() {
 </template>
 
 <style scoped>
-h1 {
-  margin: 0;
-}
-
 .desc {
   margin-block: var(--spacing-100) var(--spacing-200);
   color: var(--clr-grey-500);

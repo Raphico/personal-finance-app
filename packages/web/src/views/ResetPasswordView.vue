@@ -12,6 +12,7 @@ import BaseLabel from "@/components/BaseLabel.vue";
 import BasePasswordInput from "@/components/BasePasswordInput.vue";
 import BaseFormMessage from "@/components/BaseFormMessage.vue";
 import BaseAlert from "@/components/BaseAlert.vue";
+import PageHeader from "@/components/PageHeader.vue";
 
 useHead({
   title: "Reset Password - Personal Finance App",
@@ -52,7 +53,7 @@ function onsubmit() {
 </script>
 
 <template>
-  <h1 class="text-preset-1">Reset password</h1>
+  <PageHeader>Reset password</PageHeader>
   <BaseForm @submit.prevent="onsubmit">
     <BaseFormItem>
       <BaseAlert v-if="form.error.general" :message="form.error.general" />
@@ -78,9 +79,3 @@ function onsubmit() {
     >
   </BaseForm>
 </template>
-
-<style scoped>
-h1 {
-  margin-top: 0;
-}
-</style>

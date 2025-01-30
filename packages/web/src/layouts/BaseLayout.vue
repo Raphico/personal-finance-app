@@ -89,6 +89,11 @@ const links = [
 </template>
 
 <style scoped>
+main {
+  padding: var(--spacing-300) var(--spacing-100) 3.75em var(--spacing-100);
+  width: 100%;
+}
+
 nav {
   background-color: var(--clr-grey-900);
   position: fixed;
@@ -153,6 +158,11 @@ nav ul {
 }
 
 @media (min-width: 768px) {
+  main {
+    padding-bottom: 5em;
+    padding-inline: var(--spacing-400);
+  }
+
   .link-text {
     display: block;
   }
@@ -165,6 +175,10 @@ nav ul {
 }
 
 @media (min-width: 1024px) {
+  main {
+    padding-bottom: 0;
+  }
+
   .logo {
     display: block;
     padding: var(--spacing-400);
@@ -217,7 +231,6 @@ nav ul {
     display: grid;
     grid-template-columns: 300px 1fr;
     min-height: 100vh;
-    gap: var(--spacing-500);
     transition-property: grid-template-columns;
     transition-timing-function: var(--transition-easing);
     transition-duration: var(--transition-duration);
