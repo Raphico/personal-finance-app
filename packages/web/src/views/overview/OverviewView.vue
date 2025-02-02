@@ -38,4 +38,31 @@ import RecurringBills from "./RecurringBills.vue";
   display: grid;
   gap: var(--spacing-200);
 }
+
+@media (min-width: 1100px) {
+  .overview-main {
+    grid-template-columns: 1.25fr 1fr;
+    grid-template-rows: repeat(3, auto);
+  }
+
+  .overview-main > :first-child {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+  }
+
+  .overview-main > :nth-child(2) {
+    grid-row: 2 / 4;
+    grid-column: 1 / 2;
+  }
+
+  .overview-main > :nth-child(3) {
+    grid-row: 1 / 3;
+    grid-column: 2 / 3;
+  }
+
+  .overview-main > :last-child {
+    grid-row: 3 / 4;
+    grid-column: 2 / 3;
+  }
+}
 </style>

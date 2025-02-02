@@ -1,6 +1,4 @@
 <script setup>
-import { computed } from "vue";
-
 const { variant } = defineProps({
   variant: {
     type: String,
@@ -14,17 +12,17 @@ const { variant } = defineProps({
     default: false,
   },
 });
-
-const buttonClasses = computed(() => ({
-  button: true,
-  [`${variant}-button`]: true,
-  "text-preset-4-bold": variant != "tertiary",
-  "text-preset-4-regular": variant == "tertiary",
-}));
 </script>
 
 <template>
-  <button :class="buttonClasses">
+  <button
+    :class="{
+      button: true,
+      [`${variant}-button`]: true,
+      'text-preset-4-bold': variant != 'tertiary',
+      'text-preset-4-regular': variant == 'tertiary',
+    }"
+  >
     <span aria-hidden="true" class="loader" v-if="loading"></span>
     <slot v-else />
   </button>

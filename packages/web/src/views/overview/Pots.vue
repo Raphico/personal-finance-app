@@ -2,6 +2,7 @@
 import BaseButton from "@/components/BaseButton.vue";
 import BaseCard from "@/components/BaseCard.vue";
 import BaseCardTitle from "@/components/BaseCardTitle.vue";
+import BaseLink from "@/components/BaseLink.vue";
 import DescriptionList from "@/components/DescriptionList.vue";
 import IconCaretRight from "@/components/Icons/IconCaretRight.vue";
 import IconPots from "@/components/Icons/IconPots.vue";
@@ -20,10 +21,10 @@ const totalSaved = 850;
 <template>
   <BaseCard class="pots-card">
     <BaseCardTitle>Pots</BaseCardTitle>
-    <BaseButton variant="tertiary">
+    <BaseLink href="/pots">
       See details
       <IconCaretRight />
-    </BaseButton>
+    </BaseLink>
     <div class="total-saved">
       <div class="total-saved-icon-container">
         <IconPots />
@@ -50,7 +51,7 @@ const totalSaved = 850;
   gap: var(--spacing-250);
 }
 
-.pots-card button {
+.pots-card a {
   justify-content: flex-end;
 }
 

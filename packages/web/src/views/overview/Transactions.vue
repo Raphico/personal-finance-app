@@ -2,6 +2,7 @@
 import BaseButton from "@/components/BaseButton.vue";
 import BaseCard from "@/components/BaseCard.vue";
 import BaseCardTitle from "@/components/BaseCardTitle.vue";
+import BaseLink from "@/components/BaseLink.vue";
 import BaseTable from "@/components/BaseTable.vue";
 import BaseTableBody from "@/components/BaseTableBody.vue";
 import BaseTableCell from "@/components/BaseTableCell.vue";
@@ -32,10 +33,10 @@ const transactions = [
 <template>
   <BaseCard class="transactions-card">
     <BaseCardTitle>transactions</BaseCardTitle>
-    <BaseButton variant="tertiary">
-      See details
+    <BaseLink href="/transactions">
+      view all
       <IconCaretRight />
-    </BaseButton>
+    </BaseLink>
 
     <BaseTable class="transactions-table">
       <caption class="sr-only">
@@ -77,10 +78,11 @@ const transactions = [
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, auto);
   gap: var(--spacing-250);
+  place-content: start;
 }
 
-.transactions-card button {
-  justify-content: flex-end;
+.transactions-card a {
+  justify-content: end;
 }
 
 .transactions-table {

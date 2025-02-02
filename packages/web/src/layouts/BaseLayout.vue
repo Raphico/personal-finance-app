@@ -55,10 +55,12 @@ const links = [
       :data-minimize="isMenuMinimize"
       :aria-expanded="!isMenuMinimize"
     >
-      <picture class="logo">
-        <source :srcset="getLogo" media="(min-width: 1025px)" />
-        <img src="" alt="Company Logo" />
-      </picture>
+      <Transition name="fade" mode="out-in">
+        <picture class="logo" :key="`logo-${isMenuMinimize}`">
+          <source :srcset="getLogo" media="(min-width: 1025px)" />
+          <img src="" alt="Company Logo" height="22" />
+        </picture>
+      </Transition>
       <ul>
         <li v-for="link in links" :key="link.name">
           <RouterLink
@@ -160,7 +162,7 @@ nav ul {
 
 @media (min-width: 768px) {
   main {
-    padding-bottom: 5em;
+    padding-bottom: 6.75em;
     padding-inline: var(--spacing-400);
   }
 
@@ -175,14 +177,99 @@ nav ul {
   }
 }
 
-@media (min-width: 1024px) {
-  main {
-    padding-bottom: 0;
+@media (min-width: 1100px) {
+  .container {
+    width: 100%;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition-property: opacity;
+    transition-timing-function: var(--transition-easing);
+    transition-duration: var(--transition-duration);
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+    transform: none;
   }
 
   .logo {
     display: block;
     padding: var(--spacing-400);
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    transition-property: grid-template-columns;
+    transition-timing-function: var(--transition-easing);
+    transition-duration: var(--transition-duration);
+  }
+
+  .container:has(nav[data-minimize="true"]) {
+    grid-template-columns: 88px 1fr;
+  }
+
+  main {
+    grid-column: 2 / 3;
+    padding-bottom: 2em;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    border-radius: 0 16px 16px 0;
+    width: 300px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding-right: var(--spacing-300);
+    padding-bottom: var(--spacing-500);
+    transition-property: all;
+    transition-timing-function: var(--transition-easing);
+    transition-duration: var(--transition-duration);
+  }
+
+  nav[data-minimize="true"] {
+    width: 88px;
+  }
+
+  nav li {
+    overflow: hidden;
+    place-content: initial;
+    width: 100%;
+    height: 48px;
+    padding: 0 0 0 var(--spacing-400);
+  }
+
+  nav li:has(.active-link) {
+    border-radius: 0 12px 12px 0;
+    border-bottom: 0;
+    border-left: 4px solid var(--clr-green);
+  }
+
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    width: 100%;
+  }
+
+  .link-text {
+    font-size: var(--fs-400);
+    line-height: 1.5;
+    letter-spacing: 0;
+    font-weight: var(--fw-bold);
+  }
+
+  nav ul {
+    display: grid;
+    gap: var(--spacing-150) 0;
+    padding: 0;
+    justify-content: initial;
   }
 
   .minimize-menu {
@@ -226,74 +313,6 @@ nav ul {
 
   .minimize-menu[data-minimize="true"] svg {
     transform: rotate(180deg);
-  }
-
-  .container {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    min-height: 100vh;
-    transition-property: grid-template-columns;
-    transition-timing-function: var(--transition-easing);
-    transition-duration: var(--transition-duration);
-  }
-
-  .container:has(nav[data-minimize="true"]) {
-    grid-template-columns: 88px 1fr;
-  }
-
-  nav {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-300);
-    border-radius: 0 16px 16px 0;
-    position: initial;
-    padding-right: var(--spacing-300);
-    padding-bottom: var(--spacing-500);
-  }
-
-  nav[data-minimize="true"] .link-text {
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  nav li {
-    overflow: hidden;
-    place-content: initial;
-    width: 100%;
-    height: 48px;
-    padding: 0 0 0 var(--spacing-400);
-  }
-
-  nav li:has(.active-link) {
-    border-radius: 0 12px 12px 0;
-    border-bottom: 0;
-    border-left: 4px solid var(--clr-green);
-  }
-
-  nav a {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    width: 100%;
-  }
-
-  .link-text {
-    font-size: var(--fs-400);
-    line-height: 1.5;
-    letter-spacing: 0;
-    opacity: 1;
-    visibility: visible;
-    transition:
-      opacity var(--transition-duration) var(--transition-easing),
-      visibility var(--transition-duration) var(--transition-easing);
-    font-weight: var(--fw-bold);
-  }
-
-  nav ul {
-    display: grid;
-    gap: var(--spacing-150) 0;
-    padding: 0;
-    justify-content: initial;
   }
 }
 </style>

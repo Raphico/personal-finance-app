@@ -1,7 +1,7 @@
 <script setup>
-import BaseButton from "@/components/BaseButton.vue";
 import BaseCard from "@/components/BaseCard.vue";
 import BaseCardTitle from "@/components/BaseCardTitle.vue";
+import BaseLink from "@/components/BaseLink.vue";
 import IconCaretRight from "@/components/Icons/IconCaretRight.vue";
 import { formatCurrency, selectRandomColor } from "@/utils/helpers";
 
@@ -24,10 +24,10 @@ const recurringBills = [
 <template>
   <BaseCard class="recurringBills-card">
     <BaseCardTitle>recurring bills</BaseCardTitle>
-    <BaseButton variant="tertiary">
+    <BaseLink href="/recurring-bills">
       see details
       <IconCaretRight />
-    </BaseButton>
+    </BaseLink>
     <dl class="recurringBills-list">
       <div
         v-for="bill in recurringBills"
@@ -50,7 +50,7 @@ const recurringBills = [
   gap: var(--spacing-250);
 }
 
-.recurringBills-card button {
+.recurringBills-card a {
   justify-self: end;
 }
 

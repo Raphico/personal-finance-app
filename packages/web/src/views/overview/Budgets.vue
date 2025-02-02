@@ -1,7 +1,7 @@
 <script setup>
-import BaseButton from "@/components/BaseButton.vue";
 import BaseCard from "@/components/BaseCard.vue";
 import BaseCardTitle from "@/components/BaseCardTitle.vue";
+import BaseLink from "@/components/BaseLink.vue";
 import DescriptionList from "@/components/DescriptionList.vue";
 import IconCaretRight from "@/components/Icons/IconCaretRight.vue";
 import { formatCurrency } from "@/utils/helpers";
@@ -17,10 +17,10 @@ const budgets = [
 <template>
   <BaseCard class="budgets-card">
     <BaseCardTitle>Budgets</BaseCardTitle>
-    <BaseButton variant="tertiary">
+    <BaseLink href="/budgets">
       see details
       <IconCaretRight />
-    </BaseButton>
+    </BaseLink>
     <div class="budgets-chart"></div>
     <DescriptionList
       class="budgets-list"
@@ -41,7 +41,7 @@ const budgets = [
   gap: var(--spacing-250);
 }
 
-.budgets-card button {
+.budgets-card a {
   justify-content: flex-end;
 }
 
