@@ -60,4 +60,24 @@ const budgets = [
   grid-row: 3 / 4;
   grid-column: 1 / -1;
 }
+
+@media (min-width: 768px) {
+  .budgets-card {
+    grid-template-columns: 1fr 110px;
+    grid-template-rows: auto auto;
+  }
+
+  .budgets-list {
+    grid-template-columns: 1fr;
+    grid-row: 2 / 3;
+    width: 95%;
+    margin-left: auto;
+    grid-column: 2 / -1;
+  }
+
+  .budgets-chart {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+  }
+}
 </style>

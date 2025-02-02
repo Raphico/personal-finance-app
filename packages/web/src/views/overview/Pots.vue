@@ -96,4 +96,21 @@ const totalSaved = 850;
   grid-column: 1 / -1;
   grid-template-columns: repeat(2, 1fr);
 }
+
+@media (min-width: 768px) {
+  .pots-card {
+    grid-template-rows: repeat(2, auto);
+    grid-template-columns: 0.75fr 1fr;
+  }
+
+  .total-saved {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+  }
+
+  .pots-list {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+  }
+}
 </style>

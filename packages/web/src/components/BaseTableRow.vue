@@ -13,8 +13,4 @@ tr {
 tr:last-of-type {
   border-bottom: 0;
 }
-
-tr:hover {
-  background-color: var(--clr-grey-100);
-}
 </style>

@@ -26,8 +26,9 @@ const summaryData = [
 </template>
 
 <style scoped>
-.summary-container * + * {
-  margin-top: var(--spacing-150);
+.summary-container {
+  display: grid;
+  gap: var(--spacing-150);
 }
 .summary-card:first-of-type {
   background-color: var(--clr-grey-900);
@@ -44,5 +45,15 @@ const summaryData = [
 
 .summary-card p {
   margin: 0;
+}
+
+@media (min-width: 768px) {
+  .summary-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-300);
+  }
+  .summary-card {
+    padding: var(--spacing-300);
+  }
 }
 </style>
