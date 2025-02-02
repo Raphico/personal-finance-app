@@ -75,7 +75,8 @@ const buttonClasses = computed(() => ({
 }
 
 .tertiary-button {
-  padding: 0.2em;
+  padding: 0;
+  height: auto;
   background-color: transparent;
   color: var(--clr-grey-500);
 }

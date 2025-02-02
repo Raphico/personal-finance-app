@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import { z } from "@repo/shared-validators";
+import { colors } from "@/constants";
 
 export function getError(error) {
   if (error instanceof z.ZodError) {
@@ -21,4 +22,25 @@ export function serializeParams(params = {}) {
       return `${key}=${encodeURIComponent(params[key])}`;
     })
     .join("&");
+}
+
+export function selectRandomColor() {
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+}
+
+export function formatDate(date) {
+  return new Date(date).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+export function formatCurrency(amount, currencyCode) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currencyCode,
+    minimumFractionDigits: 2,
+  }).format(amount);
 }

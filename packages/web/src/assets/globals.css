@@ -70,6 +70,12 @@
 ul {
   margin: 0;
   padding: 0;
+  list-style: none;
+}
+
+dd {
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -127,6 +133,18 @@ body {
   font-weight: var(--fw-bold);
   letter-spacing: 0;
   line-height: 1.5;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 /* https://cssloaders.github.io/ */

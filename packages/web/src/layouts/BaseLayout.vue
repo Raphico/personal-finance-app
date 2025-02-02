@@ -90,7 +90,7 @@ const links = [
 
 <style scoped>
 main {
-  padding: var(--spacing-300) var(--spacing-100) 3.75em var(--spacing-100);
+  padding: var(--spacing-300) var(--spacing-200) 4.75em var(--spacing-200);
   width: 100%;
 }
 
@@ -100,6 +100,7 @@ nav {
   border-radius: 8px 8px 0 0;
   bottom: 0;
   width: 100%;
+  z-index: 50;
 }
 
 nav a {
