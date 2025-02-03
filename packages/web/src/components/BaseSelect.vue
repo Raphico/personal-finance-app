@@ -1,0 +1,196 @@
+<script setup>
+import BaseButton from "./BaseButton.vue";
+import { ref } from "vue";
+import { generateId } from "@/utils/helpers";
+import { onClickOutside } from "@vueuse/core";
+
+const { options } = defineProps({
+  options: {
+    type: Array,
+    required: true,
+    validator: (value) =>
+      value.every((opt) => "label" in opt && "value" in opt),
+  },
+});
+
+const emits = defineEmits(["select"]);
+
+const showDropdown = ref(false);
+const target = ref(null);
+const selectedIndex = ref(-1);
+const dropdownId = generateId({
+  length: 4,
+});
+
+onClickOutside(target, closeDropdown);
+
+function toggleDropdown() {
+  showDropdown.value = !showDropdown.value;
+}
+
+function closeDropdown() {
+  showDropdown.value = false;
+}
+
+function openDropdown() {
+  showDropdown.value = true;
+}
+
+function updateSelectedOption(index) {
+  selectedIndex.value = index;
+  closeDropdown();
+  emits("select", options[index].value);
+}
+
+async function handleKeyNavigation(event) {
+  if (!showDropdown.value) return;
+
+  const optionsLength = options.length;
+  switch (event.key) {
+    case "ArrowDown":
+      selectedIndex.value = (selectedIndex.value + 1) % optionsLength;
+      emits("select", options[selectedIndex.value].value);
+      break;
+    case "ArrowUp":
+      selectedIndex.value =
+        (selectedIndex.value - 1 + optionsLength) % optionsLength;
+      emits("select", options[selectedIndex.value].value);
+      break;
+    case "Enter":
+    case "Space":
+      if (selectedIndex.value >= 0) {
+        closeDropdown();
+      }
+      break;
+    default:
+      return;
+  }
+}
+</script>
+
+<template>
+  <div class="select-container" ref="target" @keydown="handleKeyNavigation">
+    <BaseButton
+      :id="`select-trigger-${dropdownId}`"
+      variant="outline"
+      role="combobox"
+      :aria-expanded="showDropdown"
+      :aria-controls="dropdownId"
+      @click="toggleDropdown"
+      @keydown.enter.prevent="toggleDropdown"
+      @keydown.space.prevent="toggleDropdown"
+      @keydown.esc="closeDropdown"
+      @keydown.down.prevent="openDropdown"
+      aria-haspopup="listbox"
+      class="select-trigger"
+      tabindex="0"
+    >
+      <slot />
+    </BaseButton>
+
+    <Transition name="slide">
+      <ul
+        v-show="showDropdown"
+        :id="`select-dropdown-${dropdownId}`"
+        tabindex="-1"
+        role="listbox"
+        :data-state="showDropdown ? 'open' : 'close'"
+        class="select-dropdown"
+        aria-labelledby="select-trigger"
+      >
+        <li
+          v-for="(option, index) in options"
+          :id="`${dropdownId}-${option.value}-${index}`"
+          role="option"
+          :key="option.value"
+          :aria-selected="selectedIndex == index"
+          :data-selected="selectedIndex == index"
+          @click="() => updateSelectedOption(index)"
+          class="text-preset-4-regular"
+        >
+          {{ option.label }}
+        </li>
+      </ul>
+    </Transition>
+  </div>
+</template>
+
+<style scoped>
+.select-container {
+  position: relative;
+  display: inline-block;
+}
+
+.select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 20;
+  border-radius: 8px;
+  background-color: var(--clr-white);
+  list-style: none;
+  padding: var(--spacing-150) var(--spacing-250);
+  margin-top: var(--spacing-50);
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--clr-grey-200);
+  max-height: 200px;
+  width: 94px;
+  overflow-y: auto;
+  display: none;
+}
+
+.select-dropdown[data-state="open"] {
+  display: block;
+}
+.select-dropdown::-webkit-scrollbar {
+  width: 7px;
+}
+.select-dropdown::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 25px;
+}
+.select-dropdown::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 25px;
+}
+.select-dropdown li {
+  cursor: pointer;
+  padding-bottom: var(--spacing-150);
+  text-transform: capitalize;
+  transition: color var(--transition-duration) var(--transition-easing);
+}
+
+.select-dropdown li:last-child {
+  padding-bottom: 0;
+}
+
+.select-dropdown > * + * {
+  border-top: 1px solid var(--clr-grey-200);
+  padding-top: var(--spacing-150);
+}
+
+.select-dropdown li[data-selected="true"] {
+  font-weight: bold;
+}
+
+.select-dropdown li:is(:hover, :focus) {
+  color: var(--clr-grey-500);
+}
+
+.select-trigger {
+  gap: var(--spacing-100);
+  border-color: var(--clr-grey-200);
+  padding: var(--spacing-100);
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all var(--transition-duration) var(--transition-easing);
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+</style>

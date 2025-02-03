@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { z } from "@repo/shared-validators";
 import { colors } from "@/constants";
+import { customAlphabet } from "nanoid";
 
 export function getError(error) {
   if (error instanceof z.ZodError) {
@@ -42,5 +43,25 @@ export function formatCurrency(amount, currencyCode) {
     style: "currency",
     currency: currencyCode,
     minimumFractionDigits: 2,
+    signDisplay: "always",
   }).format(amount);
+}
+/**
+ * Original source
+ * https://github.com/sadmann7/skateshop/blob/main/src/lib/id.ts
+ *
+ * Generates a unique ID with a given prefix.
+ * @param prefix The prefix to use for the generated ID.
+ * @param options The options for generating the ID.
+ * @example
+ * generateId("store") => "str_abc123def456"
+ * generateId("store", { length: 8 }) => "str_abc123d"
+ * generateId("store", { separator: "-" }) => "str-abc123def456"
+ */
+export function generateId({ prefix, length = 12, separator = "-" } = {}) {
+  const id = customAlphabet(
+    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+    length
+  )();
+  return prefix ? `${prefix}${separator}${id}` : id;
 }

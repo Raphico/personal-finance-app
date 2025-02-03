@@ -17,6 +17,11 @@ const router = createRouter({
           name: "overview",
           component: () => import("@/views/overview/OverviewView.vue"),
         },
+        {
+          path: "transactions",
+          name: "transactions",
+          component: () => import("@/views/transactions/TransactionsView.vue"),
+        },
       ],
     },
     {

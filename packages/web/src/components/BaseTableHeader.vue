@@ -1,5 +1,5 @@
 <template>
-  <th class="text-preset-5-regular">
+  <th scope="col" class="text-preset-5-regular">
     <slot />
   </th>
 </template>

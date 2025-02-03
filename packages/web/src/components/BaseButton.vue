@@ -4,7 +4,13 @@ const { variant } = defineProps({
     type: String,
     default: "primary",
     validator(value) {
-      return ["primary", "secondary", "tertiary", "destroy"].includes(value);
+      return [
+        "primary",
+        "secondary",
+        "tertiary",
+        "destroy",
+        "outline",
+      ].includes(value);
     },
   },
   loading: {
@@ -19,8 +25,8 @@ const { variant } = defineProps({
     :class="{
       button: true,
       [`${variant}-button`]: true,
-      'text-preset-4-bold': variant != 'tertiary',
-      'text-preset-4-regular': variant == 'tertiary',
+      'text-preset-4-bold': variant != 'tertiary' && variant != 'outline',
+      'text-preset-4-regular': variant == 'tertiary' || variant == 'outline',
     }"
   >
     <span aria-hidden="true" class="loader" v-if="loading"></span>
@@ -36,7 +42,7 @@ const { variant } = defineProps({
   gap: 1rem;
   cursor: pointer;
   padding-inline: 1em;
-  height: 53px;
+  padding-block: 0.5em;
   border: none;
   border-radius: 8px;
   transition-property: background, color, border, opacity;
@@ -47,7 +53,6 @@ const { variant } = defineProps({
 
 .button:disabled {
   pointer-events: none;
-  background-color: var(--clr-grey-500);
 }
 
 .primary-button {
@@ -55,8 +60,7 @@ const { variant } = defineProps({
   color: var(--clr-white);
 }
 
-.primary-button:hover,
-.primary-button:focus {
+.primary-button:hover .primary-button:disabled {
   background-color: var(--clr-grey-500);
 }
 
@@ -66,8 +70,7 @@ const { variant } = defineProps({
   border: 1px solid transparent;
 }
 
-.secondary-button:hover,
-.secondary-button:focus {
+.secondary-button:hover {
   background-color: transparent;
   border-color: var(--clr-beige-500);
 }
@@ -79,8 +82,7 @@ const { variant } = defineProps({
   color: var(--clr-grey-500);
 }
 
-.tertiary-button:hover,
-.tertiary-button:focus {
+.tertiary-button:hover {
   color: var(--clr-grey-900);
 }
 
@@ -89,8 +91,22 @@ const { variant } = defineProps({
   color: var(--clr-white);
 }
 
-.destroy-button:hover,
-.destroy-button:focus {
+.destroy-button:hover {
   opacity: 0.8;
+}
+
+.outline-button {
+  border: 1px solid var(--clr-beige-500);
+  background-color: transparent;
+}
+
+.outline-button:hover {
+  background-color: var(--clr-beige-100);
+  color: var(--clr-grey-900);
+  border: 1px solid transparent;
+}
+
+.outline-button:disabled {
+  color: var(--clr-grey-500);
 }
 </style>
