@@ -1,12 +1,11 @@
 <script setup>
-import BaseButton from "@/components/BaseButton.vue";
 import BaseCard from "@/components/BaseCard.vue";
 import BaseCardTitle from "@/components/BaseCardTitle.vue";
 import BaseLink from "@/components/BaseLink.vue";
 import DescriptionList from "@/components/DescriptionList.vue";
 import IconCaretRight from "@/components/Icons/IconCaretRight.vue";
 import IconPots from "@/components/Icons/IconPots.vue";
-import { formatCurrency, selectRandomColor } from "@/utils/helpers";
+import { formatCurrency } from "@/utils/helpers";
 
 const pots = [
   { name: "savings", amount: 159 },

@@ -1,10 +1,10 @@
 <script setup>
 import PageHeader from "@/components/PageHeader.vue";
-import Transactions from "./Transactions.vue";
-import Pots from "./Pots.vue";
-import Summary from "./Summary.vue";
-import Budgets from "./Budgets.vue";
-import RecurringBills from "./RecurringBills.vue";
+import OverviewTransactions from "./OverviewTransactions.vue";
+import OverviewPots from "./OverviewPots.vue";
+import OverviewSummary from "./OverviewSummary.vue";
+import OverviewBudgets from "./OverviewBudgets.vue";
+import OverviewRecurringBills from "./OverviewRecurringBills.vue";
 </script>
 
 <template>
@@ -13,13 +13,13 @@ import RecurringBills from "./RecurringBills.vue";
       <PageHeader>Overview</PageHeader>
     </header>
 
-    <Summary />
+    <OverviewSummary />
 
     <div class="overview-main">
-      <Pots />
-      <Transactions />
-      <Budgets />
-      <RecurringBills />
+      <OverviewPots />
+      <OverviewTransactions />
+      <OverviewBudgets />
+      <OverviewRecurringBills />
     </div>
   </div>
 </template>
@@ -39,7 +39,7 @@ import RecurringBills from "./RecurringBills.vue";
   gap: var(--spacing-200);
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1300px) {
   .overview-main {
     grid-template-columns: 1.25fr 1fr;
     grid-template-rows: repeat(3, auto);

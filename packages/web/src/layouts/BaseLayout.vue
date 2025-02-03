@@ -215,6 +215,7 @@ nav ul {
   main {
     grid-column: 2 / 3;
     padding-bottom: 2em;
+    max-width: 100%;
   }
 
   nav {

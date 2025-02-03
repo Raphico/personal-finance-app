@@ -1,5 +1,4 @@
 <script setup>
-import BaseButton from "@/components/BaseButton.vue";
 import BaseCard from "@/components/BaseCard.vue";
 import BaseCardTitle from "@/components/BaseCardTitle.vue";
 import BaseLink from "@/components/BaseLink.vue";

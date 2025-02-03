@@ -54,7 +54,7 @@ aside {
   display: none;
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 768px) {
   header {
     display: none;
   }
