@@ -18,9 +18,7 @@ const emits = defineEmits(["select"]);
 const showDropdown = ref(false);
 const target = ref(null);
 const selectedIndex = ref(-1);
-const dropdownId = generateId({
-  length: 4,
-});
+const dropdownId = generateId({ length: 4 });
 
 onClickOutside(target, closeDropdown);
 
@@ -48,18 +46,21 @@ async function handleKeyNavigation(event) {
   const optionsLength = options.length;
   switch (event.key) {
     case "ArrowDown":
+      event.preventDefault();
       selectedIndex.value = (selectedIndex.value + 1) % optionsLength;
       emits("select", options[selectedIndex.value].value);
       break;
     case "ArrowUp":
+      event.preventDefault();
       selectedIndex.value =
         (selectedIndex.value - 1 + optionsLength) % optionsLength;
       emits("select", options[selectedIndex.value].value);
       break;
     case "Enter":
-    case "Space":
+    case " ":
+      event.preventDefault();
       if (selectedIndex.value >= 0) {
-        closeDropdown();
+        updateSelectedOption(selectedIndex.value);
       }
       break;
     default:
@@ -69,16 +70,15 @@ async function handleKeyNavigation(event) {
 </script>
 
 <template>
-  <div class="select-container" ref="target" @keydown="handleKeyNavigation">
+  <div class="select-container" ref="target" role="group">
     <BaseButton
       :id="`select-trigger-${dropdownId}`"
       variant="outline"
+      @keydown="handleKeyNavigation"
       role="combobox"
       :aria-expanded="showDropdown"
       :aria-controls="dropdownId"
       @click="toggleDropdown"
-      @keydown.enter.prevent="toggleDropdown"
-      @keydown.space.prevent="toggleDropdown"
       @keydown.esc="closeDropdown"
       @keydown.down.prevent="openDropdown"
       aria-haspopup="listbox"
@@ -92,12 +92,13 @@ async function handleKeyNavigation(event) {
       <ul
         v-show="showDropdown"
         :id="`select-dropdown-${dropdownId}`"
-        tabindex="-1"
         role="listbox"
         :data-state="showDropdown ? 'open' : 'close'"
         class="select-dropdown"
+        tabindex="-1"
         aria-labelledby="select-trigger"
       >
+        <!-- eslint-disable-next-line vuejs-accessibility/interactive-supports-focus -->
         <li
           v-for="(option, index) in options"
           :id="`${dropdownId}-${option.value}-${index}`"
@@ -106,6 +107,8 @@ async function handleKeyNavigation(event) {
           :aria-selected="selectedIndex == index"
           :data-selected="selectedIndex == index"
           @click="() => updateSelectedOption(index)"
+          @keydown.enter="() => updateSelectedOption(index)"
+          @keydown.space="() => updateSelectedOption(index)"
           class="text-preset-4-regular"
         >
           {{ option.label }}
