@@ -88,7 +88,8 @@ const { variant } = defineProps({
   color: var(--clr-white);
 }
 
-.primary-button:hover .primary-button:disabled {
+.primary-button:hover,
+.primary-button:disabled {
   background-color: var(--clr-grey-500);
 }
 

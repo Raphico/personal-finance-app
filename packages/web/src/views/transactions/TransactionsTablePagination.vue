@@ -32,7 +32,7 @@ defineProps({
       @click="() => table.nextPage()"
       :disabled="!table.getCanNextPage()"
     >
-      <span>prev</span>
+      <span>next</span>
       <IconCaretRight />
     </BaseButton>
   </div>

@@ -29,19 +29,20 @@ const { transactions } = defineProps({
 const columnHelper = createColumnHelper();
 
 const columns = [
+  columnHelper.accessor("name", {
+    cell: (props) =>
+      h("span", { class: "text-preset-4-bold" }, props.getValue()),
+  }),
+
   columnHelper.accessor("category", {
     header: "category",
     cell: (props) => {
       const transaction = props.row.original;
       return [
-        h("span", {
-          class: "category-theme",
-          style: `--color: var(--clr-${transaction.theme})`,
-        }),
         h(
           "span",
           {
-            class: "text-preset-4-bold",
+            class: "text-preset-5-regular",
           },
           transaction.category
         ),
@@ -124,7 +125,7 @@ const table = useVueTable({
 </template>
 
 <style scoped>
-.transactions-table tbody tr > :nth-child(2) {
+.transactions-table tbody tr > :is(:nth-child(2), :nth-child(3)) {
   color: var(--clr-grey-500);
 }
 
@@ -135,22 +136,6 @@ const table = useVueTable({
 .transactions-table tbody tr > :last-child,
 .transactions-table thead tr > :last-child {
   text-align: right;
-}
-
-.transactions-table tbody tr > :first-child {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-}
-
-:deep(.category-theme) {
-  --color: var(--clr-green);
-
-  display: inline-block;
-  background-color: var(--color);
-  width: 16px !important;
-  height: 16px;
-  border-radius: 50%;
 }
 
 @media (max-width: 540px) {
@@ -170,15 +155,24 @@ const table = useVueTable({
     grid-column: 1 / 2;
   }
 
+  .transactions-table td {
+    padding: 0;
+  }
+
   .transactions-table tbody tr > :nth-child(2) {
     grid-row: 2 / 3;
+    grid-column: 1 / 2;
+  }
+
+  .transactions-table tbody tr > :nth-child(3) {
+    grid-row: 2 / 3;
     grid-column: 2 / 3;
-    margin: 0;
-    padding: 0;
     justify-self: end;
   }
 
   .transactions-table tbody tr > :last-child {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
     margin: 0;
     padding: 0;
     justify-self: end;

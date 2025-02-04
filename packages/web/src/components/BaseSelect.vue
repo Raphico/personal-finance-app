@@ -11,6 +11,14 @@ const { options } = defineProps({
     validator: (value) =>
       value.every((opt) => "label" in opt && "value" in opt),
   },
+  buttonSize: {
+    type: String,
+    default: "sm",
+  },
+  buttonVariant: {
+    type: String,
+    default: "outline",
+  },
 });
 
 const emits = defineEmits(["select"]);
@@ -73,7 +81,8 @@ async function handleKeyNavigation(event) {
   <div class="select-container" ref="target" role="group">
     <BaseButton
       :id="`select-trigger-${dropdownId}`"
-      variant="outline"
+      :variant="buttonVariant"
+      :size="buttonSize"
       @keydown="handleKeyNavigation"
       role="combobox"
       :aria-expanded="showDropdown"
@@ -127,7 +136,7 @@ async function handleKeyNavigation(event) {
 .select-dropdown {
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
   z-index: 20;
   border-radius: 8px;
   background-color: var(--clr-white);
