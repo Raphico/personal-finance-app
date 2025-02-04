@@ -53,9 +53,15 @@ defineProps({
           <BaseTableCell class="text-preset-5-regular">{{
             formatDate(transaction.date)
           }}</BaseTableCell>
-          <BaseTableCell class="text-preset-5-bold">{{
-            formatCurrency(transaction.amount, "USD", true)
-          }}</BaseTableCell>
+          <BaseTableCell
+            :class="{
+              'text-preset-5-bold': true,
+              credit: transaction.amount > 0,
+            }"
+            >{{
+              formatCurrency(transaction.amount, "USD", true)
+            }}</BaseTableCell
+          >
         </BaseTableRow>
       </BaseTableBody>
     </BaseTable>
@@ -71,6 +77,10 @@ defineProps({
 .transactions-card h2 {
   grid-row: 1 / 2;
   grid-column: 1 / 2;
+}
+
+.credit {
+  color: var(--clr-green);
 }
 
 .transactions-card a {

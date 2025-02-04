@@ -1,10 +1,43 @@
 <script setup>
 import PageHeader from "@/components/PageHeader.vue";
-import OverviewTransactions from "./OverviewTransactions.vue";
 import OverviewPots from "./OverviewPots.vue";
 import OverviewSummary from "./OverviewSummary.vue";
 import OverviewBudgets from "./OverviewBudgets.vue";
 import OverviewRecurringBills from "./OverviewRecurringBills.vue";
+import TransactionsTable from "@/components/TransactionsTable.vue";
+
+const transactions = [
+  {
+    name: "Movie Tickets",
+    amount: -15.0,
+    date: "2024-04-18",
+  },
+  {
+    name: "Game shop",
+    amount: -20.0,
+    date: "2024-04-18",
+  },
+  {
+    name: "Salary",
+    amount: 1500.0,
+    date: "2024-04-20",
+  },
+  {
+    name: "Family gift",
+    amount: 200.0,
+    date: "2024-04-20",
+  },
+  {
+    name: "Electricity Bill",
+    amount: -100.0,
+    date: "2024-04-20",
+  },
+  {
+    name: "Haircut",
+    amount: -200.0,
+    date: "2024-04-20",
+  },
+];
 </script>
 
 <template>
@@ -17,7 +50,11 @@ import OverviewRecurringBills from "./OverviewRecurringBills.vue";
 
     <div class="overview-main">
       <OverviewPots />
-      <OverviewTransactions />
+      <TransactionsTable
+        link-text="see all"
+        title="transactions"
+        :transactions="transactions"
+      />
       <OverviewBudgets />
       <OverviewRecurringBills />
     </div>
