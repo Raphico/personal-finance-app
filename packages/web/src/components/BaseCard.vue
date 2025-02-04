@@ -11,7 +11,7 @@
   border-radius: 12px;
   background-color: var(--clr-white);
   box-shadow: var(--box-shadow);
-  padding: var(--spacing-250);
+  padding: var(--spacing-300);
 }
 
 @media (min-width: 768px) {

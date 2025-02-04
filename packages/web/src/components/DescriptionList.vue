@@ -1,5 +1,5 @@
 <script setup>
-import { selectRandomColor } from "@/utils/helpers";
+import { selectRandomTheme } from "@/utils/helpers";
 
 defineProps({
   items: {
@@ -14,10 +14,18 @@ defineProps({
     <div
       v-for="item in items"
       :key="item.term"
-      :style="`--color: var(--clr-${selectRandomColor()})`"
+      :style="`--color: var(--clr-${item.theme ?? selectRandomTheme()})`"
     >
-      <dt class="text-preset-5-regular">{{ item.term }}</dt>
-      <dd class="text-preset-4-bold">{{ item.description }}</dd>
+      <dt class="text-preset-5-regular">
+        <slot name="term" :item="item">
+          {{ item.term }}
+        </slot>
+      </dt>
+      <dd class="text-preset-4-bold">
+        <slot name="description" :item="item">
+          {{ item.description }}
+        </slot>
+      </dd>
     </div>
   </dl>
 </template>

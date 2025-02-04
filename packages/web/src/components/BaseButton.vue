@@ -10,7 +10,15 @@ const { variant } = defineProps({
         "tertiary",
         "destroy",
         "outline",
+        "ghost",
       ].includes(value);
+    },
+  },
+  size: {
+    type: String,
+    default: "default",
+    validator(value) {
+      return ["default", "icon", "lg", "sm"].includes(value);
     },
   },
   loading: {
@@ -25,6 +33,7 @@ const { variant } = defineProps({
     :class="{
       button: true,
       [`${variant}-button`]: true,
+      [size]: true,
       'text-preset-4-bold': variant != 'tertiary' && variant != 'outline',
       'text-preset-4-regular': variant == 'tertiary' || variant == 'outline',
     }"
@@ -41,14 +50,33 @@ const { variant } = defineProps({
   justify-content: center;
   gap: 1rem;
   cursor: pointer;
-  padding-inline: 1em;
-  padding-block: 0.5em;
   border: none;
   border-radius: 8px;
   transition-property: background, color, border, opacity;
   transition-timing-function: var(--transition-easing);
   transition-duration: var(--transition-duration);
   text-transform: capitalize;
+  padding: 0;
+}
+
+.default {
+  height: 52px;
+  padding: var(--spacing-100) var(--spacing-200);
+}
+
+.sm {
+  height: 32px;
+  padding: 0 var(--spacing-150);
+}
+
+.lg {
+  height: 40px;
+  padding: 0 var(--spacing-400);
+}
+
+.icon {
+  height: 36px;
+  width: 36px;
 }
 
 .button:disabled {
@@ -108,5 +136,14 @@ const { variant } = defineProps({
 
 .outline-button:disabled {
   color: var(--clr-grey-500);
+}
+
+.ghost-button {
+  background-color: transparent;
+  border: none;
+}
+
+.ghost-button:hover {
+  background-color: var(--clr-beige-100);
 }
 </style>

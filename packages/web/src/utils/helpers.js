@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { z } from "@repo/shared-validators";
-import { colors } from "@/constants";
+import { themes } from "@/constants";
 import { customAlphabet } from "nanoid";
 
 export function getError(error) {
@@ -25,9 +25,9 @@ export function serializeParams(params = {}) {
     .join("&");
 }
 
-export function selectRandomColor() {
-  const randomIndex = Math.floor(Math.random() * colors.length);
-  return colors[randomIndex];
+export function selectRandomTheme() {
+  const randomIndex = Math.floor(Math.random() * themes.length);
+  return themes[randomIndex];
 }
 
 export function formatDate(date) {
@@ -38,12 +38,12 @@ export function formatDate(date) {
   });
 }
 
-export function formatCurrency(amount, currencyCode) {
+export function formatCurrency(amount, currencyCode, displaySign = false) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: currencyCode,
     minimumFractionDigits: 2,
-    signDisplay: "always",
+    signDisplay: displaySign ? "always" : "never",
   }).format(amount);
 }
 /**

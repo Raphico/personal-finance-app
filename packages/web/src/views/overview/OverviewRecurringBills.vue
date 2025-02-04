@@ -3,7 +3,7 @@ import BaseCard from "@/components/BaseCard.vue";
 import BaseCardTitle from "@/components/BaseCardTitle.vue";
 import BaseLink from "@/components/BaseLink.vue";
 import IconCaretRight from "@/components/Icons/IconCaretRight.vue";
-import { formatCurrency, selectRandomColor } from "@/utils/helpers";
+import { formatCurrency, selectRandomTheme } from "@/utils/helpers";
 
 const recurringBills = [
   {
@@ -32,7 +32,7 @@ const recurringBills = [
       <div
         v-for="bill in recurringBills"
         :key="bill.title"
-        :style="`--color: ${selectRandomColor()}`"
+        :style="`--color: ${selectRandomTheme()}`"
       >
         <dt class="text-preset-4-regular">{{ bill.title }}</dt>
         <dd class="text-preset-4-bold">
