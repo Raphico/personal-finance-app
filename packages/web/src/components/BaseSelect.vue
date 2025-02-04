@@ -28,19 +28,17 @@ const target = ref(null);
 const selectedIndex = ref(-1);
 const dropdownId = generateId({ length: 4 });
 
-onClickOutside(target, closeDropdown);
-
-function toggleDropdown() {
+const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
-}
-
-function closeDropdown() {
+};
+const closeDropdown = () => {
   showDropdown.value = false;
-}
-
-function openDropdown() {
+};
+const openDropdown = () => {
   showDropdown.value = true;
-}
+};
+
+onClickOutside(target, closeDropdown);
 
 function updateSelectedOption(index) {
   selectedIndex.value = index;
@@ -102,7 +100,6 @@ async function handleKeyNavigation(event) {
         v-show="showDropdown"
         :id="`select-dropdown-${dropdownId}`"
         role="listbox"
-        :data-state="showDropdown ? 'open' : 'close'"
         class="select-dropdown"
         tabindex="-1"
         aria-labelledby="select-trigger"
@@ -148,12 +145,8 @@ async function handleKeyNavigation(event) {
   max-height: 200px;
   width: 94px;
   overflow-y: auto;
-  display: none;
 }
 
-.select-dropdown[data-state="open"] {
-  display: block;
-}
 .select-dropdown::-webkit-scrollbar {
   width: 7px;
 }

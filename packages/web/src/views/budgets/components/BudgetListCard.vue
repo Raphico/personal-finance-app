@@ -8,6 +8,7 @@ import IconEllipsis from "@/components/Icons/IconEllipsis.vue";
 import { formatCurrency } from "@/utils/helpers";
 import { computed } from "vue";
 import TransactionsTable from "@/components/TransactionsTable.vue";
+import BudgetActions from "./BudgetActions.vue";
 
 const { budget } = defineProps({
   budget: {
@@ -40,9 +41,7 @@ const getRemainingPercentage = computed(() =>
       <CategoryTheme :theme="budget.theme" />
       {{ budget.category }}
     </BaseCardTitle>
-    <BaseButton variant="ghost" size="icon">
-      <IconEllipsis />
-    </BaseButton>
+    <BudgetActions class="budget-actions" />
     <p class="budget-amount text-preset-4-regular">
       Maximum of {{ formatCurrency(budget.amount, "USD") }}
     </p>
@@ -94,8 +93,7 @@ const getRemainingPercentage = computed(() =>
   border-color: var(--clr-grey-200);
 }
 
-.budget-card button {
-  color: var(--clr-grey-300);
+.budget-card .budget-actions {
   grid-row: 1 / 2;
   grid-column: 2 / 3;
   justify-self: end;
