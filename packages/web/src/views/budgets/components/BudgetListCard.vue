@@ -8,7 +8,7 @@ import { computed } from "vue";
 import TransactionsTable from "@/components/TransactionsTable.vue";
 import BudgetActions from "./BudgetActions.vue";
 
-const { budget } = defineProps({
+const props = defineProps({
   budget: {
     type: Object,
     required: true,
@@ -18,18 +18,18 @@ const { budget } = defineProps({
 const spentRemaining = [
   {
     term: "spent",
-    description: formatCurrency(budget.spent, "USD"),
-    theme: budget.theme,
+    description: formatCurrency(props.budget.spent, "USD"),
+    theme: props.budget.theme,
   },
   {
     term: "remaining",
-    description: formatCurrency(budget.spent, "USD"),
+    description: formatCurrency(props.budget.spent, "USD"),
     theme: "beige-100",
   },
 ];
 
 const getRemainingPercentage = computed(() =>
-  Math.round((budget.spent / budget.amount) * 100)
+  Math.round((props.budget.spent / props.budget.amount) * 100)
 );
 </script>
 

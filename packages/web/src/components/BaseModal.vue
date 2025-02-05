@@ -1,11 +1,12 @@
 <script setup>
-import { ref, nextTick } from "vue";
+import { ref, nextTick, computed } from "vue";
 import { generateId } from "@/utils/helpers";
 import BaseButton from "./BaseButton.vue";
 import IconCloseModal from "./Icons/IconCloseModal.vue";
 import PageHeader from "./PageHeader.vue";
 
-defineProps({
+const model = defineModel({ default: false });
+const props = defineProps({
   buttonSize: {
     type: String,
     default: "default",
@@ -14,9 +15,20 @@ defineProps({
     type: String,
     default: "primary",
   },
+  showTrigger: {
+    type: Boolean,
+    default: true,
+  },
 });
 
-const isOpen = ref(false);
+const isOpen = computed({
+  get() {
+    return model.value;
+  },
+  set(value) {
+    model.value = value;
+  },
+});
 const modalRef = ref(null);
 const modalId = generateId({ prefix: "modal", length: 4 });
 
@@ -35,7 +47,12 @@ const closeModal = () => {
 </script>
 
 <template>
-  <BaseButton :size="buttonSize" @click="openModal" :variant="buttonVariant">
+  <BaseButton
+    v-if="showTrigger"
+    :size="buttonSize"
+    @click="openModal"
+    :variant="buttonVariant"
+  >
     <slot name="modalTrigger"></slot>
   </BaseButton>
 
@@ -84,7 +101,7 @@ const closeModal = () => {
           </p>
         </header>
         <main>
-          <slot name="modalBody"></slot>
+          <slot name="modalBody" :closeModal="closeModal"></slot>
         </main>
       </div>
     </div>

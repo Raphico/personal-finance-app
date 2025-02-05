@@ -8,14 +8,20 @@ import BaseSelect from "@/components/BaseSelect.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import CategoryTheme from "@/components/CategoryTheme.vue";
 import { useForm } from "@/composables/useForm";
-import { budgetCategories, themes } from "@/constants";
+import { themes } from "@/constants";
 import BaseCurrencyInput from "@/components/BaseCurrencyInput.vue";
 import BaseInput from "@/components/BaseInput.vue";
 
+const props = defineProps({
+  pot: {
+    type: Object,
+  },
+});
+
 const form = useForm({
-  name: "",
-  target: "",
-  theme: "",
+  name: props.pot?.name ?? "",
+  target: props.pot?.target ?? "",
+  theme: props.pot?.theme ?? "",
 });
 </script>
 
@@ -30,6 +36,7 @@ const form = useForm({
     <BaseFormItem>
       <BaseLabel for="target" :data-error="form.error.target">target</BaseLabel>
       <BaseCurrencyInput
+        :default-value="form.fields.target.toString()"
         @complete="
           (value) => {
             form.fields.target = value;
@@ -44,6 +51,7 @@ const form = useForm({
       <BaseLabel for="theme" :data-error="form.error.theme">theme</BaseLabel>
       <BaseSelect
         id="theme"
+        :default-value="form.fields.theme"
         position="top"
         :options="
           themes.map((theme) => ({

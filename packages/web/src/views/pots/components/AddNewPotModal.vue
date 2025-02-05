@@ -1,6 +1,6 @@
 <script setup>
 import BaseModal from "@/components/BaseModal.vue";
-import AddNewPotForm from "./AddNewPotForm.vue";
+import PotForm from "./PotForm.vue";
 </script>
 
 <template>
@@ -12,7 +12,7 @@ import AddNewPotForm from "./AddNewPotForm.vue";
       you save for special purchases.
     </template>
     <template #modalBody>
-      <AddNewPotForm />
+      <PotForm />
     </template>
   </BaseModal>
 </template>

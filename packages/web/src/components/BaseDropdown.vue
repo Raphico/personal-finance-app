@@ -60,7 +60,7 @@ onClickOutside(dropdownRef, closeDropdown);
         :aria-labelledby="`trigger-${dropdownId}`"
         tabindex="-1"
       >
-        <slot name="dropdownContent"></slot>
+        <slot name="dropdownContent" :closeDropdown="closeDropdown"></slot>
       </div>
     </Transition>
   </div>

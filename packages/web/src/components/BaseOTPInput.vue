@@ -1,7 +1,7 @@
 <script setup>
 import { useTemplateRef, reactive, watch } from "vue";
 
-const { size, isError } = defineProps({
+const props = defineProps({
   size: {
     type: Number,
     default: 6,
@@ -14,7 +14,7 @@ const { size, isError } = defineProps({
 
 const emit = defineEmits(["complete"]);
 
-const otpValues = reactive(Array(size).fill(null));
+const otpValues = reactive(Array(props.size).fill(null));
 const otp = useTemplateRef("otp");
 
 function onkeyup(event, index) {
@@ -49,9 +49,9 @@ function onkeyup(event, index) {
 }
 
 watch(
-  () => isError,
+  () => props.isError,
   () => {
-    if (isError) {
+    if (props.isError) {
       const currentOtpIndex = otpValues.findIndex((value) => !value);
       otp.value.children[currentOtpIndex].focus();
     }

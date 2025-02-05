@@ -2,17 +2,28 @@
 import { ref } from "vue";
 import BaseInput from "./BaseInput.vue";
 
-const parsedAmount = ref("");
-const amount = ref("");
+const props = defineProps({
+  defaultValue: {
+    type: String,
+    default: "",
+  },
+});
+
+const parsedAmount = ref(parseAmount(props.defaultValue));
+const amount = ref(props.defaultValue);
 
 const emits = defineEmits(["complete"]);
 
-function onblur() {
-  if (!amount.value) return;
-  parsedAmount.value = new Intl.NumberFormat("en-US", {
+function parseAmount(amount) {
+  return new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(amount.value);
+  }).format(amount);
+}
+
+function onblur() {
+  if (!amount.value) return;
+  parsedAmount.value = parseAmount(amount.value);
   emits("complete", amount);
 }
 
@@ -22,20 +33,10 @@ function onfocus() {
 
 function onkeydown(event) {
   const key = event.key;
-  const cursorPosition = event.target.selectionStart;
 
   if (/^[0-9]$/.test(key)) {
-    amount.value += key;
+    amount.value = parsedAmount.value;
   }
-
-  if (key == "Backspace" || key == "Delete") {
-    event.preventDefault();
-    amount.value =
-      amount.value.slice(0, cursorPosition - 1) +
-      amount.value.slice(cursorPosition);
-  }
-
-  parsedAmount.value = amount.value;
 }
 </script>
 
@@ -44,8 +45,8 @@ function onkeydown(event) {
     <span class="currency-symbol text-preset-4-regular">$</span>
     <BaseInput
       type="text"
-      :value="parsedAmount"
-      @keydown="onkeydown"
+      v-model="parsedAmount"
+      @keyup="onkeydown"
       @focus.prevent="onfocus"
       @blur.prevent="onblur"
     />

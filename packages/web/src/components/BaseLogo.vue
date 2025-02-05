@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 
-const { size } = defineProps({
+const props = defineProps({
   size: {
     type: String,
     validator(value) {
@@ -10,7 +10,7 @@ const { size } = defineProps({
   },
 });
 
-const getImgWidth = computed(() => (size == "small" ? "14" : "122"));
+const getImgWidth = computed(() => (props.size == "small" ? "14" : "122"));
 </script>
 
 <template>

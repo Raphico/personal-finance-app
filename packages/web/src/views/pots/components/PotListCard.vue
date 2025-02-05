@@ -6,16 +6,22 @@ import EditDeletePotAction from "./EditDeletePotAction.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { formatCurrency } from "@/utils/helpers";
 import { computed } from "vue";
+import EditPotModal from "./EditPotModal.vue";
+import { ref } from "vue";
+import DeletePotModal from "./DeletePotModal.vue";
 
-const { pot } = defineProps({
+const props = defineProps({
   pot: {
     type: Object,
     required: true,
   },
 });
 
+const showEditModal = ref(false);
+const showDeleteModal = ref(false);
+
 const getTotalSavedPercentage = computed(() =>
-  Math.round((pot.totalSaved / pot.target) * 100)
+  Math.round((props.pot.totalSaved / props.pot.target) * 100)
 );
 </script>
 
@@ -25,7 +31,11 @@ const getTotalSavedPercentage = computed(() =>
       <CategoryTheme :theme="pot.theme" />
       {{ pot.name }}
     </BaseCardTitle>
-    <EditDeletePotAction class="edit-delete-action" />
+    <EditDeletePotAction
+      @edit="showEditModal = true"
+      @delete="showDeleteModal = true"
+      class="edit-delete-action"
+    />
     <div class="pot-overview">
       <p class="total-saved text-preset-1">
         <span class="text-preset-4-regular">total saved</span>
@@ -44,6 +54,9 @@ const getTotalSavedPercentage = computed(() =>
     </div>
     <BaseButton variant="secondary">Add money</BaseButton>
     <BaseButton variant="secondary">withdraw</BaseButton>
+
+    <EditPotModal :pot="pot" v-model="showEditModal" />
+    <DeletePotModal :pot="pot" v-model="showDeleteModal" />
   </BaseCard>
 </template>
 

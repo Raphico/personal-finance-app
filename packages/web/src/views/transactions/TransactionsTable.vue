@@ -19,7 +19,7 @@ import { h } from "vue";
 import TransactionsTablePagination from "./components/TransactionsTablePagination.vue";
 import TransactionsTableFilter from "./components/TransactionsTableFilter.vue";
 
-const { transactions } = defineProps({
+const props = defineProps({
   transactions: {
     type: Array,
     required: true,
@@ -75,7 +75,7 @@ const columns = [
   }),
 ];
 
-const data = ref(transactions);
+const data = ref(props.transactions);
 
 const table = useVueTable({
   get data() {

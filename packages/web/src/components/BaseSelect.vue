@@ -8,12 +8,15 @@ import IconCaretDown from "./Icons/IconCaretDown.vue";
 defineOptions({
   inheritAttrs: false,
 });
-const { options } = defineProps({
+const props = defineProps({
   options: {
     type: Array,
     required: true,
     validator: (value) =>
       value.every((opt) => "label" in opt && "value" in opt),
+  },
+  defaultValue: {
+    type: String,
   },
   position: {
     type: String,
@@ -23,10 +26,13 @@ const { options } = defineProps({
 });
 
 const emits = defineEmits(["select"]);
+const indexOfDefaultValue = props.options
+  .map((option) => option.value)
+  .indexOf(props.defaultValue ?? "");
 
 const showDropdown = ref(false);
 const selectRef = ref(null);
-const selectedIndex = ref(0);
+const selectedIndex = ref(indexOfDefaultValue == -1 ? 0 : indexOfDefaultValue);
 const dropdownId = generateId({ length: 4 });
 
 const toggleDropdown = () => {
@@ -44,24 +50,24 @@ onClickOutside(selectRef, closeDropdown);
 function updateSelectedOption(index) {
   selectedIndex.value = index;
   closeDropdown();
-  emits("select", options[index].value);
+  emits("select", props.options[index].value);
 }
 
 function handleKeyNavigation(event) {
   if (!showDropdown.value) return;
 
-  const optionsLength = options.length;
+  const optionsLength = props.options.length;
   switch (event.key) {
     case "ArrowDown":
       event.preventDefault();
       selectedIndex.value = (selectedIndex.value + 1) % optionsLength;
-      emits("select", options[selectedIndex.value].value);
+      emits("select", props.options[selectedIndex.value].value);
       break;
     case "ArrowUp":
       event.preventDefault();
       selectedIndex.value =
         (selectedIndex.value - 1 + optionsLength) % optionsLength;
-      emits("select", options[selectedIndex.value].value);
+      emits("select", props.options[selectedIndex.value].value);
       break;
     case "Enter":
     case " ":

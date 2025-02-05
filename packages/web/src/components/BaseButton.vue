@@ -1,5 +1,5 @@
 <script setup>
-const { variant } = defineProps({
+defineProps({
   variant: {
     type: String,
     default: "primary",
