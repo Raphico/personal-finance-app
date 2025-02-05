@@ -38,7 +38,11 @@ export function formatDate(date) {
   });
 }
 
-export function formatCurrency(amount, currencyCode, displaySign = false) {
+export function formatCurrency(
+  amount,
+  currencyCode = "USD",
+  displaySign = false
+) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: currencyCode,

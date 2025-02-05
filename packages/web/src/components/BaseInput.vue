@@ -14,6 +14,7 @@ input {
   display: block;
   height: 45px;
   border: 1px solid var(--clr-beige-500);
+  width: 100%;
   border-radius: 8px;
   padding: 0 var(--spacing-200);
   outline: none;

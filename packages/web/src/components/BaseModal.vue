@@ -16,21 +16,20 @@ defineProps({
   },
 });
 
-const modalRef = ref(null);
 const isOpen = ref(false);
+const modalRef = ref(null);
 const modalId = generateId({ prefix: "modal", length: 4 });
 
 const openModal = async () => {
   isOpen.value = true;
-  // Wait until DOM updates so the dialog is rendered before calling showModal()
   await nextTick();
-  modalRef.value.showModal();
+  // Move focus to the dialog container for accessibility
+  if (modalRef.value) {
+    modalRef.value.focus();
+  }
 };
 
 const closeModal = () => {
-  if (modalRef.value) {
-    modalRef.value.close();
-  }
   isOpen.value = false;
 };
 </script>
@@ -50,13 +49,17 @@ const closeModal = () => {
   </transition>
 
   <transition name="modal-fade">
-    <dialog
+    <div
       v-if="isOpen"
       :id="modalId"
       ref="modalRef"
+      role="dialog"
       aria-modal="true"
       aria-labelledby="modalTitle"
       aria-describedby="modalDescription"
+      @keydown.esc.prevent="closeModal"
+      class="custom-dialog"
+      tabindex="-1"
     >
       <div class="modal-content">
         <header>
@@ -70,7 +73,7 @@ const closeModal = () => {
             @click="closeModal"
           >
             <IconCloseModal />
-            <span class="sr-only">close modal</span>
+            <span class="sr-only">Close modal</span>
           </BaseButton>
           <p
             class="modal-description text-preset-4-regular"
@@ -83,7 +86,7 @@ const closeModal = () => {
           <slot name="modalBody"></slot>
         </main>
       </div>
-    </dialog>
+    </div>
   </transition>
 </template>
 
@@ -95,23 +98,24 @@ const closeModal = () => {
   z-index: 999;
 }
 
-::backdrop {
-  background: transparent;
-}
-
-:modal {
+.custom-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: grid;
   gap: var(--spacing-200);
   border-radius: 12px;
   background-color: var(--clr-white);
-  border: none;
+  z-index: 1000;
   box-shadow: var(--box-shadow);
   padding: var(--spacing-300);
   width: 90%;
   max-width: 560px;
+  outline: none;
 }
 
-:modal header {
+.custom-dialog header {
   position: relative;
 }
 

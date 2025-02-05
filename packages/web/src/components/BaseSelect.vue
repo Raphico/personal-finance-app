@@ -5,6 +5,9 @@ import { generateId } from "@/utils/helpers";
 import { onClickOutside } from "@vueuse/core";
 import IconCaretDown from "./Icons/IconCaretDown.vue";
 
+defineOptions({
+  inheritAttrs: false,
+});
 const { options } = defineProps({
   options: {
     type: Array,
@@ -12,13 +15,10 @@ const { options } = defineProps({
     validator: (value) =>
       value.every((opt) => "label" in opt && "value" in opt),
   },
-  buttonSize: {
+  position: {
     type: String,
-    default: "sm",
-  },
-  buttonVariant: {
-    type: String,
-    default: "outline",
+    default: "bottom",
+    validator: (value) => ["top", "bottom"].includes(value),
   },
 });
 
@@ -26,7 +26,7 @@ const emits = defineEmits(["select"]);
 
 const showDropdown = ref(false);
 const selectRef = ref(null);
-const selectedIndex = ref(-1);
+const selectedIndex = ref(0);
 const dropdownId = generateId({ length: 4 });
 
 const toggleDropdown = () => {
@@ -80,12 +80,14 @@ function handleKeyNavigation(event) {
   <div class="select-container" ref="selectRef" role="group">
     <BaseButton
       :id="`select-trigger-${dropdownId}`"
-      :variant="buttonVariant"
-      :size="buttonSize"
+      variant="outline"
+      size="md"
+      v-bind="$attrs"
       @keydown="handleKeyNavigation"
       role="combobox"
       :aria-expanded="showDropdown"
       :aria-controls="dropdownId"
+      type="button"
       @click="toggleDropdown"
       @keydown.esc="closeDropdown"
       @keydown.down.prevent="openDropdown"
@@ -93,8 +95,9 @@ function handleKeyNavigation(event) {
       class="select-trigger"
       tabindex="0"
     >
-      <slot v-if="selectedIndex == -1" />
-      <span v-else>{{ options[selectedIndex].value }}</span>
+      <slot name="currentValue" :currentValue="options[selectedIndex].value">
+        <span>{{ options[selectedIndex].value }}</span>
+      </slot>
       <slot name="icon">
         <IconCaretDown />
       </slot>
@@ -107,6 +110,7 @@ function handleKeyNavigation(event) {
         role="listbox"
         class="select-dropdown"
         tabindex="-1"
+        :data-position="position"
         aria-labelledby="select-trigger"
       >
         <!-- eslint-disable-next-line vuejs-accessibility/interactive-supports-focus -->
@@ -137,7 +141,6 @@ function handleKeyNavigation(event) {
 
 .select-dropdown {
   position: absolute;
-  top: 100%;
   right: 0;
   z-index: 20;
   border-radius: 8px;
@@ -147,25 +150,23 @@ function handleKeyNavigation(event) {
   margin-top: var(--spacing-50);
   box-shadow: var(--box-shadow);
   border: 1px solid var(--clr-grey-200);
-  max-height: 200px;
-  width: 94px;
+  max-height: 250px;
+  min-width: 100%;
   overflow-y: auto;
 }
 
-.select-dropdown::-webkit-scrollbar {
-  width: 7px;
+.select-dropdown[data-position="top"] {
+  bottom: calc(100% + 5px);
 }
-.select-dropdown::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 25px;
+
+.select-dropdown[data-position="bottom"] {
+  top: 100%;
 }
-.select-dropdown::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 25px;
-}
+
 .select-dropdown li {
   cursor: pointer;
   padding-bottom: var(--spacing-150);
+  text-wrap: nowrap;
   text-transform: capitalize;
   transition: color var(--transition-duration) var(--transition-easing);
 }
@@ -189,8 +190,8 @@ function handleKeyNavigation(event) {
 
 .select-trigger {
   gap: var(--spacing-100);
-  border-color: var(--clr-grey-200);
-  padding: var(--spacing-100);
+  border-color: var(--clr-beige-500);
+  min-width: 100%;
 }
 
 .slide-enter-active,

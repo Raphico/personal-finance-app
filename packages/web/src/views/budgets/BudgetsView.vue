@@ -2,7 +2,7 @@
 import PageHeader from "@/components/PageHeader.vue";
 import SpendingSummary from "./SpendingSummary.vue";
 import BudgetList from "./components/BudgetList.vue";
-import BaseButton from "@/components/BaseButton.vue";
+import AddNewBudgetModal from "./components/AddNewBudgetModal.vue";
 
 const budgets = [
   {
@@ -88,7 +88,7 @@ const budgets = [
   <div class="budgets-container">
     <header>
       <PageHeader>Budgets</PageHeader>
-      <BaseButton>+ Add new budget</BaseButton>
+      <AddNewBudgetModal />
     </header>
 
     <div class="content">

@@ -15,3 +15,16 @@ export const themes = [
   "gold",
   "orange",
 ];
+
+export const budgetCategories = [
+  "Entertainment",
+  "Bills",
+  "Groceries",
+  "Dining Out",
+  "Transportation",
+  "Personal Care",
+  "Education",
+  "Lifestyle",
+  "Shopping",
+  "General",
+];

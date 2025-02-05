@@ -18,7 +18,7 @@ const { variant } = defineProps({
     type: String,
     default: "default",
     validator(value) {
-      return ["default", "icon", "lg", "sm"].includes(value);
+      return ["default", "icon", "md", "sm"].includes(value);
     },
   },
   loading: {
@@ -61,17 +61,17 @@ const { variant } = defineProps({
 
 .default {
   height: 52px;
-  padding: var(--spacing-100) var(--spacing-200);
+  padding: var(--spacing-250);
+}
+
+.md {
+  height: 45px;
+  padding: var(--spacing-200);
 }
 
 .sm {
   height: 32px;
   padding: 0 var(--spacing-150);
-}
-
-.lg {
-  height: 40px;
-  padding: 0 var(--spacing-400);
 }
 
 .icon {

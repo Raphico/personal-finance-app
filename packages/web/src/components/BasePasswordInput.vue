@@ -2,8 +2,7 @@
 import { computed, reactive } from "vue";
 import IconShowPassword from "./Icons/IconShowPassword.vue";
 import IconHidePassword from "./Icons/IconHidePassword.vue";
-
-const model = defineModel();
+import BaseInput from "./BaseInput.vue";
 
 defineOptions({
   inheritAttrs: false,
@@ -27,12 +26,9 @@ const getButtonLabel = computed(() =>
 </script>
 
 <template>
-  <div class="container">
-    <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
-    <input
+  <div class="password-input-container">
+    <BaseInput
       :type="getInputType"
-      class="text-preset-4-regular"
-      v-model="model"
       v-bind="$attrs"
       data-test="password-input"
     />
@@ -48,38 +44,17 @@ const getButtonLabel = computed(() =>
 </template>
 
 <style scoped>
-.container {
+.password-input-container {
   display: grid;
   grid-template-columns: 1fr 0.1fr;
 }
 
-input {
-  --clr-box-shadow: var(--clr-grey-900);
-
-  display: block;
-  height: 45px;
-  border: 1px solid var(--clr-beige-500);
-  border-radius: 8px;
-  padding: 0 var(--spacing-200);
-  outline: none;
+.password-input-container input {
   grid-column: 1 / 3;
   grid-row: 1 / 2;
-  transition: var(--transition-duration) var(--transition-easing);
-  -webkit-transition: var(--transition-duration) var(--transition-easing);
 }
 
-input[data-error] {
-  --clr-box-shadow: var(--clr-red);
-
-  border-color: var(--clr-red);
-  animation: shake var(--shake-duration);
-}
-
-input:focus {
-  box-shadow: 0 0 0 var(--ring-offset-width) var(--clr-box-shadow);
-}
-
-button {
+.password-input-container button {
   cursor: pointer;
   border: none;
   background-color: transparent;
