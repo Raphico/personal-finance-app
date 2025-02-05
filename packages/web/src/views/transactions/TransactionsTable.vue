@@ -16,8 +16,8 @@ import {
 } from "@tanstack/vue-table";
 import { ref } from "vue";
 import { h } from "vue";
-import TransactionsTablePagination from "./TransactionsTablePagination.vue";
-import TransactionsTableFilter from "./TransactionsTableFilter.vue";
+import TransactionsTablePagination from "./components/TransactionsTablePagination.vue";
+import TransactionsTableFilter from "./components/TransactionsTableFilter.vue";
 
 const { transactions } = defineProps({
   transactions: {

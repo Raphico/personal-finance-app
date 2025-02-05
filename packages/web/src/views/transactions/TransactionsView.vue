@@ -1,7 +1,7 @@
 <script setup>
 import PageHeader from "@/components/PageHeader.vue";
 import TransactionsTable from "./TransactionsTable.vue";
-import BaseButton from "@/components/BaseButton.vue";
+import AddNewTransactionModal from "./components/AddNewTransactionModal.vue";
 
 const transactions = [
   {
@@ -151,7 +151,7 @@ const transactions = [
   <div class="transactions-container">
     <header>
       <PageHeader>Transactions</PageHeader>
-      <BaseButton class="add-transaction-button">+ Add transaction</BaseButton>
+      <AddNewTransactionModal />
     </header>
 
     <TransactionsTable :transactions="transactions" />

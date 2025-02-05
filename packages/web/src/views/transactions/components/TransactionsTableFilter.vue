@@ -23,7 +23,6 @@ const isMobile = computed(() => width.value < 768);
 
     <div>
       <span id="sortLabel" class="label text-preset-4-regular">Sort by</span>
-      >
       <BaseSelect
         id="sort-select"
         aria-labelledby="sortLabel"
@@ -102,6 +101,10 @@ const isMobile = computed(() => width.value < 768);
 @media (max-width: 768px) {
   .search-container input {
     width: 215px;
+  }
+
+  .label {
+    display: none;
   }
 
   .filter-container {

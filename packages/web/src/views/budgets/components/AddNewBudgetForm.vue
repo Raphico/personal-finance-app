@@ -97,9 +97,9 @@ const form = useForm({
   </BaseForm>
 </template>
 
-<style>
-#budgetCategory,
-#theme {
+<style scoped>
+:deep(#budgetCategory),
+:deep(#theme) {
   justify-content: space-between;
 }
 

@@ -1,0 +1,80 @@
+<script setup>
+import BaseAlert from "@/components/BaseAlert.vue";
+import BaseButton from "@/components/BaseButton.vue";
+import BaseCurrencyInput from "@/components/BaseCurrencyInput.vue";
+import BaseForm from "@/components/BaseForm.vue";
+import BaseFormItem from "@/components/BaseFormItem.vue";
+import BaseFormMessage from "@/components/BaseFormMessage.vue";
+import BaseInput from "@/components/BaseInput.vue";
+import BaseLabel from "@/components/BaseLabel.vue";
+import BaseSelect from "@/components/BaseSelect.vue";
+import { useForm } from "@/composables/useForm";
+import { budgetCategories } from "@/constants";
+
+const form = useForm({
+  name: "",
+  category: "",
+  amount: "",
+});
+
+const categories = ["income", ...budgetCategories];
+</script>
+
+<template>
+  <BaseForm>
+    <BaseAlert v-if="form.error.general" :message="form.error.general" />
+    <BaseFormItem>
+      <BaseLabel for="name" :data-error="form.error.name">name</BaseLabel>
+      <BaseInput v-model="form.fields.name" id="name" name="name" />
+      <BaseFormMessage v-if="form.error.name" :message="form.error.name" />
+    </BaseFormItem>
+    <BaseFormItem>
+      <BaseLabel for="category" :data-error="form.error.category"
+        >budget category</BaseLabel
+      >
+      <BaseSelect
+        id="category"
+        :options="
+          categories.map((category) => ({
+            label: category,
+            value: category,
+          }))
+        "
+        @select="
+          (value) => {
+            form.fields.category = value;
+          }
+        "
+      />
+      <BaseFormMessage
+        v-if="form.error.category"
+        :message="form.error.category"
+      />
+    </BaseFormItem>
+    <BaseFormItem>
+      <BaseLabel for="amount" :data-error="form.error.amount">amount</BaseLabel>
+      <BaseCurrencyInput
+        @complete="
+          (value) => {
+            form.fields.amount = value;
+          }
+        "
+        id="amount"
+        name="amount"
+      />
+      <BaseFormMessage v-if="form.error.amount" :message="form.error.amount" />
+    </BaseFormItem>
+    <BaseButton
+      :loading="form.isLoading"
+      :disabled="form.isLoading"
+      type="submit"
+      >add budget</BaseButton
+    >
+  </BaseForm>
+</template>
+
+<style scoped>
+:deep(#category) {
+  justify-content: space-between;
+}
+</style>

@@ -49,6 +49,7 @@ const closeModal = () => {
   </transition>
 
   <transition name="modal-fade">
+    <!-- eslint-disable-next-line vuejs-accessibility/no-static-element-interactions -->
     <div
       v-if="isOpen"
       :id="modalId"
@@ -57,8 +58,8 @@ const closeModal = () => {
       aria-modal="true"
       aria-labelledby="modalTitle"
       aria-describedby="modalDescription"
-      @keydown.esc.prevent="closeModal"
       class="custom-dialog"
+      @keydown.esc.prevent="closeModal"
       tabindex="-1"
     >
       <div class="modal-content">
