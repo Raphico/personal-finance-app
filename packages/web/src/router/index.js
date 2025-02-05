@@ -27,6 +27,11 @@ const router = createRouter({
           name: "budgets",
           component: () => import("@/views/budgets/BudgetsView.vue"),
         },
+        {
+          path: "pots",
+          name: "pots",
+          component: () => import("@/views/pots/PotsView.vue"),
+        },
       ],
     },
     {
