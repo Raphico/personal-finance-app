@@ -1,6 +1,45 @@
 <script setup>
 import PageHeader from "@/components/PageHeader.vue";
 import AddNewPotModal from "./components/AddNewPotModal.vue";
+import PotList from "./components/PotList.vue";
+
+const pots = [
+  {
+    id: 1,
+    name: "savings",
+    target: 2000,
+    totalSaved: 159,
+    theme: "green",
+  },
+  {
+    id: 2,
+    name: "concert ticket",
+    target: 150,
+    totalSaved: 110,
+    theme: "blue",
+  },
+  {
+    id: 3,
+    name: "gift",
+    target: 60,
+    totalSaved: 40,
+    theme: "purple",
+  },
+  {
+    id: 4,
+    name: "new laptop",
+    target: 1000,
+    totalSaved: 10,
+    theme: "navy",
+  },
+  {
+    id: 5,
+    name: "holiday",
+    target: 1440,
+    totalSaved: 531,
+    theme: "yellow",
+  },
+];
 </script>
 
 <template>
@@ -9,6 +48,10 @@ import AddNewPotModal from "./components/AddNewPotModal.vue";
       <PageHeader>Pots</PageHeader>
       <AddNewPotModal />
     </header>
+
+    <div class="content">
+      <PotList :pots="pots" />
+    </div>
   </div>
 </template>
 

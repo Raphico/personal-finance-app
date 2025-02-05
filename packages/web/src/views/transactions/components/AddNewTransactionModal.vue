@@ -5,8 +5,8 @@ import AddNewTransactionForm from "./AddNewTransactionForm.vue";
 
 <template>
   <BaseModal>
-    <template #modalTrigger>
-      + new <span class="hide-on-mobile">transaction</span></template
+    <template #modalTrigger
+      >new <span class="hide-on-mobile">transaction</span></template
     >
     <template #modalTitle>add new transaction</template>
     <template #modalDescription>
