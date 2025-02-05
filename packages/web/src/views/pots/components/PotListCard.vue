@@ -9,6 +9,7 @@ import { computed } from "vue";
 import EditPotModal from "./EditPotModal.vue";
 import { ref } from "vue";
 import DeletePotModal from "./DeletePotModal.vue";
+import AddToPotModal from "./AddToPotModal.vue";
 
 const props = defineProps({
   pot: {
@@ -21,7 +22,7 @@ const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 
 const getTotalSavedPercentage = computed(() =>
-  Math.round((props.pot.totalSaved / props.pot.target) * 100)
+  Math.floor((props.pot.totalSaved / props.pot.target) * 100)
 );
 </script>
 
@@ -52,7 +53,7 @@ const getTotalSavedPercentage = computed(() =>
         Target of {{ formatCurrency(pot.target) }}
       </p>
     </div>
-    <BaseButton variant="secondary">Add money</BaseButton>
+    <AddToPotModal :pot="pot" />
     <BaseButton variant="secondary">withdraw</BaseButton>
 
     <EditPotModal :pot="pot" v-model="showEditModal" />
