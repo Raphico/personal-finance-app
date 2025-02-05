@@ -1,10 +1,8 @@
 <script setup>
-import BaseButton from "@/components/BaseButton.vue";
 import BaseCard from "@/components/BaseCard.vue";
 import BaseCardTitle from "@/components/BaseCardTitle.vue";
 import CategoryTheme from "@/components/CategoryTheme.vue";
 import DescriptionList from "@/components/DescriptionList.vue";
-import IconEllipsis from "@/components/Icons/IconEllipsis.vue";
 import { formatCurrency } from "@/utils/helpers";
 import { computed } from "vue";
 import TransactionsTable from "@/components/TransactionsTable.vue";

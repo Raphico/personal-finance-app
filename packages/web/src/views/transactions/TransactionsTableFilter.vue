@@ -22,11 +22,11 @@ const isMobile = computed(() => width.value < 768);
     </div>
 
     <div>
-      <label for="sort-select" class="label text-preset-4-regular"
-        >Sort by</label
+      <span id="sortLabel" class="label text-preset-4-regular">Sort by</span>
       >
       <BaseSelect
         id="sort-select"
+        aria-labelledby="sortLabel"
         :variant="isMobile ? 'ghost' : 'outline'"
         :size="isMobile ? 'icon' : 'md'"
         :options="[
@@ -45,11 +45,10 @@ const isMobile = computed(() => width.value < 768);
     </div>
 
     <div>
-      <label for="filter-select" class="label text-preset-4-regular"
-        >Category</label
-      >
+      <span id="filterLabel" class="label text-preset-4-regular">Category</span>
       <BaseSelect
         id="filter-select"
+        aria-labelledby="filterLabel"
         :variant="isMobile ? 'ghost' : 'outline'"
         :size="isMobile ? 'icon' : 'md'"
         :options="[
