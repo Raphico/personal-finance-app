@@ -17,7 +17,7 @@ defineProps({
 
 const isOpen = ref(false);
 const dropdownId = generateId({ prefix: "dropdown", length: 4 });
-const target = ref(null);
+const dropdownRef = ref(null);
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
@@ -29,11 +29,11 @@ const openDropdown = () => {
   isOpen.value = true;
 };
 
-onClickOutside(target, closeDropdown);
+onClickOutside(dropdownRef, closeDropdown);
 </script>
 
 <template>
-  <div class="dropdown-container" ref="target">
+  <div class="dropdown-container" ref="dropdownRef">
     <BaseButton
       :id="`trigger-${dropdownId}`"
       class="dropdown-trigger"

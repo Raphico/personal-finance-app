@@ -3,6 +3,7 @@ import BaseButton from "./BaseButton.vue";
 import { ref } from "vue";
 import { generateId } from "@/utils/helpers";
 import { onClickOutside } from "@vueuse/core";
+import IconCaretDown from "./Icons/IconCaretDown.vue";
 
 const { options } = defineProps({
   options: {
@@ -24,7 +25,7 @@ const { options } = defineProps({
 const emits = defineEmits(["select"]);
 
 const showDropdown = ref(false);
-const target = ref(null);
+const selectRef = ref(null);
 const selectedIndex = ref(-1);
 const dropdownId = generateId({ length: 4 });
 
@@ -38,7 +39,7 @@ const openDropdown = () => {
   showDropdown.value = true;
 };
 
-onClickOutside(target, closeDropdown);
+onClickOutside(selectRef, closeDropdown);
 
 function updateSelectedOption(index) {
   selectedIndex.value = index;
@@ -46,7 +47,7 @@ function updateSelectedOption(index) {
   emits("select", options[index].value);
 }
 
-async function handleKeyNavigation(event) {
+function handleKeyNavigation(event) {
   if (!showDropdown.value) return;
 
   const optionsLength = options.length;
@@ -76,7 +77,7 @@ async function handleKeyNavigation(event) {
 </script>
 
 <template>
-  <div class="select-container" ref="target" role="group">
+  <div class="select-container" ref="selectRef" role="group">
     <BaseButton
       :id="`select-trigger-${dropdownId}`"
       :variant="buttonVariant"
@@ -92,7 +93,11 @@ async function handleKeyNavigation(event) {
       class="select-trigger"
       tabindex="0"
     >
-      <slot />
+      <slot v-if="selectedIndex == -1" />
+      <span v-else>{{ options[selectedIndex].value }}</span>
+      <slot name="icon">
+        <IconCaretDown />
+      </slot>
     </BaseButton>
 
     <Transition name="slide">

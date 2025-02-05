@@ -5,8 +5,10 @@ import IconFilterMobile from "@/components/Icons/IconFilterMobile.vue";
 import IconSearch from "@/components/Icons/IconSearch.vue";
 import IconSortMobile from "@/components/Icons/IconSortMobile.vue";
 import { useWindowSize } from "@vueuse/core";
+import { computed } from "vue";
 
 const { width } = useWindowSize();
+const isMobile = computed(() => width.value <= 540);
 </script>
 
 <template>
@@ -20,8 +22,8 @@ const { width } = useWindowSize();
     </div>
     <BaseSelect
       id="sort-select"
-      :button-variant="width <= 540 ? 'ghost' : 'outline'"
-      :size="width <= 540 ? 'icon' : 'sm'"
+      :button-variant="isMobile ? 'ghost' : 'outline'"
+      :size="isMobile ? 'icon' : 'sm'"
       :options="[
         { label: 'latest', value: 'latest' },
         { label: 'oldest', value: 'oldest' },
@@ -30,8 +32,12 @@ const { width } = useWindowSize();
       ]"
       @select="(value) => console.log(value)"
     >
-      <IconSortMobile />
-      <span>sort</span>
+      <template v-if="!isMobile">
+        <span>sort</span>
+      </template>
+      <template v-if="isMobile" #icon>
+        <IconFilterMobile />
+      </template>
     </BaseSelect>
 
     <BaseSelect
@@ -44,8 +50,12 @@ const { width } = useWindowSize();
       ]"
       @select="(value) => console.log(value)"
     >
-      <IconFilterMobile />
-      <span>filter</span>
+      <template v-if="!isMobile">
+        <span>category</span>
+      </template>
+      <template v-if="isMobile" #icon>
+        <IconSortMobile />
+      </template>
     </BaseSelect>
   </div>
 </template>
@@ -77,11 +87,6 @@ const { width } = useWindowSize();
 }
 
 @media (max-width: 540px) {
-  #filter-select span,
-  #sort-select span {
-    display: none;
-  }
-
   .search-container input {
     width: 215px;
   }
