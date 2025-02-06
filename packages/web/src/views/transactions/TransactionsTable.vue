@@ -18,6 +18,7 @@ import { ref } from "vue";
 import { h } from "vue";
 import TransactionsTablePagination from "./components/TransactionsTablePagination.vue";
 import TransactionsTableFilter from "./components/TransactionsTableFilter.vue";
+import TransactionTableRowAction from "./components/TransactionTableRowAction.vue";
 
 const props = defineProps({
   transactions: {
@@ -72,6 +73,11 @@ const columns = [
         formatCurrency(amount, "USD")
       );
     },
+  }),
+  columnHelper.accessor("actions", {
+    id: "actions",
+    header: "",
+    cell: ({ row }) => h(TransactionTableRowAction, { row }),
   }),
 ];
 
@@ -129,7 +135,7 @@ const table = useVueTable({
   color: var(--clr-grey-500);
 }
 
-.transactions-table tbody tr > :last-child:has([data-credit="true"]) {
+.transactions-table tbody tr > :nth-child(4):has([data-credit="true"]) {
   color: var(--clr-green);
 }
 
@@ -145,9 +151,14 @@ const table = useVueTable({
 
   .transactions-table tbody tr {
     display: grid;
-    grid-template-columns: 1.75fr 1fr;
+    grid-template-columns: 1.75fr 1fr 36px;
     grid-template-rows: auto auto;
     padding-block: var(--spacing-200);
+  }
+
+  .transactions-table tbody tr > :last-child {
+    grid-row: 1 / -1;
+    grid-column: 3 / 4;
   }
 
   .transactions-table tbody tr > :first-child {
@@ -170,7 +181,7 @@ const table = useVueTable({
     justify-self: end;
   }
 
-  .transactions-table tbody tr > :last-child {
+  .transactions-table tbody tr > :nth-child(4) {
     grid-row: 1 / 2;
     grid-column: 2 / 3;
     margin: 0;
