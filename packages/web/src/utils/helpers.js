@@ -50,6 +50,11 @@ export function formatCurrency(
     signDisplay: displaySign ? "always" : "never",
   }).format(amount);
 }
+
+export function truncateToTwoDecimals(num) {
+  return Math.trunc(num * 100) / 100;
+}
+
 /**
  * Original source
  * https://github.com/sadmann7/skateshop/blob/main/src/lib/id.ts

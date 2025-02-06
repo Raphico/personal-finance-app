@@ -139,6 +139,7 @@ const closeModal = () => {
 
 #modalTitle {
   text-transform: capitalize;
+  max-width: 400px;
 }
 
 .close-modal {

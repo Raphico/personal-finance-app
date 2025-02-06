@@ -16,8 +16,7 @@ const emits = defineEmits(["complete"]);
 
 function parseAmount(amount) {
   return new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
   }).format(amount);
 }
 

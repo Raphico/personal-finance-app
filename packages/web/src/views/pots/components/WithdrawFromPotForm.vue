@@ -16,32 +16,24 @@ const props = defineProps({
 });
 
 const form = useForm({
-  amountToAdd: "",
+  amountToWithdraw: "",
 });
 
-const getLastTotalSavedPercentage = computed(() =>
-  truncateToTwoDecimals((props.pot.totalSaved / props.pot.target) * 100)
+const getTotalSaved = computed(
+  () => props.pot.totalSaved - Number(form.fields.amountToWithdraw)
 );
-const getAmountToAddPercentage = computed(() =>
-  truncateToTwoDecimals(
-    Math.min(
-      (Number(form.fields.amountToAdd) / props.pot.target) * 100,
-      100 - getLastTotalSavedPercentage.value
-    )
-  )
+const getAmountWithdrawnPercentage = computed(() =>
+  truncateToTwoDecimals((form.fields.amountToWithdraw / props.pot.target) * 100)
+);
+const getAfterWithdrawPercentage = computed(() =>
+  truncateToTwoDecimals((getTotalSaved.value / props.pot.target) * 100)
 );
 const getTotalSavedPercentage = computed(() =>
   truncateToTwoDecimals(
-    Math.min(
-      ((Number(form.fields.amountToAdd) + props.pot.totalSaved) /
-        props.pot.target) *
-        100,
+    ((props.pot.totalSaved - Number(form.fields.amountToWithdraw)) /
+      props.pot.target) *
       100
-    )
   )
-);
-const getTotalSaved = computed(
-  () => Number(form.fields.amountToAdd) + props.pot.totalSaved
 );
 </script>
 
@@ -54,45 +46,44 @@ const getTotalSaved = computed(
       </p>
       <div class="progress">
         <div
-          class="last-progress"
-          :style="`--width: ${getLastTotalSavedPercentage}%;`"
+          class="after-withdraw-progress"
+          :style="`--width: ${getAfterWithdrawPercentage}%;`"
         ></div>
         <div
-          class="amount-to-add-progress {"
-          :style="`--width: ${getAmountToAddPercentage}%; --theme: var(--clr-${pot.theme});`"
+          class="amount-withdrawn-progress {"
+          :style="`--width: ${getAmountWithdrawnPercentage}%;`"
         ></div>
       </div>
-      <p
-        class="target text-preset-5-regular"
-        :style="`--theme: var(--clr-${pot.theme});`"
-      >
+      <p class="target text-preset-5-regular">
         <span>{{ getTotalSavedPercentage }}%</span>
         Target of {{ formatCurrency(pot.target) }}
       </p>
     </div>
     <BaseFormItem>
-      <BaseLabel for="amountToAdd" :data-error="form.error.amountToAdd"
-        >Amount to add</BaseLabel
+      <BaseLabel
+        for="amountToWithdraw"
+        :data-error="form.error.amountToWithdraw"
+        >Amount to withdraw</BaseLabel
       >
       <BaseCurrencyInput
         @complete="
           (value) => {
-            form.fields.amountToAdd = value;
+            form.fields.amountToWithdraw = value;
           }
         "
-        id="amountToAdd"
-        name="amountToAdd"
+        id="amountToWithdraw"
+        name="amountToWithdraw"
       />
       <BaseFormMessage
-        v-if="form.error.amountToAdd"
-        :message="form.error.amountToAdd"
+        v-if="form.error.amountToWithdraw"
+        :message="form.error.amountToWithdraw"
       />
     </BaseFormItem>
     <BaseButton
       :loading="form.isLoading"
       :disabled="form.isLoading"
       type="submit"
-      >confirm addition</BaseButton
+      >confirm withdrawal</BaseButton
     >
   </BaseForm>
 </template>
@@ -125,23 +116,23 @@ const getTotalSaved = computed(
   background-color: var(--clr-beige-100);
 }
 
-.last-progress {
+.after-withdraw-progress {
   width: var(--width);
   height: 8px;
   background-color: var(--clr-grey-900);
   border-radius: 4px 0 0 4px;
 }
 
-.amount-to-add-progress {
+.amount-withdrawn-progress {
   width: var(--width);
   height: 8px;
   border-radius: 4px;
   border-radius: 0 4px 4px 0;
-  background-color: var(--theme);
+  background-color: var(--clr-red);
 }
 
 .target span {
-  color: var(--theme);
+  color: var(--clr-red);
   font-weight: bold;
 }
 
