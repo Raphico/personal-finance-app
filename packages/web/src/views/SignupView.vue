@@ -34,7 +34,7 @@ const form = useForm({
   password: "",
 });
 
-function onsubmit() {
+function onSubmit() {
   form.submit(
     async (fields) => {
       const { name, email, password } = fields;
@@ -58,7 +58,7 @@ function onsubmit() {
 
 <template>
   <PageHeader>Sign up</PageHeader>
-  <BaseForm @submit.prevent="onsubmit" novalidate>
+  <BaseForm @submit.prevent="onSubmit" novalidate>
     <BaseAlert v-if="form.error.general" :message="form.error.general" />
     <BaseFormItem>
       <BaseLabel for="name" :data-error="form.error.name">name</BaseLabel>

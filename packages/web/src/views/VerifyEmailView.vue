@@ -32,7 +32,7 @@ const form = useForm({
   code: "",
 });
 
-function onsubmit() {
+function onSubmit() {
   form.submit(
     async (fields) => {
       const { code } = fields;
@@ -87,7 +87,7 @@ function resendCode() {
     <p class="desc text-preset-4-regular text-center">
       Enter the verification code sent to your email to continue
     </p>
-    <BaseForm @submit.prevent="onsubmit">
+    <BaseForm @submit.prevent="onSubmit">
       <BaseAlert v-if="form.error.general" :message="form.error.general" />
       <BaseOTPInput
         :is-error="!!form.error.code"

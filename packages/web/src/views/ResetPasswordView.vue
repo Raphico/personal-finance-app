@@ -31,7 +31,7 @@ const form = useForm({
   password: "",
 });
 
-function onsubmit() {
+function onSubmit() {
   form.submit(
     async (fields) => {
       const { password } = fields;
@@ -54,7 +54,7 @@ function onsubmit() {
 
 <template>
   <PageHeader>Reset password</PageHeader>
-  <BaseForm @submit.prevent="onsubmit">
+  <BaseForm @submit.prevent="onSubmit">
     <BaseFormItem>
       <BaseAlert v-if="form.error.general" :message="form.error.general" />
       <BaseLabel :data-error="form.error.password" for="newPassword"

@@ -39,7 +39,7 @@ const form = useForm({
   password: "",
 });
 
-function onsubmit() {
+function onSubmit() {
   form.submit(
     (fields) => {
       const { email, password } = fields;
@@ -73,7 +73,7 @@ function onsubmit() {
 
 <template>
   <PageHeader>Login</PageHeader>
-  <BaseForm @submit.prevent="onsubmit" novalidate>
+  <BaseForm @submit.prevent="onSubmit" novalidate>
     <BaseAlert v-if="form.error.general" :message="form.error.general" />
     <BaseFormItem>
       <BaseLabel for="email" :data-error="form.error.email">email</BaseLabel>

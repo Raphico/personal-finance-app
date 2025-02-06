@@ -31,7 +31,7 @@ const form = useForm({
   email: urlEncodedEmail,
 });
 
-function onsubmit() {
+function onSubmit() {
   form.submit(
     async (fields) => {
       const { email } = fields;
@@ -58,7 +58,7 @@ function onsubmit() {
     Enter your email address and we will send instructions to reset your
     password
   </p>
-  <BaseForm @submit.prevent="onsubmit" novalidate>
+  <BaseForm @submit.prevent="onSubmit" novalidate>
     <BaseAlert v-if="form.error.general" :message="form.error.general" />
     <BaseFormItem>
       <BaseLabel for="email" :data-error="form.error.email">email</BaseLabel>
