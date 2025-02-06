@@ -54,11 +54,7 @@ const categories = ["income", ...budgetCategories];
     <BaseFormItem>
       <BaseLabel for="amount" :data-error="form.error.amount">amount</BaseLabel>
       <BaseCurrencyInput
-        @complete="
-          (value) => {
-            form.fields.amount = value;
-          }
-        "
+        v-model="form.fields.amount"
         id="amount"
         name="amount"
       />

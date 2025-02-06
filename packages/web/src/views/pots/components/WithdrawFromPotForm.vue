@@ -66,11 +66,7 @@ const getTotalSavedPercentage = computed(() =>
         >Amount to withdraw</BaseLabel
       >
       <BaseCurrencyInput
-        @complete="
-          (value) => {
-            form.fields.amountToWithdraw = value;
-          }
-        "
+        v-model="form.fields.amountToWithdraw"
         id="amountToWithdraw"
         name="amountToWithdraw"
       />

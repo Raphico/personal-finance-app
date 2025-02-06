@@ -75,11 +75,7 @@ const getTotalSaved = computed(
         >Amount to add</BaseLabel
       >
       <BaseCurrencyInput
-        @complete="
-          (value) => {
-            form.fields.amountToAdd = value;
-          }
-        "
+        v-model="form.fields.amountToAdd"
         id="amountToAdd"
         name="amountToAdd"
       />

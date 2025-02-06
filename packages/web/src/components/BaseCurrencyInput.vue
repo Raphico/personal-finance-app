@@ -1,41 +1,32 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import BaseInput from "./BaseInput.vue";
 
-const props = defineProps({
-  defaultValue: {
-    type: String,
-    default: "",
+const model = defineModel({ default: "" });
+const isFocused = ref(false);
+const displayValue = computed({
+  get() {
+    return isFocused.value ? model.value : parseAmount(model.value);
+  },
+  set(value) {
+    model.value = value;
   },
 });
 
-const parsedAmount = ref(parseAmount(props.defaultValue));
-const amount = ref(props.defaultValue);
-
-const emits = defineEmits(["complete"]);
-
 function parseAmount(amount) {
+  const num = parseFloat(amount);
+  if (isNaN(num)) return amount;
   return new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
   }).format(amount);
 }
 
-function onblur() {
-  if (!amount.value) return;
-  parsedAmount.value = parseAmount(amount.value);
-  emits("complete", amount);
+function onBlur() {
+  isFocused.value = false;
 }
 
-function onfocus() {
-  parsedAmount.value = amount.value;
-}
-
-function onkeydown(event) {
-  const key = event.key;
-
-  if (/^[0-9]$/.test(key)) {
-    amount.value = parsedAmount.value;
-  }
+function onFocus() {
+  isFocused.value = true;
 }
 </script>
 
@@ -44,10 +35,9 @@ function onkeydown(event) {
     <span class="currency-symbol text-preset-4-regular">$</span>
     <BaseInput
       type="text"
-      v-model="parsedAmount"
-      @keyup="onkeydown"
-      @focus.prevent="onfocus"
-      @blur.prevent="onblur"
+      v-model="displayValue"
+      @blur="onBlur"
+      @focus="onFocus"
     />
   </div>
 </template>

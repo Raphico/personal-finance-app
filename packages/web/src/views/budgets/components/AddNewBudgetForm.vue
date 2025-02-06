@@ -49,11 +49,7 @@ const form = useForm({
         >maximum spend</BaseLabel
       >
       <BaseCurrencyInput
-        @complete="
-          (value) => {
-            form.fields.maximumSpend = value;
-          }
-        "
+        v-model="form.fields.maximumSpend"
         id="maximumSpend"
         name="maximumSpend"
       />

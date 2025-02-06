@@ -36,12 +36,7 @@ const form = useForm({
     <BaseFormItem>
       <BaseLabel for="target" :data-error="form.error.target">target</BaseLabel>
       <BaseCurrencyInput
-        :default-value="form.fields.target.toString()"
-        @complete="
-          (value) => {
-            form.fields.target = value;
-          }
-        "
+        v-model="form.fields.target"
         id="target"
         name="target"
       />
