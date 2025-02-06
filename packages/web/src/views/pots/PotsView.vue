@@ -2,6 +2,17 @@
 import PageHeader from "@/components/PageHeader.vue";
 import AddNewPotModal from "./components/AddNewPotModal.vue";
 import PotList from "./components/PotList.vue";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Pots - Personal Finance App",
+  meta: [
+    {
+      name: "description",
+      content: "Personal finance app pots page",
+    },
+  ],
+});
 
 const pots = [
   {

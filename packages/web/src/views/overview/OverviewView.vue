@@ -5,6 +5,17 @@ import OverviewSummary from "./OverviewSummary.vue";
 import OverviewBudgets from "./OverviewBudgets.vue";
 import OverviewRecurringBills from "./OverviewRecurringBills.vue";
 import TransactionsTable from "@/components/TransactionsTable.vue";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Overview - Personal Finance App",
+  meta: [
+    {
+      name: "description",
+      content: "Personal finance app overview page",
+    },
+  ],
+});
 
 const transactions = [
   {

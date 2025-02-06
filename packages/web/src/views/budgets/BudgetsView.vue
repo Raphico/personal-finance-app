@@ -3,6 +3,17 @@ import PageHeader from "@/components/PageHeader.vue";
 import SpendingSummary from "./SpendingSummary.vue";
 import BudgetList from "./components/BudgetList.vue";
 import AddNewBudgetModal from "./components/AddNewBudgetModal.vue";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Budgets - Personal Finance App",
+  meta: [
+    {
+      name: "description",
+      content: "Personal finance app budgets page",
+    },
+  ],
+});
 
 const budgets = [
   {

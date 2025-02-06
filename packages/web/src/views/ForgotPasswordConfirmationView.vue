@@ -2,6 +2,17 @@
 import { useRedirect } from "@/composables/useRedirect";
 import BaseButton from "@/components/BaseButton.vue";
 import PageHeader from "@/components/PageHeader.vue";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Forgot password confirmation - Personal Finance App",
+  meta: [
+    {
+      name: "description",
+      content: "Personal finance app forgot password confirmation page",
+    },
+  ],
+});
 
 const { redirect, urlEncodedEmail, goTo } = useRedirect();
 </script>

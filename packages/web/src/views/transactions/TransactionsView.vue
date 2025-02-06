@@ -2,6 +2,17 @@
 import PageHeader from "@/components/PageHeader.vue";
 import TransactionsTable from "./TransactionsTable.vue";
 import AddNewTransactionModal from "./components/AddNewTransactionModal.vue";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Transactions - Personal Finance App",
+  meta: [
+    {
+      name: "description",
+      content: "Personal finance app transactions page",
+    },
+  ],
+});
 
 const transactions = [
   {
