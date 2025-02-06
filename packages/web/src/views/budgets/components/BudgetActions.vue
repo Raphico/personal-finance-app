@@ -2,6 +2,8 @@
 import BaseDropdown from "@/components/BaseDropdown.vue";
 import BaseDropdownItem from "@/components/BaseDropdownItem.vue";
 import IconEllipsis from "@/components/Icons/IconEllipsis.vue";
+
+defineEmits(["delete", "edit"]);
 </script>
 
 <template>
@@ -10,11 +12,27 @@ import IconEllipsis from "@/components/Icons/IconEllipsis.vue";
       <IconEllipsis class="icon" />
       <span class="sr-only">budget actions</span>
     </template>
-    <template #dropdownContent>
-      <BaseDropdownItem class="edit-budget text-preset-4-regular">
+    <template #dropdownContent="slotProps">
+      <BaseDropdownItem
+        @click="
+          () => {
+            $emit('edit');
+            slotProps.closeDropdown();
+          }
+        "
+        class="edit-budget text-preset-4-regular"
+      >
         edit budget
       </BaseDropdownItem>
-      <BaseDropdownItem class="delete-budget text-preset-4-regular">
+      <BaseDropdownItem
+        @click="
+          () => {
+            $emit('delete');
+            slotProps.closeDropdown();
+          }
+        "
+        class="delete-budget text-preset-4-regular"
+      >
         delete budget
       </BaseDropdownItem>
     </template>

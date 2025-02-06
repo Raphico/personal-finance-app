@@ -1,6 +1,6 @@
 <script setup>
 import BaseModal from "@/components/BaseModal.vue";
-import AddNewBudgetForm from "./AddNewBudgetForm.vue";
+import BudgetForm from "./BudgetForm.vue";
 </script>
 
 <template>
@@ -12,7 +12,7 @@ import AddNewBudgetForm from "./AddNewBudgetForm.vue";
       monitor spending.</template
     >
     <template #modalBody>
-      <AddNewBudgetForm />
+      <BudgetForm />
     </template>
   </BaseModal>
 </template>

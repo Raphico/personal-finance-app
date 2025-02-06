@@ -4,9 +4,11 @@ import BaseCardTitle from "@/components/BaseCardTitle.vue";
 import CategoryTheme from "@/components/CategoryTheme.vue";
 import DescriptionList from "@/components/DescriptionList.vue";
 import { formatCurrency } from "@/utils/helpers";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import TransactionsTable from "@/components/TransactionsTable.vue";
 import BudgetActions from "./BudgetActions.vue";
+import DeleteBudgetModal from "./DeleteBudgetModal.vue";
+import EditBudgetModal from "./EditBudgetModal.vue";
 
 const props = defineProps({
   budget: {
@@ -14,6 +16,9 @@ const props = defineProps({
     required: true,
   },
 });
+
+const showDeleteModal = ref(false);
+const showEditModal = ref(false);
 
 const spentRemaining = [
   {
@@ -39,7 +44,11 @@ const getRemainingPercentage = computed(() =>
       <CategoryTheme :theme="budget.theme" />
       {{ budget.category }}
     </BaseCardTitle>
-    <BudgetActions class="budget-actions" />
+    <BudgetActions
+      @delete="showDeleteModal = true"
+      @edit="showEditModal = true"
+      class="budget-actions"
+    />
     <p class="budget-amount text-preset-4-regular">
       Maximum of {{ formatCurrency(budget.amount, "USD") }}
     </p>
@@ -56,6 +65,9 @@ const getRemainingPercentage = computed(() =>
       link-text="see all"
       title="latest spending"
     />
+
+    <DeleteBudgetModal :budget="budget" v-model="showDeleteModal" />
+    <EditBudgetModal :budget="budget" v-model="showEditModal" />
   </BaseCard>
 </template>
 

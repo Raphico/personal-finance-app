@@ -11,10 +11,16 @@ import { useForm } from "@/composables/useForm";
 import { budgetCategories, themes } from "@/constants";
 import BaseCurrencyInput from "@/components/BaseCurrencyInput.vue";
 
+const props = defineProps({
+  budget: {
+    type: Object,
+  },
+});
+
 const form = useForm({
-  budgetCategory: "",
-  maximumSpend: "",
-  theme: "",
+  budgetCategory: props.budget?.category ?? "",
+  maximumSpend: props.budget?.amount ?? "",
+  theme: props.budget?.theme ?? "",
 });
 </script>
 
@@ -27,6 +33,7 @@ const form = useForm({
       >
       <BaseSelect
         id="budgetCategory"
+        :default-value="form.fields.budgetCategory"
         :options="
           budgetCategories.map((category) => ({
             label: category,
@@ -63,6 +70,7 @@ const form = useForm({
       <BaseSelect
         id="theme"
         position="top"
+        :default-value="form.fields.theme"
         :options="
           themes.map((theme) => ({
             label: theme,
