@@ -63,6 +63,10 @@
   --box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 
   --ring-offset-width: 1px;
+
+  /* VueDatePicker styling */
+  --dp-border-radius: 8px;
+  --dp-input-padding: 0.605rem;
 }
 
 *,
@@ -213,4 +217,11 @@ input[type="number"] {
   to {
     transform: none;
   }
+}
+
+/* VueDatePicker */
+.dp__theme_light {
+  --dp-border-color: var(--clr-beige-500);
+  --dp-border-color-hover: var(--clr-beige-500);
+  --dp-border-color-focus: var(--clr-beige-500);
 }

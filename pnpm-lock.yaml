@@ -161,6 +161,9 @@ importers:
       "@unhead/vue":
         specifier: ^1.11.15
         version: 1.11.15(vue@3.5.13(typescript@5.7.2))
+      "@vuepic/vue-datepicker":
+        specifier: ^11.0.1
+        version: 11.0.1(vue@3.5.13(typescript@5.7.2))
       "@vueuse/core":
         specifier: ^12.5.0
         version: 12.5.0(typescript@5.7.2)
@@ -2913,6 +2916,15 @@ packages:
         integrity: sha512-FMxEjOpYNYiFe0GkaHsnJPXFHxQ6m4t8vI/ElPGpMWxZKpmRvQ33OIrvRXemy6yha03RxhOlQuy+gZMC3CQSow==,
       }
 
+  "@vuepic/vue-datepicker@11.0.1":
+    resolution:
+      {
+        integrity: sha512-xtGbgZAftBiU1H8pwM54vOCutLzEHsHiolRuDn+memTjqpfzT0x1Ml1tykJ53PLvdkCTyb6sB+1muv5Gsd4nQA==,
+      }
+    engines: { node: ">=18.12.0" }
+    peerDependencies:
+      vue: ">=3.3.0"
+
   "@vueuse/core@12.5.0":
     resolution:
       {
@@ -3764,6 +3776,12 @@ packages:
         integrity: sha512-ZYP5VBHshaDAiVZxjbRVcFJpc+4xGgT0bK3vzy1HLN8jTO975HEbuYzZJcHoQEY5K1a0z8YayJkyVETa08eNTg==,
       }
     engines: { node: ">=18" }
+
+  date-fns@4.1.0:
+    resolution:
+      {
+        integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==,
+      }
 
   debug@2.6.9:
     resolution:
@@ -10023,6 +10041,11 @@ snapshots:
       js-beautify: 1.15.1
       vue-component-type-helpers: 2.2.0
 
+  "@vuepic/vue-datepicker@11.0.1(vue@3.5.13(typescript@5.7.2))":
+    dependencies:
+      date-fns: 4.1.0
+      vue: 3.5.13(typescript@5.7.2)
+
   "@vueuse/core@12.5.0(typescript@5.7.2)":
     dependencies:
       "@types/web-bluetooth": 0.0.20
@@ -10525,6 +10548,8 @@ snapshots:
     dependencies:
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.1.0
+
+  date-fns@4.1.0: {}
 
   debug@2.6.9:
     dependencies:

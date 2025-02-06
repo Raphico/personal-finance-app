@@ -2,6 +2,7 @@
 import BaseAlert from "@/components/BaseAlert.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseCurrencyInput from "@/components/BaseCurrencyInput.vue";
+import BaseDatePicker from "@/components/BaseDatePicker.vue";
 import BaseForm from "@/components/BaseForm.vue";
 import BaseFormItem from "@/components/BaseFormItem.vue";
 import BaseFormMessage from "@/components/BaseFormMessage.vue";
@@ -15,6 +16,7 @@ const form = useForm({
   name: "",
   category: "",
   amount: "",
+  transactionDate: "",
 });
 
 const categories = ["income", ...budgetCategories];
@@ -30,7 +32,7 @@ const categories = ["income", ...budgetCategories];
     </BaseFormItem>
     <BaseFormItem>
       <BaseLabel for="category" :data-error="form.error.category"
-        >budget category</BaseLabel
+        >category</BaseLabel
       >
       <BaseSelect
         id="category"
@@ -50,6 +52,12 @@ const categories = ["income", ...budgetCategories];
         v-if="form.error.category"
         :message="form.error.category"
       />
+    </BaseFormItem>
+    <BaseFormItem>
+      <BaseLabel for="transactionDate" :data-error="form.error.transactionDate">
+        Transaction date
+      </BaseLabel>
+      <BaseDatePicker v-model="form.fields.transactionDate" />
     </BaseFormItem>
     <BaseFormItem>
       <BaseLabel for="amount" :data-error="form.error.amount">amount</BaseLabel>
