@@ -1,6 +1,7 @@
 <script setup>
 import BaseAlert from "@/components/BaseAlert.vue";
 import BaseButton from "@/components/BaseButton.vue";
+import BaseCheckbox from "@/components/BaseCheckbox.vue";
 import BaseCurrencyInput from "@/components/BaseCurrencyInput.vue";
 import BaseDatePicker from "@/components/BaseDatePicker.vue";
 import BaseForm from "@/components/BaseForm.vue";
@@ -17,6 +18,7 @@ const form = useForm({
   category: "",
   amount: "",
   transactionDate: "",
+  isRecurring: false,
 });
 
 const categories = ["income", ...budgetCategories];
@@ -68,6 +70,20 @@ const categories = ["income", ...budgetCategories];
       />
       <BaseFormMessage v-if="form.error.amount" :message="form.error.amount" />
     </BaseFormItem>
+    <BaseFormItem class="recurring">
+      <BaseLabel for="isRecurring" :data-error="form.error.isRecurring"
+        >Set as recurring</BaseLabel
+      >
+      <BaseCheckbox
+        v-model="form.fields.isRecurring"
+        id="isRecurring"
+        name="isRecurring"
+      />
+      <BaseFormMessage
+        v-if="form.error.isRecurring"
+        :message="form.error.isRecurring"
+      />
+    </BaseFormItem>
     <BaseButton
       :loading="form.isLoading"
       :disabled="form.isLoading"
@@ -80,5 +96,11 @@ const categories = ["income", ...budgetCategories];
 <style scoped>
 :deep(#category) {
   justify-content: space-between;
+}
+
+.recurring {
+  display: flex;
+  gap: var(--spacing-50);
+  align-items: center;
 }
 </style>

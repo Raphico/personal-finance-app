@@ -32,6 +32,12 @@ const router = createRouter({
           name: "pots",
           component: () => import("@/views/pots/PotsView.vue"),
         },
+        {
+          path: "recurring-bills",
+          name: "recurring-bills",
+          component: () =>
+            import("@/views/recurringBills/RecurringBillsView.vue"),
+        },
       ],
     },
     {

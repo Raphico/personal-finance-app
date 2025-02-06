@@ -143,7 +143,7 @@ nav ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-100) var(--spacing-150) 0;
+  padding: var(--spacing-100) var(--spacing-200) 0 var(--spacing-150);
   list-style: none;
 }
 

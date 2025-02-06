@@ -3,5 +3,5 @@ const model = defineModel();
 </script>
 
 <template>
-  <VueDatePicker v-model="model" utc />
+  <VueDatePicker v-model="model" utc :enable-time-picker="false" />
 </template>
