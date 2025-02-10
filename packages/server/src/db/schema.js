@@ -64,7 +64,7 @@ export const budgets = pgTable("budgets", {
 
 export const pots = pgTable("pots", {
   id: varchar("id", { length: 25 }).$default(createId).primaryKey(),
-  name: varchar("name", { length: 30 }).notNull(),
+  name: varchar("name", { length: 30 }).unique().notNull(),
   userId: varchar("user_id", { length: 25 })
     .notNull()
     .references(() => users.id),
@@ -72,6 +72,6 @@ export const pots = pgTable("pots", {
   totalSaved: decimal("total_saved", { precision: 10, scale: 2 })
     .default(0)
     .notNull(),
-  theme: themeEnum("theme").notNull(),
+  theme: themeEnum("theme").unique().notNull(),
   ...timestamps,
 });

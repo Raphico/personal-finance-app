@@ -6,6 +6,7 @@
     "./auth": "./auth.js",
     "./transactions": "./transactions.js",
     "./budgets": "./budgets.js",
+    "./pots": "./pots.js",
     ".": "./index.js"
   },
   "dependencies": {
