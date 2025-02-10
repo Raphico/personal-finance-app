@@ -11,7 +11,7 @@ export const budgetCategories = [
   "general",
 ];
 
-export const transactionCategories = ["income", ...budgetCategories];
+export const transactionCategories = ["income", "pot", ...budgetCategories];
 
 export const themes = [
   "green",

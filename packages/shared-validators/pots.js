@@ -20,4 +20,16 @@ export const potSchema = z.object({
   }),
 });
 
+export const addWithdrawMoneySchema = z.object({
+  amount: z.coerce
+    .number({ required_error: "amount is required" })
+    .min(-1_000_000, {
+      message: "withdrawal amount must not exceed $1,000,000",
+    })
+    .max(1_000_000, { message: "deposit amount must not exceed $1,000,000" })
+    .refine((amount) => amount !== 0, {
+      message: "amount cannot be zero",
+    }),
+});
+
 export const updatePotSchema = potSchema.partial();
