@@ -13,3 +13,5 @@ export const budgetSchema = z.object({
     message: "invalid theme",
   }),
 });
+
+export const updateBudgetSchema = budgetSchema.partial();
