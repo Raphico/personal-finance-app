@@ -60,6 +60,13 @@ export const updateBudget = asyncHandler(
         theme: budgets.theme,
       });
 
+    if (!budget) {
+      throw new ApiError({
+        message: "budget not found",
+        status: 404,
+      });
+    }
+
     response.status(200).json({
       data: {
         id: budget.id,

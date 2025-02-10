@@ -3,6 +3,7 @@ import { db } from "../../db/index.js";
 import { transactions } from "../../db/schema.js";
 import { and, eq } from "drizzle-orm";
 import { ApiResponse } from "../../utils/api-response.js";
+import { ApiError } from "../../utils/api-error.js";
 
 export const markTransactionAsVoid = asyncHandler(
   async function markTransactionAsVoid(request, response) {
@@ -18,10 +19,17 @@ export const markTransactionAsVoid = asyncHandler(
       )
       .returning({ id: transactions.id, status: transactions.status });
 
+    if (!transaction) {
+      throw new ApiError({
+        message: "transaction not found",
+        status: 404,
+      });
+    }
+
     response.status(200).json(
       new ApiResponse({
         data: transaction,
-        message: "transaction voided succesfully",
+        message: "transaction voided successfully",
         status: "ok",
       })
     );
