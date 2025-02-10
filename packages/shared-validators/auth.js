@@ -22,6 +22,7 @@ export const loginSchema = z.object({
 export const signupSchema = z.object({
   name: z
     .string({ required_error: "Please provide a name" })
+    .toLowerCase()
     .min(3, { message: "name must be at least 3 characters long" })
     .max(100, { message: "name must be less than 100 characters long" }),
   email: emailSchema.shape.email,

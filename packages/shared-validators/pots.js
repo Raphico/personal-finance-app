@@ -4,6 +4,7 @@ import { z } from "zod";
 export const potSchema = z.object({
   name: z
     .string({ required_error: "pot name is required" })
+    .toLowerCase()
     .min(3, {
       message: "name must be at least 3 characters",
     })
@@ -18,3 +19,5 @@ export const potSchema = z.object({
     message: "invalid theme",
   }),
 });
+
+export const updatePotSchema = potSchema.partial();

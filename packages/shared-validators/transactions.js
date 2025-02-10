@@ -4,6 +4,7 @@ import { transactionCategories } from "@repo/shared-config";
 export const transactionSchema = z.object({
   name: z
     .string({ required_error: "transaction name is required" })
+    .toLowerCase()
     .min(3, { message: "name must be at least 3 characters" })
     .max(30, { message: "name must not exceed 30 characters" }),
   category: z.enum([transactionCategories], {
