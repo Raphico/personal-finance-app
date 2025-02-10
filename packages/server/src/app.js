@@ -16,6 +16,7 @@ import authRoute from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 import healthRoute from "./routes/health.route.js";
 import transactionsRoute from "./routes/transactions.route.js";
+import budgetsRoute from "./routes/budgets.route.js";
 
 const __filePath = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filePath);
@@ -51,6 +52,7 @@ app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/health", healthRoute);
 app.use("/api/v1/transactions", transactionsRoute);
+app.use("/api/v1/budgets", budgetsRoute);
 
 app.use(
   "/",

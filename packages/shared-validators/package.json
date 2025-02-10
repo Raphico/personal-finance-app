@@ -5,6 +5,7 @@
   "exports": {
     "./auth": "./auth.js",
     "./transactions": "./transactions.js",
+    "./budgets": "./budgets.js",
     ".": "./index.js"
   },
   "dependencies": {

@@ -36,7 +36,7 @@ export const addNewTransaction = asyncHandler(
         category: transactions.category,
       });
 
-    response.status(200).json(
+    response.status(201).json(
       new ApiResponse({
         data: transaction,
         message: "transaction added successfully",

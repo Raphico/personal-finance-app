@@ -56,9 +56,9 @@ export const budgets = pgTable("budgets", {
   userId: varchar("user_id", { length: 25 })
     .notNull()
     .references(() => users.id),
-  category: budgetCategoryEnum("category").notNull(),
+  category: budgetCategoryEnum("category").unique().notNull(),
   maximumSpend: decimal("maximum_spend", { precision: 10, scale: 2 }).notNull(),
-  theme: themeEnum("theme").notNull(),
+  theme: themeEnum("theme").unique().notNull(),
   ...timestamps,
 });
 
