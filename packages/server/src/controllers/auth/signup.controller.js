@@ -41,7 +41,7 @@ export const signup = asyncHandler(async function signup(request, response) {
   const hashedPassword = await bcrypt.hash(password, 10);
   const { unHashedCode, hashedCode, expiresAt } = generateVerificationCode();
 
-  const user = await db
+  const [user] = await db
     .insert(users)
     .values({
       name,

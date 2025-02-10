@@ -4,9 +4,11 @@
   "type": "module",
   "exports": {
     "./auth": "./auth.js",
+    "./transactions": "./transactions.js",
     ".": "./index.js"
   },
   "dependencies": {
+    "@repo/shared-config": "workspace:*",
     "zod": "^3.24.1"
   }
 }

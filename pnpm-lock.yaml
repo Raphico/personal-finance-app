@@ -67,6 +67,12 @@ importers:
       "@paralleldrive/cuid2":
         specifier: ^2.2.2
         version: 2.2.2
+      "@repo/shared-config":
+        specifier: workspace:*
+        version: link:../shared-config
+      "@repo/shared-validators":
+        specifier: workspace:*
+        version: link:../shared-validators
       bcrypt:
         specifier: ^5.1.1
         version: 5.1.1
@@ -134,9 +140,6 @@ importers:
       "@repo/eslint-config":
         specifier: workspace:*
         version: link:../eslint-config
-      "@repo/shared-validators":
-        specifier: workspace:*
-        version: link:../shared-validators
       drizzle-kit:
         specifier: ^0.30.1
         version: 0.30.1
@@ -147,8 +150,13 @@ importers:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@22.10.5)(jsdom@25.0.1)(msw@2.7.0(@types/node@22.10.5)(typescript@5.7.2))
 
+  packages/shared-config: {}
+
   packages/shared-validators:
     dependencies:
+      "@repo/shared-config":
+        specifier: workspace:*
+        version: link:../shared-config
       zod:
         specifier: ^3.24.1
         version: 3.24.1

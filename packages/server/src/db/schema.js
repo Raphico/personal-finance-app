@@ -10,12 +10,16 @@ import {
 } from "drizzle-orm/pg-core";
 import { timestamps } from "./utils.js";
 import { createId } from "@paralleldrive/cuid2";
-import { budgetCategories, themes } from "../config.js";
+import {
+  budgetCategories,
+  transactionCategories,
+  themes,
+} from "@repo/shared-config";
 
-export const transactionCategoryEnum = pgEnum("transaction_category", [
-  "income",
-  ...budgetCategories,
-]);
+export const transactionCategoryEnum = pgEnum(
+  "transaction_category",
+  transactionCategories
+);
 export const budgetCategoryEnum = pgEnum("budget_category", budgetCategories);
 export const themeEnum = pgEnum("theme", themes);
 export const transactionStatus = pgEnum("status", ["active", "voided"]);
@@ -40,7 +44,7 @@ export const transactions = pgTable("transactions", {
     .references(() => users.id),
   name: varchar("name", { length: 30 }).notNull(),
   category: transactionCategoryEnum("category").notNull(),
-  transactionDate: date("transaction_date", { mode: "string" }).notNull(),
+  date: date("transaction_date", { mode: "string" }).notNull(),
   amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
   status: transactionStatus("status").default("active").notNull(),
   isRecurring: boolean("is_recurring").default(false).notNull(),

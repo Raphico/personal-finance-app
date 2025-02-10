@@ -3,37 +3,6 @@ import { z } from "zod";
 // expiry for email verifications codes, password resets email, etc
 export const VERIFICATION_EXPIRY = 15 * 60 * 1000; // 15 minutes
 
-export const budgetCategories = [
-  "entertainment",
-  "bills",
-  "groceries",
-  "dining-out",
-  "transportation",
-  "personal-care",
-  "education",
-  "lifestyle",
-  "shopping",
-  "general",
-];
-
-export const themes = [
-  "green",
-  "yellow",
-  "cyan",
-  "navy",
-  "red",
-  "purple",
-  "pink",
-  "turquoise",
-  "brown",
-  "magenta",
-  "blue",
-  "navy-grey",
-  "army-green",
-  "gold",
-  "orange",
-];
-
 export const { data: env } = z
   .object({
     NODE_ENV: z
