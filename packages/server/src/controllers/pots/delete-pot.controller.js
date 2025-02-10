@@ -16,6 +16,7 @@ export const deletePot = asyncHandler(
         id: pots.id,
         name: pots.name,
         target: pots.target,
+        totalSaved: pots.totalSaved,
         theme: pots.theme,
       });
 
