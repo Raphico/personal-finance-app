@@ -75,4 +75,7 @@ export const http = {
   patch(url, data, config) {
     return instance.patch(url, data, config);
   },
+  delete(url, data, config) {
+    return instance.delete(url, data, config);
+  },
 };
