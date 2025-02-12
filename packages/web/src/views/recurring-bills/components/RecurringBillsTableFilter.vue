@@ -25,7 +25,7 @@ const sortOptions = [
 const { width } = useWindowSize();
 const isMobile = computed(() => width.value < 768);
 
-function handleSort(value, event) {
+function handleSort(value) {
   if (value === "a-z") {
     props.table.setSorting([{ id: "title", desc: false }]);
   } else if (value === "z-a") {
@@ -64,7 +64,7 @@ function handleSort(value, event) {
         :variant="isMobile ? 'ghost' : 'outline'"
         :size="isMobile ? 'icon' : 'md'"
         :options="sortOptions"
-        @select="(value, event) => handleSort(value, event)"
+        @select="(value) => handleSort(value)"
       >
         <template v-if="isMobile" #icon>
           <IconSortMobile />

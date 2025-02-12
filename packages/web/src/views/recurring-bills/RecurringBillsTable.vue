@@ -135,7 +135,6 @@ const table = useVueTable({
       </BaseTableHead>
       <BaseTableBody>
         <BaseTableRow
-          v-if="table.getRowModel().rows?.length"
           v-for="row in table.getRowModel().rows"
           :key="row.id"
           class="recurring-bills__rows"
@@ -148,7 +147,7 @@ const table = useVueTable({
           </BaseTableCell>
         </BaseTableRow>
 
-        <BaseTableRow v-else>
+        <BaseTableRow v-if="!table.getRowModel().rows?.length">
           <BaseTableCell
             :colspan="columns.length"
             class="recurring-bills__empty text-preset-4-regular"
