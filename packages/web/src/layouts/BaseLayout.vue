@@ -49,14 +49,15 @@ const links = [
 </script>
 
 <template>
-  <div class="container">
+  <div class="base-layout">
     <nav
       id="primary-navigation"
+      class="base-layout__nav"
       :data-minimize="isMenuMinimize"
       :aria-expanded="!isMenuMinimize"
     >
       <Transition name="fade" mode="out-in">
-        <picture class="logo" :key="`logo-${isMenuMinimize}`">
+        <picture class="base-layout__logo" :key="`logo-${isMenuMinimize}`">
           <source :srcset="getLogo" media="(min-width: 1025px)" />
           <img src="" alt="Company Logo" height="22" />
         </picture>
@@ -65,23 +66,23 @@ const links = [
         <li v-for="link in links" :key="link.name">
           <RouterLink
             active-class="active-link"
-            class="text-preset-5-bold"
+            class="base-layout__nav-link text-preset-5-bold"
             :to="link.to"
           >
             <component :is="link.icon" />
-            <span class="link-text">{{ link.name }}</span>
+            <span class="base-layout__nav-link-text">{{ link.name }}</span>
           </RouterLink>
         </li>
       </ul>
       <button
-        class="minimize-menu text-preset-3"
+        class="base-layout__menu-toggle text-preset-3"
         :aria-label="isMenuMinimize ? 'Maximize Menu' : 'Minimize Menu'"
         aria-controls="primary-navigation"
         :data-minimize="isMenuMinimize"
         @click="toggleIsMenuMinimize"
       >
-        <IconMinimizeMenu />
-        <span class="minimize-menu-text">minimize menu</span>
+        <IconMinimizeMenu class="base-layout__menu-toggle-icon" />
+        <span class="base-layout__menu-toggle-text">minimize menu</span>
       </button>
     </nav>
     <main>
@@ -96,7 +97,7 @@ main {
   width: 100%;
 }
 
-nav {
+.base-layout__nav {
   background-color: var(--clr-grey-900);
   position: fixed;
   border-radius: 8px 8px 0 0;
@@ -105,7 +106,7 @@ nav {
   z-index: 50;
 }
 
-nav a {
+.base-layout__nav-link {
   color: var(--clr-grey-300);
   text-decoration: none;
   text-transform: capitalize;
@@ -114,24 +115,24 @@ nav a {
   transition-duration: var(--transition-duration);
 }
 
-nav a:is(:hover, :focus):not(.active-link) {
+.base-layout__nav-link:is(:hover, :focus):not(.active-link) {
   color: var(--clr-white);
 }
 
-nav li {
+.base-layout__nav li {
   display: grid;
   place-content: center;
   width: 68.6px;
   height: 44px;
 }
 
-nav li:has(.active-link) {
+.base-layout__nav li:has(.active-link) {
   background-color: var(--clr-beige-100);
   border-radius: 8px 8px 0 0;
   border-bottom: 4px solid var(--clr-green);
 }
 
-nav li:has(.active-link) .link-text {
+.base-layout__nav li:has(.active-link) .link-text {
   color: var(--clr-grey-900);
 }
 
@@ -139,7 +140,7 @@ nav li:has(.active-link) .link-text {
   color: var(--clr-green);
 }
 
-nav ul {
+.base-layout__nav ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -147,16 +148,16 @@ nav ul {
   list-style: none;
 }
 
-.link-text {
+.base-layout__nav-link-text {
   display: none;
-  text-wrap: nowrap;
+  white-space: nowrap;
 }
 
-.logo {
+.base-layout__logo {
   display: none;
 }
 
-.minimize-menu {
+.base-layout__menu-toggle {
   display: none;
 }
 
@@ -166,11 +167,11 @@ nav ul {
     padding-inline: var(--spacing-400);
   }
 
-  .link-text {
+  .base-layout__nav-link-text {
     display: block;
   }
 
-  nav li {
+  .base-layout__nav li {
     text-align: center;
     width: 104px;
     height: 66px;
@@ -178,7 +179,7 @@ nav ul {
 }
 
 @media (min-width: 1100px) {
-  .container {
+  .base-layout {
     width: 100%;
   }
 
@@ -195,12 +196,12 @@ nav ul {
     transform: none;
   }
 
-  .logo {
+  .base-layout__logo {
     display: block;
     padding: var(--spacing-400);
   }
 
-  .container {
+  .base-layout {
     display: grid;
     grid-template-columns: 300px 1fr;
     transition-property: grid-template-columns;
@@ -208,7 +209,7 @@ nav ul {
     transition-duration: var(--transition-duration);
   }
 
-  .container:has(nav[data-minimize="true"]) {
+  .base-layout:has(.base-layout__nav[data-minimize="true"]) {
     grid-template-columns: 88px 1fr;
   }
 
@@ -218,7 +219,7 @@ nav ul {
     max-width: 100%;
   }
 
-  nav {
+  .base-layout__nav {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-300);
@@ -234,11 +235,11 @@ nav ul {
     transition-duration: var(--transition-duration);
   }
 
-  nav[data-minimize="true"] {
+  .base-layout__nav[data-minimize="true"] {
     width: 88px;
   }
 
-  nav li {
+  .base-layout__nav li {
     overflow: hidden;
     place-content: initial;
     width: 100%;
@@ -246,34 +247,34 @@ nav ul {
     padding: 0 0 0 var(--spacing-400);
   }
 
-  nav li:has(.active-link) {
+  .base-layout__nav li:has(.active-link) {
     border-radius: 0 12px 12px 0;
     border-bottom: 0;
     border-left: 4px solid var(--clr-green);
   }
 
-  nav a {
+  .base-layout__nav-link {
     display: flex;
     align-items: center;
     gap: var(--spacing-200);
     width: 100%;
   }
 
-  .link-text {
+  .base-layout__nav-link-text {
     font-size: var(--fs-400);
     line-height: 1.5;
     letter-spacing: 0;
     font-weight: var(--fw-bold);
   }
 
-  nav ul {
+  .base-layout__nav ul {
     display: grid;
     gap: var(--spacing-150) 0;
     padding: 0;
     justify-content: initial;
   }
 
-  .minimize-menu {
+  .base-layout__menu-toggle {
     cursor: pointer;
     border: 0;
     background-color: transparent;
@@ -287,32 +288,34 @@ nav ul {
     transition-timing-function: var(--transition-easing);
     transition-duration: var(--transition-duration);
     margin-top: auto;
-    text-wrap: nowrap;
+    white-space: nowrap;
   }
 
-  .minimize-menu svg {
+  .base-layout__menu-toggle-icon {
     transition: transform var(--transition-duration) var(--transition-easing);
   }
 
-  .minimize-menu:hover,
-  .minimize-menu:focus {
+  .base-layout__menu-toggle:hover,
+  .base-layout__menu-toggle:focus {
     color: var(--clr-white);
   }
 
-  .minimize-menu-text {
+  .base-layout__menu-toggle-text {
     transition:
       opacity var(--transition-duration) var(--transition-easing),
       visibility var(--transition-duration) var(--transition-easing);
     position: relative;
   }
 
-  .minimize-menu[data-minimize="true"] .minimize-menu-text {
+  .base-layout__menu-toggle[data-minimize="true"]
+    .base-layout__menu-toggle-text {
     opacity: 0;
     visibility: hidden;
     position: absolute;
   }
 
-  .minimize-menu[data-minimize="true"] svg {
+  .base-layout__menu-toggle[data-minimize="true"]
+    .base-layout__menu-toggle-icon {
     transform: rotate(180deg);
   }
 }

@@ -3,13 +3,13 @@ import BaseLogo from "@/components/BaseLogo.vue";
 </script>
 
 <template>
-  <div class="container">
-    <header>
+  <div class="auth-layout">
+    <header class="auth-layout__header">
       <BaseLogo size="large" />
     </header>
-    <aside>
+    <aside class="auth-layout__aside">
       <BaseLogo size="large" />
-      <div class="brand">
+      <div class="auth-layout__brand">
         <h2 class="text-preset-1">
           Keep track of your money and save your future
         </h2>
@@ -27,12 +27,12 @@ import BaseLogo from "@/components/BaseLogo.vue";
 </template>
 
 <style scoped>
-.container {
+.auth-layout {
   display: grid;
   min-height: 100vh;
 }
 
-header {
+.auth-layout__header {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,25 +50,25 @@ main {
   align-self: flex-start;
 }
 
-aside {
+.auth-layout__aside {
   display: none;
 }
 
-@media (min-width: 768px) {
-  header {
+@media (min-width: 1024px) {
+  .auth-layout__header {
     display: none;
   }
 
-  aside {
+  .auth-layout__aside {
     display: block;
   }
 
-  .container {
+  .auth-layout {
     grid-template-columns: 1fr 2fr;
     padding: var(--spacing-200);
   }
 
-  aside {
+  .auth-layout__aside {
     display: grid;
     grid-template-columns: 1fr;
     width: 100%;
@@ -83,23 +83,23 @@ aside {
     padding: var(--spacing-400);
   }
 
-  .brand {
+  .auth-layout__brand {
     grid-row: 2 / 3;
     grid-column: 1 / -1;
     align-self: end;
   }
 
-  aside img:first-child {
+  .auth-layout__aside img:first-child {
     grid-row: 1 / 2;
     grid-column: 1 / -1;
     order: 1;
   }
 
-  aside :is(h2, p) {
+  .auth-layout__aside :is(h2, p) {
     color: var(--clr-white);
   }
 
-  aside h2 {
+  .auth-layout__aside h2 {
     margin-bottom: var(--spacing-200);
   }
 
