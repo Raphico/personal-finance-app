@@ -83,7 +83,7 @@ const getRemainingPercentage = computed(() =>
   align-items: center;
   gap: var(--spacing-200);
   grid-row: 1 / 2;
-  text-wrap: nowrap;
+  white-space: nowrap;
   grid-column: 1 / 2;
 }
 

@@ -100,7 +100,7 @@ onClickOutside(dropdownRef, closeDropdown);
 }
 
 .dropdown-content > * {
-  text-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .dropdown-content > * + * {

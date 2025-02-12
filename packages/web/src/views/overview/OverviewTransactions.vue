@@ -1,4 +1,9 @@
 <script setup>
+import { transactions } from "@/api/transactions";
+import { formatCurrency, formatDate, generateId } from "@/utils/helpers";
+import { useQuery } from "@tanstack/vue-query";
+import { useToast } from "vue-toast-notification";
+import { watch } from "vue";
 import BaseCard from "@/components/BaseCard.vue";
 import BaseCardTitle from "@/components/BaseCardTitle.vue";
 import BaseLink from "@/components/BaseLink.vue";
@@ -9,58 +14,56 @@ import BaseTableHead from "@/components/BaseTableHead.vue";
 import BaseTableHeader from "@/components/BaseTableHeader.vue";
 import BaseTableRow from "@/components/BaseTableRow.vue";
 import IconCaretRight from "@/components/Icons/IconCaretRight.vue";
-import { formatCurrency, formatDate, generateId } from "@/utils/helpers";
-import IconNavTransactions from "./Icons/IconNavTransactions.vue";
+import IconNavTransactions from "@/components/Icons/IconNavTransactions.vue";
 
-defineProps({
-  transactions: {
-    type: Array,
-    required: true,
-  },
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-  isError: {
-    type: Boolean,
-    default: false,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  linkText: {
-    type: String,
-    required: true,
-  },
-  linkTo: {
-    type: String,
-    required: true,
-  },
+const toast = useToast();
+const {
+  isPending,
+  data: transactionList,
+  error,
+  isError,
+} = useQuery({
+  queryKey: ["overview-transactions"],
+  queryFn: fetchTransactions,
 });
+
+watch(error, (value) => {
+  toast.error(value.message, {
+    position: "top",
+  });
+});
+
+async function fetchTransactions() {
+  const response = await transactions.getList({ limit: 5 });
+  return response.data.transactions;
+}
 </script>
 
 <template>
-  <BaseCard id="transactions-card" class="transactions-card">
-    <BaseCardTitle class="text-preset-3">{{ title }}</BaseCardTitle>
-    <BaseLink :to="linkTo">
-      {{ linkText }}
+  <BaseCard class="transactions">
+    <BaseCardTitle class="transactions__header">transactions</BaseCardTitle>
+    <BaseLink to="/transactions" class="transactions__link">
+      see all
       <IconCaretRight />
     </BaseLink>
 
-    <div v-if="loading" class="loading animate-pulse"></div>
+    <div
+      v-if="isPending"
+      role="status"
+      class="transactions__loading animate-pulse"
+    ></div>
 
-    <div v-else-if="isError" class="error">
-      <IconNavTransactions />
-      <p class="text-preset-4">Failed to load recent transactions</p>
+    <div
+      v-else-if="isError || (transactionList && transactionList.length == 0)"
+      aria-live="polite"
+      role="status"
+      class="transactions__empty"
+    >
+      <IconNavTransactions class="transactions__empty-icon" />
+      <p>No recent transactions</p>
     </div>
 
-    <div v-else-if="transactions.length == 0" class="empty">
-      <IconNavTransactions />
-      <p class="text-preset-4">No recent transactions</p>
-    </div>
-
-    <BaseTable v-else class="transactions-table">
+    <BaseTable v-else class="transactions__table">
       <BaseTableHead class="sr-only">
         <BaseTableRow>
           <BaseTableHeader>name</BaseTableHeader>
@@ -70,7 +73,8 @@ defineProps({
       </BaseTableHead>
       <BaseTableBody>
         <BaseTableRow
-          v-for="transaction in transactions"
+          class="transactions__table-body-row"
+          v-for="transaction in transactionList"
           :key="generateId({ prefix: transaction.name, length: 4 })"
         >
           <BaseTableCell class="text-preset-5-bold">{{
@@ -82,7 +86,7 @@ defineProps({
           <BaseTableCell
             :class="{
               'text-preset-5-bold': true,
-              credit: transaction.amount > 0,
+              transactions__credit: transaction.amount > 0,
             }"
             >{{
               formatCurrency(transaction.amount, "USD", true)
@@ -95,14 +99,14 @@ defineProps({
 </template>
 
 <style scoped>
-.transactions-card {
+.transactions {
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, auto);
+  grid-template-rows: 24px auto;
+  gap: var(--spacing-400);
   align-items: start;
 }
 
-.empty,
-.error {
+.transactions__empty {
   grid-column: 1 / -1;
   grid-row: 2 / -1;
   color: var(--clr-grey-500);
@@ -113,12 +117,12 @@ defineProps({
   height: 300px;
 }
 
-:is(.empty, .error) svg {
+.transactions__empty-icon {
   justify-self: center;
   transform: scale(2);
 }
 
-.loading {
+.transactions__loading {
   grid-column: 1 / -1;
   grid-row: 2 / -1;
   width: 100%;
@@ -127,22 +131,22 @@ defineProps({
   background-color: var(--clr-beige-100);
 }
 
-.transactions-card h2 {
+.transactions__header {
   grid-row: 1 / 2;
   grid-column: 1 / 2;
 }
 
-.credit {
+.transactions__credit {
   color: var(--clr-green);
 }
 
-.transactions-card a {
+.transactions__link {
   grid-row: 1 / 2;
   grid-column: 2 / -1;
   justify-self: end;
 }
 
-.transactions-table {
+.transactions__table {
   grid-column: 1 / -1;
 }
 
@@ -150,19 +154,19 @@ defineProps({
   padding-inline: 0;
 }
 
-.transactions-table tbody tr {
+.transactions__table-body-row {
   display: grid;
   grid-template-columns: 1.75fr 1fr;
   grid-template-rows: auto auto;
   padding-block: var(--spacing-100);
 }
 
-.transactions-table tbody tr > :first-child {
+.transactions__table-body-row > :first-child {
   grid-row: 1 / 3;
   grid-column: 1 / 2;
 }
 
-.transactions-table tbody tr > :nth-child(2) {
+.transactions__table-body-row > :nth-child(2) {
   grid-row: 2 / 3;
   grid-column: 2 / 3;
   margin: 0;
@@ -170,7 +174,15 @@ defineProps({
   justify-self: end;
 }
 
-.transactions-table tbody tr > :last-child {
+.transactions__table-body-row:first-of-type {
+  padding-top: 0;
+}
+
+.transactions__table-body-row:last-of-type {
+  padding-bottom: 0;
+}
+
+.transactions__table-body-row > :last-child {
   margin: 0;
   padding: 0;
   justify-self: end;

@@ -1,3 +1,14 @@
+import { http } from "@/lib/http";
 import { Crud } from "./crud";
 
-export const pots = new Crud("pots");
+class Pots extends Crud {
+  constructor() {
+    super("pots");
+  }
+
+  getTotalSaved() {
+    return http.get(`${this.baseUrl}/total`);
+  }
+}
+
+export const pots = new Pots();

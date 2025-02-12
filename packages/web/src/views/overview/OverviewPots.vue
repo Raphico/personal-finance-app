@@ -6,37 +6,88 @@ import DescriptionList from "@/components/DescriptionList.vue";
 import IconCaretRight from "@/components/Icons/IconCaretRight.vue";
 import IconPots from "@/components/Icons/IconPots.vue";
 import { formatCurrency } from "@/utils/helpers";
+import { useQuery } from "@tanstack/vue-query";
+import { useToast } from "vue-toast-notification";
+import { watch } from "vue";
+import { pots } from "@/api/pots";
 
-const pots = [
-  { name: "savings", amount: 159 },
-  { name: "gift", amount: 40 },
-  { name: "concert ticket", amount: 110 },
-  { name: "new laptop", amount: 10 },
-];
+const toast = useToast();
 
-const totalSaved = 850;
+const {
+  isPending: isLoadingPots,
+  error: potListError,
+  data: potList,
+} = useQuery({
+  queryKey: ["overview-pots"],
+  queryFn: fetchPots,
+});
+
+const {
+  isPending: isLoadingTotalSaved,
+  error: totalSavedError,
+  data: totalSaved,
+} = useQuery({
+  queryKey: ["overview-pots-total-saved"],
+  queryFn: fetchTotalSaved,
+});
+
+watch(potListError, (value) => {
+  toast.error(value.message, {
+    position: "top",
+  });
+});
+
+watch(totalSavedError, (value) => {
+  toast.error(value.message, {
+    position: "top",
+  });
+});
+
+async function fetchPots() {
+  const response = await pots.getList({ limit: 4 });
+  return response.data.pots;
+}
+
+async function fetchTotalSaved() {
+  const response = await pots.getTotalSaved();
+  return response.data.totalSaved;
+}
 </script>
 
 <template>
-  <BaseCard class="pots-card">
+  <BaseCard class="pots">
     <BaseCardTitle>Pots</BaseCardTitle>
-    <BaseLink href="/pots">
+    <BaseLink href="/pots" class="pots__link">
       See details
       <IconCaretRight />
     </BaseLink>
-    <div class="total-saved">
-      <div class="total-saved-icon-container">
+
+    <div class="pots__total-saved">
+      <div class="pots__total-saved-icon">
         <IconPots />
       </div>
       <p class="text-preset-4-regular">total saved</p>
-      <p class="text-preset-1">{{ formatCurrency(totalSaved, "USD") }}</p>
+      <span
+        v-if="isLoadingTotalSaved"
+        role="status"
+        class="pots__loading-total-saved animate-pulse"
+      ></span>
+      <p class="text-preset-1" v-else>{{ formatCurrency(totalSaved ?? 0) }}</p>
     </div>
+
+    <div
+      class="pots__loading-pot-list animate-pulse"
+      role="status"
+      v-if="isLoadingPots"
+    ></div>
     <DescriptionList
-      class="pots-list"
+      class="pots__list"
+      v-else-if="potList && potList.length > 0"
       :items="
-        pots.map((pot) => ({
+        potList.map((pot) => ({
           term: pot.name,
-          description: formatCurrency(pot.amount, 'USD'),
+          description: formatCurrency(pot.target),
+          theme: pot.theme,
         }))
       "
     />
@@ -44,17 +95,31 @@ const totalSaved = 850;
 </template>
 
 <style scoped>
-.pots-card {
+.pots {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, auto);
   gap: var(--spacing-250);
 }
 
-.pots-card a {
+.pots__link {
   justify-content: flex-end;
 }
 
-.total-saved {
+.pots__loading-pot-list {
+  height: 100px;
+  background-color: var(--clr-beige-100);
+  border-radius: 8px;
+  grid-row: 3 / 4;
+  grid-column: 1 / -1;
+}
+
+.pots__loading-total-saved {
+  width: 50%;
+  height: 40px;
+  background-color: var(--clr-white);
+}
+
+.pots__total-saved {
   display: grid;
   grid-template-columns: 40px 1fr;
   grid-template-rows: auto auto;
@@ -66,17 +131,14 @@ const totalSaved = 850;
   padding: var(--spacing-200);
 }
 
-.total-saved-icon-container {
+.pots__total-saved-icon {
   margin: auto;
-}
-
-.total-saved .total-saved-icon-container {
   grid-row: 1 / -1;
   grid-column: 1 / 2;
   color: var(--clr-green);
 }
 
-.total-saved p:first-of-type {
+.pots__total-saved p:first-of-type {
   grid-row: 1 / 2;
   grid-column: 2 / -1;
   color: var(--clr-grey-500);
@@ -85,30 +147,32 @@ const totalSaved = 850;
   margin: 0;
 }
 
-.total-saved p:nth-of-type(2) {
+.pots__total-saved p:nth-of-type(2) {
   grid-row: 2 / 3;
   grid-column: 2 / -1;
   margin: 0;
 }
 
-.pots-list {
+.pots__list {
   grid-row: 3 / 4;
   grid-column: 1 / -1;
   grid-template-columns: repeat(2, 1fr);
 }
 
 @media (min-width: 768px) {
-  .pots-card {
+  .pots {
     grid-template-rows: repeat(2, auto);
     grid-template-columns: 0.75fr 1fr;
   }
 
-  .total-saved {
+  .pots__total-saved {
     grid-row: 2 / 3;
     grid-column: 1 / 2;
   }
 
-  .pots-list {
+  .pots__list,
+  .pots__loading-pot-list {
+    align-self: start;
     grid-row: 2 / 3;
     grid-column: 2 / 3;
   }

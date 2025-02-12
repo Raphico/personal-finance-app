@@ -1,7 +1,7 @@
 <template>
-  <a class="link text-preset-4-regular" href="#">
+  <RouterLink class="link text-preset-4-regular" to="#">
     <slot />
-  </a>
+  </RouterLink>
 </template>
 
 <style>

@@ -172,7 +172,7 @@ function handleKeyNavigation(event) {
 .select-dropdown li {
   cursor: pointer;
   padding-bottom: var(--spacing-150);
-  text-wrap: nowrap;
+  white-space: nowrap;
   text-transform: capitalize;
   transition: color var(--transition-duration) var(--transition-easing);
 }

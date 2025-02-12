@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { z } from "@repo/shared-validators";
-import { themes } from "@/constants";
+import { themes } from "@repo/shared-config";
 import { customAlphabet } from "nanoid";
 
 export function getError(error) {

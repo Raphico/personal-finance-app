@@ -12,6 +12,9 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@repo/shared-config": "workspace:*",
+    "@repo/shared-validators": "workspace:*",
+    "@tanstack/vue-query": "^5.66.0",
     "@tanstack/vue-table": "^8.20.5",
     "@unhead/vue": "^1.11.15",
     "@vuepic/vue-datepicker": "^11.0.1",
@@ -30,7 +33,6 @@
   "devDependencies": {
     "@playwright/test": "^1.49.1",
     "@repo/eslint-config": "workspace:*",
-    "@repo/shared-validators": "workspace:*",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/test-utils": "^2.4.6",
     "jsdom": "^25.0.1",

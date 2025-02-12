@@ -219,6 +219,16 @@ input[type="number"] {
   }
 }
 
+.animate-pulse {
+  animation: pulse 1s var(--transition-easing) infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
 /* VueDatePicker */
 .dp__theme_light {
   --dp-border-color: var(--clr-beige-500);

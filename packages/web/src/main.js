@@ -7,6 +7,7 @@ import { createHead } from "@unhead/vue";
 
 import ToastPlugin from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import { VueQueryPlugin } from "@tanstack/vue-query";
 import VueDatePicker from "@vuepic/vue-datepicker";
 
 import App from "./App.vue";
@@ -19,6 +20,7 @@ app.use(router);
 
 app.use(ToastPlugin);
 app.component("VueDatePicker", VueDatePicker);
+app.use(VueQueryPlugin);
 
 const head = createHead();
 app.use(head);

@@ -73,7 +73,7 @@ const getTotalSavedPercentage = computed(() =>
   display: flex;
   align-items: center;
   gap: var(--spacing-200);
-  text-wrap: nowrap;
+  white-space: nowrap;
   grid-row: 1 / 2;
   grid-column: 1 / 2;
 }
