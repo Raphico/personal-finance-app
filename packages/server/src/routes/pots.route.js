@@ -5,11 +5,13 @@ import { getCurrentUserPots } from "../controllers/pots/get-current-user-pots.co
 import { deletePot } from "../controllers/pots/delete-pot.controller.js";
 import { updatePot } from "../controllers/pots/update-pot.controller.js";
 import { addWithdrawMoney } from "../controllers/pots/add-withdraw-money.controller.js";
+import { getTotalSaved } from "../controllers/pots/get-total-saved.controller.js";
 
 const router = Router();
 
 router.route("/").post(verifyJWT, addNewPot).get(verifyJWT, getCurrentUserPots);
 router.route("/:id").delete(verifyJWT, deletePot).patch(verifyJWT, updatePot);
 router.patch("/:id/transactions", verifyJWT, addWithdrawMoney);
+router.get("/total", verifyJWT, getTotalSaved);
 
 export default router;
