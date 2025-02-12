@@ -49,32 +49,37 @@ const router = createRouter({
         {
           path: "login",
           name: "login",
-          component: () => import("@/views/LoginView.vue"),
+          component: () => import("@/views/login/LoginView.vue"),
         },
         {
           path: "signup",
           name: "signup",
-          component: () => import("@/views/SignupView.vue"),
+          component: () => import("@/views/signup/SignupView.vue"),
         },
         {
           path: "forgot-password",
           name: "forgot-password",
-          component: () => import("@/views/ForgotPasswordView.vue"),
+          component: () =>
+            import("@/views/forgot-password/ForgotPasswordView.vue"),
         },
         {
           path: "forgot-password-confirmation",
           name: "forgot-password-confirmation",
-          component: () => import("@/views/ForgotPasswordConfirmationView.vue"),
+          component: () =>
+            import(
+              "@/views/forgot-password-confirmation/ForgotPasswordConfirmationView.vue"
+            ),
         },
         {
           path: "reset-password/:token",
           name: "reset-password",
-          component: () => import("@/views/ResetPasswordView.vue"),
+          component: () =>
+            import("@/views/reset-password/ResetPasswordView.vue"),
         },
         {
           path: "verify-email",
           name: "verify-email",
-          component: () => import("@/views/VerifyEmailView.vue"),
+          component: () => import("@/views/verify-email/VerifyEmailView.vue"),
         },
       ],
     },
