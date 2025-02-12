@@ -42,7 +42,6 @@ defineProps({
 .pagination {
   width: 100%;
   display: flex;
-  margin-top: var(--spacing-200);
   justify-content: space-between;
 }
 

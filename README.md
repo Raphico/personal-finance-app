@@ -12,11 +12,11 @@ This is a solution to the [Personal finance app challenge on Frontend Mentor](ht
 - [] View the latest three transactions for each budget category created
 - [] View progress towards each pot
 - [] Add money to and withdraw money from pots
-- [] View recurring bills and the status of each for the current month
-- [] Search and sort recurring bills
+- [x] View recurring bills and the status of each for the current month
+- [x] Search and sort recurring bills
 - [] Receive validation messages if required form fields aren't completed
-- [] Navigate the whole app and perform all actions using only their keyboard
-- [] View the optimal layout for the interface depending on their device's screen size
+- [x] Navigate the whole app and perform all actions using only their keyboard
+- [x] View the optimal layout for the interface depending on their device's screen size
 
 ## Project setup
 

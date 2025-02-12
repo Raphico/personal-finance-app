@@ -12,14 +12,17 @@ import { formatCurrency } from "@/utils/helpers";
 import {
   FlexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   useVueTable,
   createColumnHelper,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getSortedRowModel,
 } from "@tanstack/vue-table";
 import { ref } from "vue";
 import { h } from "vue";
 import RecurringBillsTableFilter from "./components/RecurringBillsTableFilter.vue";
-import TablePagination from "@/components/TablePagination.vue";
+import IconNavRecurringBills from "@/components/Icons/IconNavRecurringBills.vue";
 
 const props = defineProps({
   recurringBills: {
@@ -29,10 +32,12 @@ const props = defineProps({
 });
 
 const columnHelper = createColumnHelper();
+const columnFilters = ref([]);
+const sorting = ref([]);
 
 const columns = [
-  columnHelper.accessor("name", {
-    header: "Bill name",
+  columnHelper.accessor("title", {
+    header: "Bill title",
     cell: (props) =>
       h("span", { class: "text-preset-4-bold" }, props.getValue()),
   }),
@@ -67,28 +72,49 @@ const columns = [
           class: "text-preset-4-bold",
           "data-status": recurringBill.status,
         },
-        formatCurrency(recurringBill.amount, "USD")
+        formatCurrency(recurringBill.amount)
       );
     },
   }),
 ];
 
-const data = ref(props.recurringBills);
-
 const table = useVueTable({
   get data() {
-    return data.value;
+    return props.recurringBills;
   },
   columns,
+  state: {
+    get sorting() {
+      return sorting.value;
+    },
+    get columnFilters() {
+      return columnFilters.value;
+    },
+  },
   getCoreRowModel: getCoreRowModel(),
-  getPaginationRowModel: getPaginationRowModel(),
+  onSortingChange: (updaterOrValue) => {
+    sorting.value =
+      typeof updaterOrValue === "function"
+        ? updaterOrValue(sorting.value)
+        : updaterOrValue;
+  },
+  onColumnFiltersChange: (updaterOrValue) => {
+    columnFilters.value =
+      typeof updaterOrValue === "function"
+        ? updaterOrValue(columnFilters.value)
+        : updaterOrValue;
+  },
+  getFilteredRowModel: getFilteredRowModel(),
+  getFacetedRowModel: getFacetedRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  getFacetedUniqueValues: getFacetedUniqueValues(),
 });
 </script>
 
 <template>
   <BaseCard>
-    <RecurringBillsTableFilter />
-    <BaseTable class="recurring-bills-table">
+    <RecurringBillsTableFilter :table="table" />
+    <BaseTable class="recurring-bills__table">
       <BaseTableHead>
         <BaseTableRow
           v-for="headerGroup in table.getHeaderGroups()"
@@ -108,7 +134,12 @@ const table = useVueTable({
         </BaseTableRow>
       </BaseTableHead>
       <BaseTableBody>
-        <BaseTableRow v-for="row in table.getRowModel().rows" :key="row.id">
+        <BaseTableRow
+          v-if="table.getRowModel().rows?.length"
+          v-for="row in table.getRowModel().rows"
+          :key="row.id"
+          class="recurring-bills__rows"
+        >
           <BaseTableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
             <FlexRender
               :render="cell.column.columnDef.cell"
@@ -116,26 +147,47 @@ const table = useVueTable({
             />
           </BaseTableCell>
         </BaseTableRow>
+
+        <BaseTableRow v-else>
+          <BaseTableCell
+            :colspan="columns.length"
+            class="recurring-bills__empty text-preset-4-regular"
+          >
+            <IconNavRecurringBills class="recurring-bills__empty-icon" />
+            No recurring bills
+          </BaseTableCell>
+        </BaseTableRow>
       </BaseTableBody>
     </BaseTable>
-    <TablePagination :table="table" />
   </BaseCard>
 </template>
 
 <style scoped>
-.recurring-bills-table tbody tr > :nth-child(2) {
+.recurring-bills__rows > :nth-child(2) {
   color: var(--clr-green);
 }
 
-.recurring-bills-table tbody tr > :nth-child(2) > span {
+.recurring-bills__rows > :nth-child(2) > span {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   flex-direction: row-reverse;
   gap: var(--spacing-100);
 }
 
-.recurring-bills-table tbody tr > :last-child,
-.recurring-bills-table thead tr > :last-child {
+.recurring-bills__empty {
+  text-align: center;
+  padding-top: var(--spacing-400);
+  color: var(--clr-grey-500);
+  text-transform: none;
+}
+
+.recurring-bills__empty-icon {
+  display: none;
+}
+
+.recurring-bills__rows > :last-child,
+.recurring-bills__table thead tr > :last-child {
   text-align: right;
 }
 
@@ -144,32 +196,44 @@ const table = useVueTable({
 }
 
 @media (max-width: 540px) {
-  .recurring-bills-table thead {
+  .recurring-bills__table thead {
     display: none;
   }
 
-  .recurring-bills-table tbody tr {
+  .recurring-bills__empty {
+    height: 96px;
+    display: grid;
+    place-content: center;
+    gap: var(--spacing-100);
+  }
+
+  .recurring-bills__empty-icon {
+    display: block;
+    justify-self: center;
+  }
+
+  .recurring-bills__rows {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
     padding-block: var(--spacing-200);
   }
 
-  .recurring-bills-table tbody tr > :last-child {
+  .recurring-bills__rows > :last-child {
     grid-row: 1 / -1;
     grid-column: 2 / 3;
   }
 
-  .recurring-bills-table tbody tr > :first-child {
+  .recurring-bills__rows > :first-child {
     grid-row: 1 / 2;
     grid-column: 1 / 2;
   }
 
-  .recurring-bills-table td {
+  .recurring-bills__table td {
     padding: 0;
   }
 
-  .recurring-bills-table tbody tr > :nth-child(2) {
+  .recurring-bills__rows > :nth-child(2) {
     grid-row: 2 / 3;
     grid-column: 1 / 2;
     justify-self: start;

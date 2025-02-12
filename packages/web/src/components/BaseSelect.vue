@@ -47,10 +47,10 @@ const openDropdown = () => {
 
 onClickOutside(selectRef, closeDropdown);
 
-function updateSelectedOption(index) {
+function updateSelectedOption(index, event) {
   selectedIndex.value = index;
   closeDropdown();
-  emits("select", props.options[index].value);
+  emits("select", props.options[index].value, event);
 }
 
 function handleKeyNavigation(event) {
@@ -61,19 +61,19 @@ function handleKeyNavigation(event) {
     case "ArrowDown":
       event.preventDefault();
       selectedIndex.value = (selectedIndex.value + 1) % optionsLength;
-      emits("select", props.options[selectedIndex.value].value);
+      emits("select", props.options[selectedIndex.value].value, event);
       break;
     case "ArrowUp":
       event.preventDefault();
       selectedIndex.value =
         (selectedIndex.value - 1 + optionsLength) % optionsLength;
-      emits("select", props.options[selectedIndex.value].value);
+      emits("select", props.options[selectedIndex.value].value, event);
       break;
     case "Enter":
     case " ":
       event.preventDefault();
       if (selectedIndex.value >= 0) {
-        updateSelectedOption(selectedIndex.value);
+        updateSelectedOption(selectedIndex.value, event);
       }
       break;
     default:
@@ -127,9 +127,9 @@ function handleKeyNavigation(event) {
           :key="option.value"
           :aria-selected="selectedIndex == index"
           :data-selected="selectedIndex == index"
-          @click="() => updateSelectedOption(index)"
-          @keydown.enter="() => updateSelectedOption(index)"
-          @keydown.space="() => updateSelectedOption(index)"
+          @click="(event) => updateSelectedOption(index, event)"
+          @keydown.enter="(event) => updateSelectedOption(index, event)"
+          @keydown.space="(event) => updateSelectedOption(index, event)"
           class="text-preset-4-regular"
         >
           {{ option.label }}
@@ -156,7 +156,6 @@ function handleKeyNavigation(event) {
   margin-top: var(--spacing-50);
   box-shadow: var(--box-shadow);
   border: 1px solid var(--clr-grey-200);
-  max-height: 250px;
   min-width: 100%;
   overflow-y: auto;
 }

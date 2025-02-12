@@ -34,6 +34,7 @@ export const addNewTransaction = asyncHandler(
         date: transactions.date,
         amount: transactions.amount,
         category: transactions.category,
+        isRecurring: transactions.isRecurring,
       });
 
     response.status(201).json(

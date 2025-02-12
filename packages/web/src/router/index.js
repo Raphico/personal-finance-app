@@ -36,7 +36,7 @@ const router = createRouter({
           path: "recurring-bills",
           name: "recurring-bills",
           component: () =>
-            import("@/views/recurringBills/RecurringBillsView.vue"),
+            import("@/views/recurring-bills/RecurringBillsView.vue"),
         },
       ],
     },
