@@ -10,57 +10,26 @@ import BaseTableHeader from "@/components/BaseTableHeader.vue";
 import BaseTableRow from "@/components/BaseTableRow.vue";
 import IconCaretRight from "@/components/Icons/IconCaretRight.vue";
 import { formatCurrency, formatDate, generateId } from "@/utils/helpers";
-import IconNavTransactions from "./Icons/IconNavTransactions.vue";
 
 defineProps({
   transactions: {
     type: Array,
     required: true,
   },
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-  isError: {
-    type: Boolean,
-    default: false,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  linkText: {
-    type: String,
-    required: true,
-  },
-  linkTo: {
-    type: String,
-    required: true,
-  },
 });
 </script>
 
 <template>
-  <BaseCard id="transactions-card" class="transactions-card">
-    <BaseCardTitle class="text-preset-3">{{ title }}</BaseCardTitle>
-    <BaseLink :to="linkTo">
-      {{ linkText }}
+  <BaseCard class="latest-spending">
+    <BaseCardTitle class="latest-spending__header text-preset-3"
+      >Latest spending</BaseCardTitle
+    >
+    <BaseLink class="latest-spending__link" to="/transactions">
+      see all
       <IconCaretRight />
     </BaseLink>
 
-    <div v-if="loading" class="loading animate-pulse"></div>
-
-    <div v-else-if="isError" class="error">
-      <IconNavTransactions />
-      <p class="text-preset-4">Failed to load recent transactions</p>
-    </div>
-
-    <div v-else-if="transactions.length == 0" class="empty">
-      <IconNavTransactions />
-      <p class="text-preset-4">No recent transactions</p>
-    </div>
-
-    <BaseTable v-else class="transactions-table">
+    <BaseTable class="latest-spending__table">
       <BaseTableHead class="sr-only">
         <BaseTableRow>
           <BaseTableHeader>name</BaseTableHeader>
@@ -72,6 +41,7 @@ defineProps({
         <BaseTableRow
           v-for="transaction in transactions"
           :key="generateId({ prefix: transaction.name, length: 4 })"
+          class="latest-spending__table-row"
         >
           <BaseTableCell class="text-preset-5-bold">{{
             transaction.name
@@ -79,15 +49,18 @@ defineProps({
           <BaseTableCell class="text-preset-5-regular">{{
             formatDate(transaction.date)
           }}</BaseTableCell>
+          <BaseTableCell class="text-preset-5-bold">{{
+            formatCurrency(transaction.amount, "USD", true)
+          }}</BaseTableCell>
+        </BaseTableRow>
+
+        <BaseTableRow v-if="!transactions.length">
           <BaseTableCell
-            :class="{
-              'text-preset-5-bold': true,
-              credit: transaction.amount > 0,
-            }"
-            >{{
-              formatCurrency(transaction.amount, "USD", true)
-            }}</BaseTableCell
+            :colspan="3"
+            class="latest-spending__empty text-preset-4-regular"
           >
+            No recent spending
+          </BaseTableCell>
         </BaseTableRow>
       </BaseTableBody>
     </BaseTable>
@@ -95,82 +68,62 @@ defineProps({
 </template>
 
 <style scoped>
-.transactions-card {
+.latest-spending {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, auto);
   align-items: start;
 }
 
-.empty,
-.error {
-  grid-column: 1 / -1;
-  grid-row: 2 / -1;
+.latest-spending__empty {
   color: var(--clr-grey-500);
   text-align: center;
-  display: grid;
-  gap: var(--spacing-100);
-  place-content: center;
-  height: 300px;
 }
 
-:is(.empty, .error) svg {
-  justify-self: center;
-  transform: scale(2);
+.latest-spending__empty p {
+  margin: 0;
 }
 
-.loading {
-  grid-column: 1 / -1;
-  grid-row: 2 / -1;
-  width: 100%;
-  height: 300px;
-  border-radius: 8px;
-  background-color: var(--clr-beige-100);
-}
-
-.transactions-card h2 {
+.latest-spending__header {
   grid-row: 1 / 2;
   grid-column: 1 / 2;
 }
 
-.credit {
-  color: var(--clr-green);
-}
-
-.transactions-card a {
+.latest-spending__link {
   grid-row: 1 / 2;
   grid-column: 2 / -1;
   justify-self: end;
 }
 
-.transactions-table {
+.latest-spending__table {
   grid-column: 1 / -1;
 }
 
-.transactions-table td {
+.latest-spending__table td {
   padding-inline: 0;
 }
 
-.transactions-table tbody tr {
+.latest-spending__table-row {
   display: grid;
   grid-template-columns: 1.75fr 1fr;
   grid-template-rows: auto auto;
   padding-block: var(--spacing-100);
 }
 
-.transactions-table tbody tr > :first-child {
+.latest-spending__table-row > :first-child {
   grid-row: 1 / 3;
   grid-column: 1 / 2;
 }
 
-.transactions-table tbody tr > :nth-child(2) {
+.latest-spending__table-row > :nth-child(2) {
   grid-row: 2 / 3;
   grid-column: 2 / 3;
   margin: 0;
   padding: 0;
   justify-self: end;
+  color: var(--clr-grey-500);
 }
 
-.transactions-table tbody tr > :last-child {
+.latest-spending__table-row > :last-child {
   margin: 0;
   padding: 0;
   justify-self: end;

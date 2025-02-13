@@ -5,7 +5,7 @@ import CategoryTheme from "@/components/CategoryTheme.vue";
 import DescriptionList from "@/components/DescriptionList.vue";
 import { formatCurrency } from "@/utils/helpers";
 import { computed, ref } from "vue";
-import TransactionsTable from "@/components/TransactionsTable.vue";
+import LatestSpending from "./LatestSpending.vue";
 import BudgetActions from "./BudgetActions.vue";
 import DeleteBudgetModal from "./DeleteBudgetModal.vue";
 import EditBudgetModal from "./EditBudgetModal.vue";
@@ -20,29 +20,46 @@ const props = defineProps({
 const showDeleteModal = ref(false);
 const showEditModal = ref(false);
 
-const spentRemaining = [
-  {
-    term: "spent",
-    description: formatCurrency(props.budget.spent, "USD"),
-    theme: props.budget.theme,
-  },
-  {
-    term: "remaining",
-    description: formatCurrency(props.budget.spent, "USD"),
-    theme: "beige-100",
-  },
-];
+const getAmountSpent = computed(() =>
+  props.budget.transactions.reduce(
+    (accumulator, currentTransaction) =>
+      (accumulator += Math.abs(Number(currentTransaction.amount))),
+    0
+  )
+);
 
 const getRemainingPercentage = computed(() =>
-  Math.round((props.budget.spent / props.budget.amount) * 100)
+  Math.round((getAmountSpent.value / props.budget.maximumSpend) * 100)
 );
+
+console.log(getRemainingPercentage.value);
+
+const getSpentRemaining = computed(() => {
+  const amountRemaining = Math.max(
+    props.budget.maximumSpend - getAmountSpent.value,
+    0
+  );
+
+  return [
+    {
+      term: "spent",
+      description: formatCurrency(getAmountSpent.value),
+      theme: props.budget.theme,
+    },
+    {
+      term: "remaining",
+      description: formatCurrency(amountRemaining),
+      theme: "beige-100",
+    },
+  ];
+});
 </script>
 
 <template>
   <BaseCard class="budget-card">
     <BaseCardTitle class="text-preset-2">
       <CategoryTheme :theme="budget.theme" />
-      {{ budget.category }}
+      {{ budget.category.split("-").join(" ") }}
     </BaseCardTitle>
     <BudgetActions
       @delete="showDeleteModal = true"
@@ -50,7 +67,7 @@ const getRemainingPercentage = computed(() =>
       class="budget-actions"
     />
     <p class="budget-amount text-preset-4-regular">
-      Maximum of {{ formatCurrency(budget.amount, "USD") }}
+      Maximum of {{ formatCurrency(budget.maximumSpend) }}
     </p>
     <div class="progress-bar">
       <div
@@ -58,12 +75,10 @@ const getRemainingPercentage = computed(() =>
         :style="`--color: var(--clr-${budget.theme}); --width: ${getRemainingPercentage}%`"
       ></div>
     </div>
-    <DescriptionList id="spent-remaining" :items="spentRemaining" />
-    <TransactionsTable
+    <DescriptionList id="spent-remaining" :items="getSpentRemaining" />
+    <LatestSpending
       id="latest-spending"
-      :transactions="budget.latestSpending"
-      link-text="see all"
-      title="latest spending"
+      :transactions="budget.transactions.slice(0, 3)"
     />
 
     <DeleteBudgetModal :budget="budget" v-model="showDeleteModal" />

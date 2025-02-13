@@ -16,8 +16,8 @@ defineProps({
     <template #modalDescription>
       As your budgets change, feel free to update your spending limits.
     </template>
-    <template #modalBody>
-      <BudgetForm :budget="budget" />
+    <template #modalBody="{ closeModal }">
+      <BudgetForm :budget="budget" @successful="closeModal" />
     </template>
   </BaseModal>
 </template>

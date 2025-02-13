@@ -34,7 +34,7 @@ const getThemes = computed(() =>
         props.pot?.theme == theme || !store.alreadyUsedThemes.includes(theme)
     )
     .map((theme) => ({
-      label: theme,
+      label: theme.split("-").join(" "),
       value: theme,
     }))
 );

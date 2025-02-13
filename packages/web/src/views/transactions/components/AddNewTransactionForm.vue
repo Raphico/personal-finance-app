@@ -57,6 +57,7 @@ function onSubmit() {
     {
       onSuccess() {
         queryClient.invalidateQueries({ queryKey: ["overview-transactions"] });
+        queryClient.invalidateQueries({ queryKey: ["budgets"] });
         queryClient.invalidateQueries({ queryKey: ["transactions"] });
         form.reset();
         emits("successful");
@@ -91,7 +92,7 @@ function onSubmit() {
         :defaultValue="form.fields.category"
         :options="
           transactionCategories.map((category) => ({
-            label: category,
+            label: category.split('-').join(' '),
             value: category,
           }))
         "

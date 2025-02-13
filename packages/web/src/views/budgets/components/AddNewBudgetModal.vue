@@ -11,8 +11,8 @@ import BudgetForm from "./BudgetForm.vue";
       >Choose a category to set a spending budget. These categories can help you
       monitor spending.</template
     >
-    <template #modalBody>
-      <BudgetForm />
+    <template #modalBody="{ closeModal }">
+      <BudgetForm @successful="closeModal" />
     </template>
   </BaseModal>
 </template>

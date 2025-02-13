@@ -1,12 +1,45 @@
 <script setup>
+import { budgets } from "@/api/budgets";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseModal from "@/components/BaseModal.vue";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
+import { AxiosError } from "axios";
+import { useToast } from "vue-toast-notification";
+import { watchEffect } from "vue";
 
+const emits = defineEmits(["done"]);
 defineProps({
   budget: {
     type: Object,
     required: true,
   },
+});
+
+const queryClient = useQueryClient();
+const toast = useToast();
+
+const {
+  isPending,
+  isError,
+  error,
+  isSuccess,
+  mutate: deleteBudget,
+} = useMutation({
+  mutationFn: (budgetId) => budgets.deleteItem(budgetId),
+  onSuccess() {
+    queryClient.invalidateQueries({ queryKey: ["overview-budgets"] });
+    queryClient.invalidateQueries({ queryKey: ["budgets"] });
+  },
+});
+
+watchEffect(() => {
+  if (isError.value && error.value instanceof AxiosError) {
+    toast.error(error.value.response.data.message, {
+      position: "top",
+    });
+  } else if (isSuccess.value) {
+    emits("done");
+  }
 });
 </script>
 
@@ -19,7 +52,13 @@ defineProps({
     </template>
     <template #modalBody="slotProps">
       <div class="actions">
-        <BaseButton variant="destroy"> yes, confirm deletion </BaseButton>
+        <BaseButton
+          variant="destroy"
+          @click="() => deleteBudget(budget.id)"
+          :loading="isPending"
+        >
+          yes, confirm deletion
+        </BaseButton>
         <BaseButton variant="ghost" @click="slotProps.closeModal">
           no, go back
         </BaseButton>
@@ -32,16 +71,17 @@ defineProps({
 .actions {
   display: grid;
   gap: var(--spacing-250);
+  margin-bottom: var(--spacing-100);
 }
 
-.actions :last-child {
+.actions > :last-child {
   color: var(--clr-grey-500);
   font-weight: 400;
   padding: 0;
   height: 21px;
 }
 
-.actions :last-child:hover {
+.actions > :last-child:hover {
   color: var(--clr-grey-900);
   background-color: transparent;
 }
