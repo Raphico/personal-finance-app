@@ -27,8 +27,12 @@ const {
 } = useMutation({
   mutationFn: (transactionId) => transactions.updateItem(transactionId),
   onSuccess() {
-    queryClient.invalidateQueries({ queryKey: ["overview-transactions"] });
-    queryClient.invalidateQueries({ queryKey: ["transactions"] });
+    queryClient.invalidateQueries({
+      queryKey: QUERY_KEYS.overviewTransactions,
+    });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.budgets });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewBudgets });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.transactions });
   },
 });
 

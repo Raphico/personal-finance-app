@@ -8,6 +8,7 @@ import { useToast } from "vue-toast-notification";
 import { useQuery } from "@tanstack/vue-query";
 import { transactions } from "@/api/transactions";
 import { computed, watch } from "vue";
+import { QUERY_KEYS } from "@/constants";
 
 useHead({
   title: "Recurring Bills - Personal Finance App",
@@ -25,7 +26,7 @@ const {
   data: recurringBills,
   error,
 } = useQuery({
-  queryKey: ["recurring-bills"],
+  queryKey: QUERY_KEYS.recurringBills,
   queryFn: fetchRecurringBills,
 });
 

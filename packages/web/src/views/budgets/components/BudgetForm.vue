@@ -16,6 +16,7 @@ import { budgetSchema } from "@repo/shared-validators/budgets";
 import { AxiosError } from "axios";
 import { budgets } from "@/api/budgets";
 import { computed } from "vue";
+import { QUERY_KEYS } from "@/constants";
 
 const emits = defineEmits(["successful"]);
 const props = defineProps({
@@ -76,8 +77,8 @@ function onSubmit() {
     },
     {
       onSuccess() {
-        queryClient.invalidateQueries({ queryKey: ["budgets"] });
-        queryClient.invalidateQueries({ queryKey: ["overview-budgets"] });
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.budgets });
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewBudgets });
         form.reset();
         emits("successful");
       },

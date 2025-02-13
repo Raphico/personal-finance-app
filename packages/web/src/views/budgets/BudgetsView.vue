@@ -10,6 +10,7 @@ import { budgets } from "@/api/budgets";
 import { watch, computed } from "vue";
 import { useBudgetsStore } from "@/stores/budgets";
 import IconNavBudgets from "@/components/Icons/IconNavBudgets.vue";
+import { QUERY_KEYS } from "@/constants";
 
 useHead({
   title: "Budgets - Personal Finance App",
@@ -28,7 +29,7 @@ const {
   data: budgetList,
   error,
 } = useQuery({
-  queryKey: ["budgets"],
+  queryKey: QUERY_KEYS.budgets,
   queryFn: fetchBudgets,
 });
 

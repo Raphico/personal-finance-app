@@ -1,30 +1,12 @@
-export const themes = [
-  "green",
-  "yellow",
-  "cyan",
-  "navy",
-  "red",
-  "purple",
-  "pink",
-  "turquoise",
-  "brown",
-  "magenta",
-  "blue",
-  "navy-grey",
-  "army-green",
-  "gold",
-  "orange",
-];
-
-export const budgetCategories = [
-  "Entertainment",
-  "Bills",
-  "Groceries",
-  "Dining Out",
-  "Transportation",
-  "Personal Care",
-  "Education",
-  "Lifestyle",
-  "Shopping",
-  "General",
-];
+export const QUERY_KEYS = {
+  budgets: ["budgets"],
+  pots: ["pots"],
+  recurringBills: ["recurring-bills"],
+  transactions: ["transactions"],
+  overviewTransactions: ["overview-transactions"],
+  overviewPots: ["overview-pots"],
+  overviewBudgets: ["overview-budgets"],
+  overviewRecurringBills: ["overview-recurring-bills"],
+  overviewSummary: ["overview-summary"],
+  overviewPotsTotalSaved: ["overview-pots-total-saved"],
+};

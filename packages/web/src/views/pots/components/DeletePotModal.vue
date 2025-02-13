@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { useToast } from "vue-toast-notification";
 import { watchEffect } from "vue";
 import { AxiosError } from "axios";
+import { QUERY_KEYS } from "@/constants";
 
 const emits = defineEmits(["done"]);
 defineProps({
@@ -27,8 +28,8 @@ const {
 } = useMutation({
   mutationFn: (potId) => pots.deleteItem(potId),
   onSuccess() {
-    queryClient.invalidateQueries({ queryKey: ["overview-pots"] });
-    queryClient.invalidateQueries({ queryKey: ["pots"] });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewPots });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.pots });
   },
 });
 

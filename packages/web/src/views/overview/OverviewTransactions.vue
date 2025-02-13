@@ -15,6 +15,7 @@ import BaseTableHeader from "@/components/BaseTableHeader.vue";
 import BaseTableRow from "@/components/BaseTableRow.vue";
 import IconCaretRight from "@/components/Icons/IconCaretRight.vue";
 import IconNavTransactions from "@/components/Icons/IconNavTransactions.vue";
+import { QUERY_KEYS } from "@/constants";
 
 const toast = useToast();
 const {
@@ -23,7 +24,7 @@ const {
   error,
   isError,
 } = useQuery({
-  queryKey: ["overview-transactions"],
+  queryKey: QUERY_KEYS.overviewTransactions,
   queryFn: fetchTransactions,
 });
 

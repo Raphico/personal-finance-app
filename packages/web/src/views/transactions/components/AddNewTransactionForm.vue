@@ -17,6 +17,7 @@ import { watch } from "vue";
 import { useQueryClient } from "@tanstack/vue-query";
 import { useToast } from "vue-toast-notification";
 import { AxiosError } from "axios";
+import { QUERY_KEYS } from "@/constants";
 
 const queryClient = useQueryClient();
 
@@ -56,9 +57,12 @@ function onSubmit() {
     },
     {
       onSuccess() {
-        queryClient.invalidateQueries({ queryKey: ["overview-transactions"] });
-        queryClient.invalidateQueries({ queryKey: ["budgets"] });
-        queryClient.invalidateQueries({ queryKey: ["transactions"] });
+        queryClient.invalidateQueries({
+          queryKey: QUERY_KEYS.overviewTransactions,
+        });
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.budgets });
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewBudgets });
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.transactions });
         form.reset();
         emits("successful");
       },

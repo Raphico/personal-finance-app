@@ -7,6 +7,7 @@ import { useToast } from "vue-toast-notification";
 import { useQuery } from "@tanstack/vue-query";
 import { transactions } from "@/api/transactions";
 import { watch } from "vue";
+import { QUERY_KEYS } from "@/constants";
 
 useHead({
   title: "Transactions - Personal Finance App",
@@ -24,7 +25,7 @@ const {
   data: transactionList,
   error,
 } = useQuery({
-  queryKey: ["transactions"],
+  queryKey: QUERY_KEYS.transactions,
   queryFn: fetchTransactions,
 });
 

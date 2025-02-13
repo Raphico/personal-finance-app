@@ -9,6 +9,7 @@ import { useToast } from "vue-toast-notification";
 import { watch } from "vue";
 import { transactions } from "@/api/transactions";
 import IconRecurringBills from "@/components/Icons/IconRecurringBills.vue";
+import { QUERY_KEYS } from "@/constants";
 
 const toast = useToast();
 const {
@@ -17,7 +18,7 @@ const {
   isError,
   data: recurringBills,
 } = useQuery({
-  queryKey: ["overview-recurring-bills"],
+  queryKey: QUERY_KEYS.overviewRecurringBills,
   queryFn: fetchRecurringBills,
 });
 

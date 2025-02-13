@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { AxiosError } from "axios";
 import { useToast } from "vue-toast-notification";
 import { watchEffect } from "vue";
+import { QUERY_KEYS } from "@/constants";
 
 const emits = defineEmits(["done"]);
 defineProps({
@@ -27,8 +28,8 @@ const {
 } = useMutation({
   mutationFn: (budgetId) => budgets.deleteItem(budgetId),
   onSuccess() {
-    queryClient.invalidateQueries({ queryKey: ["overview-budgets"] });
-    queryClient.invalidateQueries({ queryKey: ["budgets"] });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewBudgets });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.budgets });
   },
 });
 

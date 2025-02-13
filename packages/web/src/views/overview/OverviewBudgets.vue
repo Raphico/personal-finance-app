@@ -10,6 +10,7 @@ import { useToast } from "vue-toast-notification";
 import { watch } from "vue";
 import { budgets } from "@/api/budgets";
 import IconNavBudgets from "@/components/Icons/IconNavBudgets.vue";
+import { QUERY_KEYS } from "@/constants";
 
 const toast = useToast();
 const {
@@ -18,7 +19,7 @@ const {
   isError,
   data: budgetList,
 } = useQuery({
-  queryKey: ["overview-budgets"],
+  queryKey: QUERY_KEYS.overviewBudgets,
   queryFn: fetchBudgets,
 });
 

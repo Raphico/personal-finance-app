@@ -6,6 +6,7 @@ import { formatCurrency } from "@/utils/helpers";
 import { useQuery } from "@tanstack/vue-query";
 import { useToast } from "vue-toast-notification";
 import { watch, computed } from "vue";
+import { QUERY_KEYS } from "@/constants";
 
 const toast = useToast();
 const {
@@ -14,7 +15,7 @@ const {
   data: summary,
   isError,
 } = useQuery({
-  queryKey: ["overview-summary"],
+  queryKey: QUERY_KEYS.overviewSummary,
   queryFn: fetchSummary,
 });
 

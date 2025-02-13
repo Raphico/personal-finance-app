@@ -13,6 +13,7 @@ import { pots } from "@/api/pots";
 import { useQueryClient } from "@tanstack/vue-query";
 import { useToast } from "vue-toast-notification";
 import { AxiosError } from "axios";
+import { QUERY_KEYS } from "@/constants";
 
 const emits = defineEmits(["successful"]);
 const props = defineProps({
@@ -73,8 +74,8 @@ function onSubmit() {
     },
     {
       onSuccess() {
-        queryClient.invalidateQueries({ queryKey: ["overview-pots"] });
-        queryClient.invalidateQueries({ queryKey: ["pots"] });
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewPots });
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.pots });
         form.reset();
         emits("successful");
       },

@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/vue-query";
 import { useToast } from "vue-toast-notification";
 import { watch } from "vue";
 import { pots } from "@/api/pots";
+import { QUERY_KEYS } from "@/constants";
 
 const toast = useToast();
 
@@ -18,7 +19,7 @@ const {
   error: potListError,
   data: potList,
 } = useQuery({
-  queryKey: ["overview-pots"],
+  queryKey: QUERY_KEYS.overviewPots,
   queryFn: fetchPots,
 });
 
@@ -27,7 +28,7 @@ const {
   error: totalSavedError,
   data: totalSaved,
 } = useQuery({
-  queryKey: ["overview-pots-total-saved"],
+  queryKey: QUERY_KEYS.overviewPotsTotalSaved,
   queryFn: fetchTotalSaved,
 });
 

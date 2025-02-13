@@ -17,6 +17,7 @@ import { potSchema } from "@repo/shared-validators/pots";
 import { pots } from "@/api/pots";
 import { computed } from "vue";
 import { usePotsStore } from "@/stores/pots";
+import { QUERY_KEYS } from "@/constants";
 
 const emits = defineEmits(["successful"]);
 const props = defineProps({
@@ -72,8 +73,8 @@ function onSubmit() {
     },
     {
       onSuccess() {
-        queryClient.invalidateQueries({ queryKey: ["overview-pots"] });
-        queryClient.invalidateQueries({ queryKey: ["pots"] });
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewPots });
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.pots });
         form.reset();
         emits("successful");
       },

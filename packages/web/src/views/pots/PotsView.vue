@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/vue-query";
 import { pots } from "@/api/pots";
 import { watch } from "vue";
 import { usePotsStore } from "@/stores/pots";
+import { QUERY_KEYS } from "@/constants";
 
 useHead({
   title: "Pots - Personal Finance App",
@@ -26,7 +27,7 @@ const {
   data: potList,
   error,
 } = useQuery({
-  queryKey: ["pots"],
+  queryKey: QUERY_KEYS.pots,
   queryFn: fetchPots,
 });
 
