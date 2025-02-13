@@ -6,15 +6,12 @@ import IconCloseModal from "./Icons/IconCloseModal.vue";
 import PageHeader from "./PageHeader.vue";
 
 const model = defineModel({ default: false });
-const props = defineProps({
-  buttonSize: {
-    type: String,
-    default: "default",
-  },
-  buttonVariant: {
-    type: String,
-    default: "primary",
-  },
+
+defineOptions({
+  inheritAttrs: false,
+});
+
+defineProps({
   showTrigger: {
     type: Boolean,
     default: true,
@@ -49,9 +46,10 @@ const closeModal = () => {
 <template>
   <BaseButton
     v-if="showTrigger"
-    :size="buttonSize"
+    size="default"
     @click="openModal"
-    :variant="buttonVariant"
+    variant="primary"
+    v-bind="$attrs"
   >
     <slot name="modalTrigger"></slot>
   </BaseButton>

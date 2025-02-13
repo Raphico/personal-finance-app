@@ -5,7 +5,7 @@ import IconEllipsis from "@/components/Icons/IconEllipsis.vue";
 import MarkAsVoidModal from "./MarkAsVoidModal.vue";
 import { ref } from "vue";
 
-const props = defineProps({
+defineProps({
   row: {
     type: Object,
     required: true,

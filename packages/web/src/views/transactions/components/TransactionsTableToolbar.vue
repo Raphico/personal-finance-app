@@ -14,7 +14,6 @@ const props = defineProps({
   },
   categories: {
     type: Array,
-    default: [],
   },
 });
 

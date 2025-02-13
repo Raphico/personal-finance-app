@@ -14,7 +14,7 @@ export const useAuthStore = defineStore("auth", () => {
     try {
       const response = await userApi.getCurrentUser();
       login(response.data);
-    } catch (error) {
+    } catch (_) {
       logout();
     } finally {
       isAuthCheckDone.value = true;

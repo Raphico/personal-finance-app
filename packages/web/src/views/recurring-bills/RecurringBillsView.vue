@@ -24,7 +24,6 @@ const {
   isPending,
   data: recurringBills,
   error,
-  isError,
 } = useQuery({
   queryKey: ["recurring-bills"],
   queryFn: fetchRecurringBills,
@@ -86,7 +85,7 @@ const getRecurringBillsSummary = computed(() => {
         role="status"
         class="recurring-bills__loading-total-bills animate-pulse"
       ></div>
-      <RecurringBillsTotalBills v-else :total-bills="getTotalBills" />
+      <RecurringBillsTotalBills v-else :total-bills="getTotalBills ?? 0" />
 
       <div
         v-if="isPending"

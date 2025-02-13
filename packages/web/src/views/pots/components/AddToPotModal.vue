@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-  <BaseModal button-variant="secondary">
+  <BaseModal variant="secondary">
     <template #modalTrigger>add money</template>
     <template #modalTitle>Add to '{{ pot.name }}'?</template>
     <template #modalDescription>

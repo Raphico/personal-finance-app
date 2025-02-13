@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-  <BaseModal button-variant="secondary">
+  <BaseModal variant="secondary">
     <template #modalTrigger>withdraw</template>
     <template #modalTitle>withdraw from '{{ pot.name }}'?</template>
     <template #modalDescription>

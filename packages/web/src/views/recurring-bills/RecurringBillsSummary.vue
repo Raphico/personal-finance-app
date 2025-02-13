@@ -3,7 +3,7 @@ import BaseCard from "@/components/BaseCard.vue";
 import BaseCardTitle from "@/components/BaseCardTitle.vue";
 import { formatCurrency } from "@/utils/helpers";
 
-const props = defineProps({
+defineProps({
   summary: {
     type: Map,
     required: true,
