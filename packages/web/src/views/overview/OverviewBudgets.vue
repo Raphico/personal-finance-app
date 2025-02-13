@@ -11,6 +11,8 @@ import { watch } from "vue";
 import { budgets } from "@/api/budgets";
 import IconNavBudgets from "@/components/Icons/IconNavBudgets.vue";
 import { QUERY_KEYS } from "@/constants";
+import BudgetPieChart from "@/components/BudgetPieChart.vue";
+import { computed } from "vue";
 
 const toast = useToast();
 const {
@@ -29,10 +31,57 @@ watch(error, (value) => {
   });
 });
 
+const {
+  isPending: isLoadingSummary,
+  isError: isSummaryError,
+  error: summaryError,
+  data: summary,
+} = useQuery({
+  queryKey: ["budget-summary"],
+  queryFn: fetchBudgetsSummary,
+});
+
+watch(summaryError, (value) => {
+  toast.error(value.message, {
+    position: "top",
+  });
+});
+
 async function fetchBudgets() {
-  const response = await budgets.getList({ limit: 8 });
+  const response = await budgets.getList({ params: { limit: 8 } });
   return response.data.budgets;
 }
+
+async function fetchBudgetsSummary() {
+  const response = await budgets.getBudgetsSummary();
+  return response.data;
+}
+
+const getTotalExpense = computed(() => {
+  if (!summary.value) return;
+  return summary.value.reduce(
+    (accumulator, currentItem) =>
+      (accumulator += Number(currentItem.amountSpent)),
+    0
+  );
+});
+
+const getTotalMaximumSpend = computed(() => {
+  if (!summary.value) return;
+  return summary.value.reduce(
+    (accumulator, currentItem) =>
+      (accumulator += Number(currentItem.maximumSpend)),
+    0
+  );
+});
+
+const getPieChartData = computed(() => {
+  if (!summary.value) return;
+  summary.value.map((item) => ({
+    percentage: Math.abs(item.amountSpent / getTotalExpense.value).toFixed(2),
+    theme: item.theme,
+  }));
+});
 </script>
 
 <template>
@@ -55,11 +104,17 @@ async function fetchBudgets() {
 
     <div v-else class="budgets__content">
       <div
-        v-if="isPending"
+        v-if="isLoadingSummary"
         class="budgets__loading-chart animate-pulse"
         role="status"
       ></div>
-      <div v-else class="budgets__chart"></div>
+      <BudgetPieChart
+        v-else
+        class="budgets__chart"
+        :total-expense="getTotalExpense ?? 0"
+        :total-maximum-spend="getTotalMaximumSpend ?? 0"
+        :data="getPieChartData ?? []"
+      />
 
       <div
         v-if="isPending"
@@ -120,7 +175,12 @@ async function fetchBudgets() {
   justify-content: end;
 }
 
-.budgets__chart,
+.budgets__chart {
+  grid-column: 1 / -1;
+  justify-self: center;
+  grid-row: 1 / 2;
+}
+
 .budgets__loading-chart {
   grid-column: 1 / -1;
   grid-row: 1 / 2;

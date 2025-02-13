@@ -45,7 +45,7 @@ watch(totalSavedError, (value) => {
 });
 
 async function fetchPots() {
-  const response = await pots.getList({ limit: 4 });
+  const response = await pots.getList({ params: { limit: 4 } });
   return response.data.pots;
 }
 

@@ -29,10 +29,11 @@ const getAmountSpent = computed(() =>
 );
 
 const getRemainingPercentage = computed(() =>
-  Math.round((getAmountSpent.value / props.budget.maximumSpend) * 100)
+  Math.min(
+    Math.round((getAmountSpent.value / props.budget.maximumSpend) * 100),
+    100
+  )
 );
-
-console.log(getRemainingPercentage.value);
 
 const getSpentRemaining = computed(() => {
   const amountRemaining = Math.max(

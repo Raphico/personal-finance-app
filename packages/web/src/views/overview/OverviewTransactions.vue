@@ -35,7 +35,7 @@ watch(error, (value) => {
 });
 
 async function fetchTransactions() {
-  const response = await transactions.getList({ limit: 5 });
+  const response = await transactions.getList({ params: { limit: 5 } });
   return response.data.transactions;
 }
 </script>
