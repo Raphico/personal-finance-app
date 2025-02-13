@@ -18,7 +18,6 @@ This is a solution to the [Personal finance app challenge on Frontend Mentor](ht
 - [x] Receive validation messages if required form fields aren't completed
 - [x] Navigate the whole app and perform all actions using only their keyboard
 - [x] View the optimal layout for the interface depending on their device's screen size
-- [] Deploy application
 
 ## Project setup
 
