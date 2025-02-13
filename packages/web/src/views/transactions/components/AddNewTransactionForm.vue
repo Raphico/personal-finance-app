@@ -20,6 +20,7 @@ import { AxiosError } from "axios";
 
 const queryClient = useQueryClient();
 
+const emits = defineEmits(["successful"]);
 const toast = useToast();
 const form = useForm({
   name: "",
@@ -58,15 +59,15 @@ function onSubmit() {
         queryClient.invalidateQueries({ queryKey: ["overview-transactions"] });
         queryClient.invalidateQueries({ queryKey: ["transactions"] });
         form.reset();
+        emits("successful");
       },
       onError(error) {
-        let message = "Something went wrong. Please try again later";
         if (error instanceof AxiosError) {
-          message = error.response.data.message;
+          const message = error.response.data.message;
+          toast.error(message, {
+            position: "top",
+          });
         }
-        toast.error(message, {
-          position: "top",
-        });
       },
     }
   );
@@ -74,15 +75,10 @@ function onSubmit() {
 </script>
 
 <template>
-  <BaseForm @submit.prevent="onSubmit">
+  <BaseForm @submit.prevent="onSubmit" autocomplete="off">
     <BaseFormItem>
       <BaseLabel for="name" :data-error="form.error.name">name</BaseLabel>
-      <BaseInput
-        v-model="form.fields.name"
-        id="name"
-        name="name"
-        autocomplete="off"
-      />
+      <BaseInput v-model="form.fields.name" id="name" name="name" />
       <BaseFormMessage v-if="form.error.name" :message="form.error.name" />
     </BaseFormItem>
 

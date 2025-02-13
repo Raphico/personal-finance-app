@@ -3,6 +3,7 @@ import { transactions } from "@/api/transactions";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseModal from "@/components/BaseModal.vue";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
+import { AxiosError } from "axios";
 import { watchEffect } from "vue";
 import { useToast } from "vue-toast-notification";
 
@@ -32,7 +33,7 @@ const {
 });
 
 watchEffect(() => {
-  if (isError.value) {
+  if (isError.value && error.value instanceof AxiosError) {
     toast.error(error.value.response.data.message, {
       position: "top",
     });

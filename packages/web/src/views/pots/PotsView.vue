@@ -3,6 +3,11 @@ import PageHeader from "@/components/PageHeader.vue";
 import AddNewPotModal from "./components/AddNewPotModal.vue";
 import PotList from "./components/PotList.vue";
 import { useHead } from "@unhead/vue";
+import { useToast } from "vue-toast-notification";
+import { useQuery } from "@tanstack/vue-query";
+import { pots } from "@/api/pots";
+import { watch } from "vue";
+import { usePotsStore } from "@/stores/pots";
 
 useHead({
   title: "Pots - Personal Finance App",
@@ -14,71 +19,83 @@ useHead({
   ],
 });
 
-const pots = [
-  {
-    id: 1,
-    name: "savings",
-    target: 2000,
-    totalSaved: 159,
-    theme: "green",
-  },
-  {
-    id: 2,
-    name: "concert ticket",
-    target: 150,
-    totalSaved: 110,
-    theme: "blue",
-  },
-  {
-    id: 3,
-    name: "gift",
-    target: 60,
-    totalSaved: 40,
-    theme: "purple",
-  },
-  {
-    id: 4,
-    name: "new laptop",
-    target: 1000,
-    totalSaved: 10,
-    theme: "navy",
-  },
-  {
-    id: 5,
-    name: "holiday",
-    target: 1440,
-    totalSaved: 531,
-    theme: "yellow",
-  },
-];
+const { setAlreadyUsedThemes } = usePotsStore();
+const toast = useToast();
+const {
+  isPending,
+  data: potList,
+  error,
+} = useQuery({
+  queryKey: ["pots"],
+  queryFn: fetchPots,
+});
+
+watch(error, (value) => {
+  toast.error(value.message, {
+    position: "top",
+  });
+});
+
+watch(potList, () => {
+  if (potList.value) {
+    setAlreadyUsedThemes(potList.value.map((pot) => pot.theme));
+  }
+});
+
+async function fetchPots() {
+  const response = await pots.getList();
+  return response.data.pots;
+}
 </script>
 
 <template>
-  <div class="pots-container">
+  <div class="pots">
     <header>
-      <PageHeader>Pots</PageHeader>
+      <PageHeader class="pots__header">Pots</PageHeader>
       <AddNewPotModal />
     </header>
 
-    <div class="content">
-      <PotList :pots="pots" />
+    <div v-if="isPending" class="pots__loading-container">
+      <div class="pots__loading-item animate-pulse" role="status"></div>
+      <div class="pots__loading-item animate-pulse" role="status"></div>
+      <div class="pots__loading-item animate-pulse" role="status"></div>
+      <div class="pots__loading-item animate-pulse" role="status"></div>
     </div>
+    <PotList v-else :pots="potList ?? []" />
   </div>
 </template>
 
 <style scoped>
-.pots-container {
+.pots {
   display: grid;
   gap: var(--spacing-400);
 }
 
-.pots-container header {
+.pots header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-h1 {
+.pots__loading-container {
+  display: grid;
+  gap: var(--spacing-200);
+}
+
+.pots__loading-item {
+  width: 100%;
+  height: 295px;
+  border-radius: 8px;
+  background-color: var(--clr-white);
+}
+
+@media (min-width: 1024px) {
+  .pots__loading-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.pots__header {
   margin: 0;
 }
 </style>

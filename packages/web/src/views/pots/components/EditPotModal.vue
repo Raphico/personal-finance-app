@@ -16,8 +16,8 @@ defineProps({
     <template #modalDescription>
       If your saving targets change, feel free to update your pots.
     </template>
-    <template #modalBody>
-      <PotForm :pot="pot" />
+    <template #modalBody="{ closeModal }">
+      <PotForm :pot="pot" @successful="closeModal" />
     </template>
   </BaseModal>
 </template>

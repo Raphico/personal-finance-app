@@ -13,8 +13,8 @@ import AddNewTransactionForm from "./AddNewTransactionForm.vue";
       Add an income or expense. Income increases your balance, and expenses can
       be linked to a budget
     </template>
-    <template #modalBody>
-      <AddNewTransactionForm />
+    <template #modalBody="{ closeModal }">
+      <AddNewTransactionForm @successful="closeModal" />
     </template>
   </BaseModal>
 </template>

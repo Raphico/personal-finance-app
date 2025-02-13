@@ -11,8 +11,8 @@ import PotForm from "./PotForm.vue";
       Create a pot to set savings targets. These can help keep you on track as
       you save for special purchases.
     </template>
-    <template #modalBody>
-      <PotForm />
+    <template #modalBody="{ closeModal }">
+      <PotForm @successful="closeModal" />
     </template>
   </BaseModal>
 </template>

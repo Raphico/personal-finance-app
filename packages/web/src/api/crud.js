@@ -13,11 +13,11 @@ export class Crud {
     return http.post(this.baseUrl, params);
   }
 
-  deleteItem(id, params) {
+  deleteItem(id, params = null) {
     return http.delete(this.baseUrl + `/${id}`, params);
   }
 
-  updateItem(id, params) {
+  updateItem(id, params = null) {
     return http.patch(this.baseUrl + `/${id}`, params);
   }
 }
