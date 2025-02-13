@@ -9,6 +9,24 @@ export const markTransactionAsVoid = asyncHandler(
   async function markTransactionAsVoid(request, response) {
     const { id } = request.params;
 
+    const isTransactionPot = await db.query.transactions.findFirst({
+      column: {
+        id: true,
+      },
+      where: and(
+        eq(transactions.id, id),
+        eq(request.user.id, transactions.userId),
+        eq(transactions.category, "pot")
+      ),
+    });
+
+    if (isTransactionPot) {
+      throw new ApiError({
+        message: "You can't mark pot transaction has void",
+        status: 400,
+      });
+    }
+
     const [transaction] = await db
       .update(transactions)
       .set({

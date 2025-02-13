@@ -8,8 +8,8 @@ export const getTransactionSummary = asyncHandler(
   async function getTransactionSummary(request, response) {
     const [summary] = await db
       .select({
-        income: sql`SUM(CASE WHEN ${transactions.amount} > 0 THEN ${transactions.amount} END)`,
-        expenses: sql`SUM(CASE WHEN ${transactions.amount} < 0 THEN ${transactions.amount} END)`,
+        income: sql`SUM(CASE WHEN ${transactions.category} = 'income' THEN ${transactions.amount} END)`,
+        expenses: sql`SUM(CASE WHEN ${transactions.category} <> 'income' THEN ${transactions.amount} END)`,
       })
       .from(transactions)
       .where(

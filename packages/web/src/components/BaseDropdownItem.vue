@@ -11,7 +11,12 @@
   transition: all var(--transition-duration) var(--transition-easing);
 }
 
-[role="menuitem"]:hover {
+[role="menuitem"]:hover,
+[role="menuitem"]:disabled {
   opacity: 0.8;
+}
+
+[role="menuitem"]:disabled {
+  pointer-events: none;
 }
 </style>

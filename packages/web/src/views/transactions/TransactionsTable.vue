@@ -88,7 +88,10 @@ const columns = [
   columnHelper.accessor("actions", {
     id: "actions",
     header: "",
-    cell: ({ row }) => h(TransactionTableRowAction, { row }),
+    cell: ({ row }) =>
+      row.original.category == "pot"
+        ? null
+        : h(TransactionTableRowAction, { row }),
   }),
 ];
 
@@ -232,6 +235,7 @@ const table = useVueTable({
   .transactions__row > :last-child {
     grid-row: 1 / -1;
     grid-column: 3 / 4;
+    place-self: center;
   }
 
   .transactions__row > :first-child {

@@ -21,7 +21,7 @@ const {
 
 const currentBalance = computed(() => {
   if (!isError.value && summary.value) {
-    return summary.value.income - summary.value.expenses;
+    return Number(summary.value.income) + Number(summary.value.expenses);
   }
 
   return 0;

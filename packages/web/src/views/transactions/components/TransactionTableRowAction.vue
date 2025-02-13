@@ -1,9 +1,8 @@
 <script setup>
-import BaseDropdown from "@/components/BaseDropdown.vue";
-import BaseDropdownItem from "@/components/BaseDropdownItem.vue";
-import IconEllipsis from "@/components/Icons/IconEllipsis.vue";
 import MarkAsVoidModal from "./MarkAsVoidModal.vue";
 import { ref } from "vue";
+import BaseButton from "@/components/BaseButton.vue";
+import IconCloseModal from "@/components/Icons/IconCloseModal.vue";
 
 defineProps({
   row: {
@@ -16,25 +15,14 @@ const showMarkAsVoidModal = ref(false);
 </script>
 
 <template>
-  <BaseDropdown>
-    <template #dropdownTrigger>
-      <IconEllipsis class="icon" />
-      <span class="sr-only">transaction actions</span>
-    </template>
-    <template #dropdownContent="slotProps">
-      <BaseDropdownItem
-        @click="
-          () => {
-            showMarkAsVoidModal = true;
-            slotProps.closeDropdown();
-          }
-        "
-        class="void-transaction text-preset-4-regular"
-      >
-        Mark as void
-      </BaseDropdownItem>
-    </template>
-  </BaseDropdown>
+  <BaseButton
+    size="icon"
+    variant="ghost"
+    @click="showMarkAsVoidModal = true"
+    class="void-button"
+  >
+    <IconCloseModal class="void-button__icon" />
+  </BaseButton>
 
   <MarkAsVoidModal
     v-model="showMarkAsVoidModal"
@@ -44,13 +32,20 @@ const showMarkAsVoidModal = ref(false);
 </template>
 
 <style scoped>
-.icon {
+.void-button__icon {
+  width: 18px;
+  height: 18px;
   color: var(--clr-grey-500);
 }
 
-@media (max-width: 540px) {
-  .icon {
-    transform: rotate(90deg);
-  }
+.void-button {
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+}
+
+.void-button:hover {
+  background-color: transparent;
+  color: var(--clr-grey-900);
 }
 </style>

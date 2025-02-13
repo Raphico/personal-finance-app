@@ -5,19 +5,19 @@ export class Crud {
     this.baseUrl = baseUrl;
   }
 
-  getList(params = null) {
+  getList(params) {
     return http.get(this.baseUrl, params);
   }
 
-  addItem(params = null) {
+  addItem(params) {
     return http.post(this.baseUrl, params);
   }
 
-  deleteItem(id, params = null) {
+  deleteItem(id, params) {
     return http.delete(this.baseUrl + `/${id}`, params);
   }
 
-  updateItem(id, params = null) {
+  updateItem(id, params) {
     return http.patch(this.baseUrl + `/${id}`, params);
   }
 }
