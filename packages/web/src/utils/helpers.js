@@ -11,6 +11,10 @@ export function getError(error) {
     }, {});
   }
 
+  if (error instanceof Error) {
+    return JSON.parse(error.message);
+  }
+
   if (error instanceof AxiosError) {
     return { general: error.response.data?.message };
   }

@@ -21,7 +21,25 @@ export const addWithdrawMoney = asyncHandler(
 
     const { amount } = data;
 
-    const pot = await db.transaction(async (tx) => {
+    const updatedPot = await db.transaction(async (tx) => {
+      // For deposits, check if the main balance covers the deposit
+      if (amount > 0) {
+        const [{ currentBalance }] = await tx
+          .select({
+            currentBalance: sql`SUM(${transactions.amount})`,
+          })
+          .from(transactions)
+          .where(eq(transactions.userId, request.user.id));
+
+        if (currentBalance < amount) {
+          throw new ApiError({
+            message: "You don't have enough balance to add to pot",
+            statusCode: 400,
+          });
+        }
+      }
+
+      // Update the pot's totalSaved
       const [pot] = await tx
         .update(pots)
         .set({
@@ -43,6 +61,7 @@ export const addWithdrawMoney = asyncHandler(
         });
       }
 
+      // Ensure new totalSaved is within valid range
       if (
         Number(pot.totalSaved) < 0 ||
         Number(pot.totalSaved) > Number(pot.target)
@@ -56,19 +75,23 @@ export const addWithdrawMoney = asyncHandler(
         });
       }
 
-      const [transaction] = await tx
+      // Record the transaction for the pot operation
+      const [newTransaction] = await tx
         .insert(transactions)
         .values({
           userId: request.user.id,
           name: pot.name,
-          amount: amount,
+          amount: -amount,
           date: getCurrentDate(),
           category: "pot",
         })
         .returning({ id: transactions.id });
 
-      if (!transaction) {
-        tx.rollback();
+      if (!newTransaction) {
+        throw new ApiError({
+          message: "Transaction recording failed",
+          statusCode: 500,
+        });
       }
 
       return pot;
@@ -76,7 +99,7 @@ export const addWithdrawMoney = asyncHandler(
 
     response.status(200).json(
       new ApiResponse({
-        data: pot,
+        data: updatedPot,
         message: "pot's total saved updated successfully",
         status: "ok",
       })

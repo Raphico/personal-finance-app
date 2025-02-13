@@ -9,6 +9,10 @@ class Pots extends Crud {
   getTotalSaved() {
     return http.get(`${this.baseUrl}/total`);
   }
+
+  addWithdrawMoney(id, params) {
+    return http.patch(`${this.baseUrl}/${id}/transactions`, params);
+  }
 }
 
 export const pots = new Pots();

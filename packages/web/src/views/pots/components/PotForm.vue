@@ -52,6 +52,14 @@ function onSubmit() {
     async (fields) => {
       const { name, target, theme } = fields;
 
+      if (props.pot && props.pot.totalSaved > target) {
+        throw new Error(
+          JSON.stringify({
+            target: "New target must be greater than the total saved.",
+          })
+        );
+      }
+
       const values = potSchema.parse({
         name,
         target,

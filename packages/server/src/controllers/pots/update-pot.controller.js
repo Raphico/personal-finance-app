@@ -26,6 +26,23 @@ export const updatePot = asyncHandler(
       });
     }
 
+    if (target) {
+      const pot = await db.query.pots.findFirst({
+        columns: {
+          id: true,
+          totalSaved: true,
+        },
+        where: and(eq(pots.userId, request.user.id), eq(pots.id, id)),
+      });
+
+      if (pot.totalSaved > Number(target)) {
+        throw new ApiError({
+          message: "New target must be greater than the total saved.",
+          statusCode: 400,
+        });
+      }
+    }
+
     try {
       const [pot] = await db
         .update(pots)

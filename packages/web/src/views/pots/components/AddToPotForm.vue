@@ -8,15 +8,23 @@ import BaseLabel from "@/components/BaseLabel.vue";
 import { useForm } from "@/composables/useForm";
 import { formatCurrency, truncateToTwoDecimals } from "@/utils/helpers";
 import { computed } from "vue";
+import { amountSchema } from "@repo/shared-validators/pots";
+import { pots } from "@/api/pots";
+import { useQueryClient } from "@tanstack/vue-query";
+import { useToast } from "vue-toast-notification";
+import { AxiosError } from "axios";
 
+const emits = defineEmits(["successful"]);
 const props = defineProps({
   pot: {
     type: Object,
   },
 });
 
+const queryClient = useQueryClient();
+const toast = useToast();
 const form = useForm({
-  amountToAdd: "",
+  amount: "",
 });
 
 const getLastTotalSavedPercentage = computed(() =>
@@ -25,7 +33,7 @@ const getLastTotalSavedPercentage = computed(() =>
 const getAmountToAddPercentage = computed(() =>
   truncateToTwoDecimals(
     Math.min(
-      (Number(form.fields.amountToAdd) / props.pot.target) * 100,
+      (Number(form.fields.amount) / props.pot.target) * 100,
       100 - getLastTotalSavedPercentage.value
     )
   )
@@ -33,7 +41,7 @@ const getAmountToAddPercentage = computed(() =>
 const getTotalSavedPercentage = computed(() =>
   truncateToTwoDecimals(
     Math.min(
-      ((Number(form.fields.amountToAdd) + props.pot.totalSaved) /
+      ((Number(form.fields.amount) + Number(props.pot.totalSaved)) /
         props.pot.target) *
         100,
       100
@@ -41,12 +49,50 @@ const getTotalSavedPercentage = computed(() =>
   )
 );
 const getTotalSaved = computed(
-  () => Number(form.fields.amountToAdd) + props.pot.totalSaved
+  () => Number(form.fields.amount) + Number(props.pot.totalSaved)
 );
+
+function onSubmit() {
+  form.submit(
+    async (fields) => {
+      const { amount } = fields;
+
+      const values = amountSchema.parse({
+        amount,
+      });
+
+      if (values.amount > props.pot.target) {
+        throw new Error(
+          JSON.stringify({
+            amount: "Deposit should not exceed target amount",
+          })
+        );
+      }
+
+      return pots.addWithdrawMoney(props.pot.id, values);
+    },
+    {
+      onSuccess() {
+        queryClient.invalidateQueries({ queryKey: ["overview-pots"] });
+        queryClient.invalidateQueries({ queryKey: ["pots"] });
+        form.reset();
+        emits("successful");
+      },
+      onError(error) {
+        if (error instanceof AxiosError) {
+          const message = error.response.data.message;
+          toast.error(message, {
+            position: "top",
+          });
+        }
+      },
+    }
+  );
+}
 </script>
 
 <template>
-  <BaseForm>
+  <BaseForm @submit.prevent="onSubmit">
     <div>
       <p class="new-amount text-preset-1">
         <span class="text-preset-4-regular">new amount</span>
@@ -71,18 +117,15 @@ const getTotalSaved = computed(
       </p>
     </div>
     <BaseFormItem>
-      <BaseLabel for="amountToAdd" :data-error="form.error.amountToAdd"
+      <BaseLabel for="amount" :data-error="form.error.amount"
         >Amount to add</BaseLabel
       >
       <BaseCurrencyInput
-        v-model="form.fields.amountToAdd"
-        id="amountToAdd"
-        name="amountToAdd"
+        v-model="form.fields.amount"
+        id="amount"
+        name="amount"
       />
-      <BaseFormMessage
-        v-if="form.error.amountToAdd"
-        :message="form.error.amountToAdd"
-      />
+      <BaseFormMessage v-if="form.error.amount" :message="form.error.amount" />
     </BaseFormItem>
     <BaseButton
       :loading="form.isLoading"

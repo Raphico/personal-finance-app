@@ -7,38 +7,83 @@ import BaseFormMessage from "@/components/BaseFormMessage.vue";
 import BaseLabel from "@/components/BaseLabel.vue";
 import { useForm } from "@/composables/useForm";
 import { formatCurrency, truncateToTwoDecimals } from "@/utils/helpers";
+import { useQueryClient } from "@tanstack/vue-query";
 import { computed } from "vue";
+import { useToast } from "vue-toast-notification";
+import { amountSchema } from "@repo/shared-validators/pots";
+import { AxiosError } from "axios";
+import { pots } from "@/api/pots";
 
+const emits = defineEmits(["successful"]);
 const props = defineProps({
   pot: {
     type: Object,
   },
 });
 
+const queryClient = useQueryClient();
+const toast = useToast();
 const form = useForm({
-  amountToWithdraw: "",
+  amount: "",
 });
 
 const getTotalSaved = computed(
-  () => props.pot.totalSaved - Number(form.fields.amountToWithdraw)
+  () => props.pot.totalSaved - Number(form.fields.amount)
 );
 const getAmountWithdrawnPercentage = computed(() =>
-  truncateToTwoDecimals((form.fields.amountToWithdraw / props.pot.target) * 100)
+  truncateToTwoDecimals((form.fields.amount / props.pot.target) * 100)
 );
 const getAfterWithdrawPercentage = computed(() =>
   truncateToTwoDecimals((getTotalSaved.value / props.pot.target) * 100)
 );
 const getTotalSavedPercentage = computed(() =>
   truncateToTwoDecimals(
-    ((props.pot.totalSaved - Number(form.fields.amountToWithdraw)) /
-      props.pot.target) *
+    ((props.pot.totalSaved - Number(form.fields.amount)) / props.pot.target) *
       100
   )
 );
+
+function onSubmit() {
+  form.submit(
+    async (fields) => {
+      const { amount } = fields;
+
+      const values = amountSchema.parse({
+        amount,
+      });
+
+      if (values.amount > props.pot.totalSaved) {
+        throw new Error(
+          JSON.stringify({
+            amount: "You cannot withdraw more than the total saved",
+          })
+        );
+      }
+
+      return pots.addWithdrawMoney(props.pot.id, { amount: -values.amount });
+    },
+    {
+      onSuccess() {
+        queryClient.invalidateQueries({ queryKey: ["overview-pots"] });
+        queryClient.invalidateQueries({ queryKey: ["pots"] });
+        form.reset();
+        emits("successful");
+      },
+      onError(error) {
+        if (error instanceof AxiosError) {
+          const message = error.response.data.message;
+          toast.error(message, {
+            position: "top",
+          });
+        }
+      },
+    }
+  );
+}
 </script>
 
 <template>
-  <BaseForm>
+  <BaseForm @submit.prevent="onSubmit">
     <div>
       <p class="new-amount text-preset-1">
         <span class="text-preset-4-regular">new amount</span>
@@ -60,20 +105,15 @@ const getTotalSavedPercentage = computed(() =>
       </p>
     </div>
     <BaseFormItem>
-      <BaseLabel
-        for="amountToWithdraw"
-        :data-error="form.error.amountToWithdraw"
+      <BaseLabel for="amount" :data-error="form.error.amount"
         >Amount to withdraw</BaseLabel
       >
       <BaseCurrencyInput
-        v-model="form.fields.amountToWithdraw"
-        id="amountToWithdraw"
-        name="amountToWithdraw"
+        v-model="form.fields.amount"
+        id="amount"
+        name="amount"
       />
-      <BaseFormMessage
-        v-if="form.error.amountToWithdraw"
-        :message="form.error.amountToWithdraw"
-      />
+      <BaseFormMessage v-if="form.error.amount" :message="form.error.amount" />
     </BaseFormItem>
     <BaseButton
       :loading="form.isLoading"

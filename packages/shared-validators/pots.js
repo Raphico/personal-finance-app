@@ -20,6 +20,15 @@ export const potSchema = z.object({
   }),
 });
 
+export const amountSchema = z.object({
+  amount: z.coerce
+    .number({ required_error: "amount is required" })
+    .min(0.01, {
+      message: "amount must be at least $0.01",
+    })
+    .max(1_000_000, { message: "amount must not exceed $1,000,000" }),
+});
+
 export const addWithdrawMoneySchema = z.object({
   amount: z.coerce
     .number({ required_error: "amount is required" })

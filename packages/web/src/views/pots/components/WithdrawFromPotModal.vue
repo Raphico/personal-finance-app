@@ -18,8 +18,8 @@ defineProps({
       Withdraw from your pot to put money back in your main balance. This will
       reduce the amount you have in this pot.
     </template>
-    <template #modalBody>
-      <WithdrawFromPotForm :pot="pot" />
+    <template #modalBody="{ closeModal }">
+      <WithdrawFromPotForm :pot="pot" @successful="closeModal" />
     </template>
   </BaseModal>
 </template>

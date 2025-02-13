@@ -11,8 +11,8 @@ This is a solution to the [Personal finance app challenge on Frontend Mentor](ht
 - [x] Search, sort, and filter transactions
 - [] Create, read, update, delete (CRUD) budgets and saving pots
 - [] View the latest three transactions for each budget category created
-- [] View progress towards each pot
-- [] Add money to and withdraw money from pots
+- [x] View progress towards each pot
+- [x] Add money to and withdraw money from pots
 - [x] View recurring bills and the status of each for the current month
 - [x] Search and sort recurring bills
 - [x] Receive validation messages if required form fields aren't completed
