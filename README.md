@@ -6,15 +6,16 @@ This is a solution to the [Personal finance app challenge on Frontend Mentor](ht
 
 - [x] user authentication
 - [x] See all of the personal finance app data at-a-glance on the overview page
-- [] View all transactions on the transactions page with pagination for every ten transactions
-- [] Search, sort, and filter transactions
+- [x] View all transactions on the transactions page with pagination for every ten transactions
+- [x] Add new transaction and mark a transaction as void
+- [x] Search, sort, and filter transactions
 - [] Create, read, update, delete (CRUD) budgets and saving pots
 - [] View the latest three transactions for each budget category created
 - [] View progress towards each pot
 - [] Add money to and withdraw money from pots
 - [x] View recurring bills and the status of each for the current month
 - [x] Search and sort recurring bills
-- [] Receive validation messages if required form fields aren't completed
+- [x] Receive validation messages if required form fields aren't completed
 - [x] Navigate the whole app and perform all actions using only their keyboard
 - [x] View the optimal layout for the interface depending on their device's screen size
 

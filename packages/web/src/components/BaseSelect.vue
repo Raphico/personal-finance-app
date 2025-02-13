@@ -47,10 +47,10 @@ const openDropdown = () => {
 
 onClickOutside(selectRef, closeDropdown);
 
-function updateSelectedOption(index, event) {
+function updateSelectedOption(index) {
   selectedIndex.value = index;
   closeDropdown();
-  emits("select", props.options[index].value, event);
+  emits("select", props.options[index].value);
 }
 
 function handleKeyNavigation(event) {
@@ -61,19 +61,19 @@ function handleKeyNavigation(event) {
     case "ArrowDown":
       event.preventDefault();
       selectedIndex.value = (selectedIndex.value + 1) % optionsLength;
-      emits("select", props.options[selectedIndex.value].value, event);
+      emits("select", props.options[selectedIndex.value].value);
       break;
     case "ArrowUp":
       event.preventDefault();
       selectedIndex.value =
         (selectedIndex.value - 1 + optionsLength) % optionsLength;
-      emits("select", props.options[selectedIndex.value].value, event);
+      emits("select", props.options[selectedIndex.value].value);
       break;
     case "Enter":
     case " ":
       event.preventDefault();
       if (selectedIndex.value >= 0) {
-        updateSelectedOption(selectedIndex.value, event);
+        updateSelectedOption(selectedIndex.value);
       }
       break;
     default:
@@ -102,7 +102,7 @@ function handleKeyNavigation(event) {
       tabindex="0"
     >
       <slot name="currentValue" :currentValue="options[selectedIndex].value">
-        <span>{{ options[selectedIndex].value }}</span>
+        <span>{{ options[selectedIndex].label }}</span>
       </slot>
       <slot name="icon">
         <IconCaretDown />
@@ -127,9 +127,9 @@ function handleKeyNavigation(event) {
           :key="option.value"
           :aria-selected="selectedIndex == index"
           :data-selected="selectedIndex == index"
-          @click="(event) => updateSelectedOption(index, event)"
-          @keydown.enter="(event) => updateSelectedOption(index, event)"
-          @keydown.space="(event) => updateSelectedOption(index, event)"
+          @click="() => updateSelectedOption(index)"
+          @keydown.enter="() => updateSelectedOption(index)"
+          @keydown.space="() => updateSelectedOption(index)"
           class="text-preset-4-regular"
         >
           {{ option.label }}
@@ -150,6 +150,7 @@ function handleKeyNavigation(event) {
   right: 0;
   z-index: 20;
   border-radius: 8px;
+  max-height: 280px;
   background-color: var(--clr-white);
   list-style: none;
   padding: var(--spacing-150) var(--spacing-250);

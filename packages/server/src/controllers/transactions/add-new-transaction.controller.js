@@ -24,7 +24,7 @@ export const addNewTransaction = asyncHandler(
         name,
         userId: request.user.id,
         category,
-        amount,
+        amount: category == "income" ? amount : -amount,
         date,
         isRecurring,
       })

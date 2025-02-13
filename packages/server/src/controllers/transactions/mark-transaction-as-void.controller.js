@@ -21,7 +21,7 @@ export const markTransactionAsVoid = asyncHandler(
 
     if (!transaction) {
       throw new ApiError({
-        message: "transaction not found",
+        message: "Transaction not found",
         status: 404,
       });
     }

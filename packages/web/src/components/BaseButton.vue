@@ -88,8 +88,7 @@ defineProps({
   color: var(--clr-white);
 }
 
-.primary-button:hover,
-.primary-button:disabled {
+.primary-button:is(:hover, :focus, :disabled) {
   background-color: var(--clr-grey-500);
 }
 
@@ -120,7 +119,7 @@ defineProps({
   color: var(--clr-white);
 }
 
-.destroy-button:hover {
+.destroy-button:is(:hover, :focus, :disabled) {
   opacity: 0.8;
 }
 

@@ -12,7 +12,7 @@ export const transactionSchema = z.object({
   }),
   date: z
     .string({ required_error: "transaction date is required" })
-    .date({ message: "invalid transaction date" }),
+    .date("transaction date is required"),
   amount: z.coerce
     .number({ required_error: "transaction amount is required" })
     .min(0.01, { message: "amount must be at least $0.01" })

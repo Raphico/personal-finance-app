@@ -49,10 +49,11 @@ defineProps({
   color: var(--clr-grey-500);
 }
 
+.pagination button {
+  height: 40px;
+}
+
 @media (max-width: 540px) {
-  .pagination button {
-    height: 35px;
-  }
   .pagination button span {
     display: none;
   }

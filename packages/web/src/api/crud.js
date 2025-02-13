@@ -6,18 +6,18 @@ export class Crud {
   }
 
   getList(params = null) {
-    return http.get(this.baseUrl, { params });
+    return http.get(this.baseUrl, params);
   }
 
   addItem(params = null) {
-    return http.post(this.baseUrl, { params });
+    return http.post(this.baseUrl, params);
   }
 
   deleteItem(id, params) {
-    return http.delete(this.baseUrl + `/${id}`, { params });
+    return http.delete(this.baseUrl + `/${id}`, params);
   }
 
   updateItem(id, params) {
-    return http.patch(this.baseUrl + `/${id}`, { params });
+    return http.patch(this.baseUrl + `/${id}`, params);
   }
 }

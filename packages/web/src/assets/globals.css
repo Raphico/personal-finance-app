@@ -152,16 +152,19 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+/* Hide scrollbar for Chrome, Safari, and Edge */
 ::-webkit-scrollbar {
-  width: 7px;
+  display: none;
 }
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 25px;
+
+/* Hide scrollbar for Firefox */
+* {
+  scrollbar-width: none;
 }
-::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 25px;
+
+/* Hide scrollbar for Internet Explorer and Edge */
+* {
+  -ms-overflow-style: none;
 }
 
 .sr-only {
@@ -233,5 +236,5 @@ input[type="number"] {
 .dp__theme_light {
   --dp-border-color: var(--clr-beige-500);
   --dp-border-color-hover: var(--clr-beige-500);
-  --dp-border-color-focus: var(--clr-beige-500);
+  --dp-border-color-focus: var(--clr-grey-900);
 }

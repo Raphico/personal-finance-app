@@ -2,6 +2,10 @@
 import { ref, computed } from "vue";
 import BaseInput from "./BaseInput.vue";
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const model = defineModel({ default: "" });
 const isFocused = ref(false);
 const displayValue = computed({
@@ -17,7 +21,8 @@ function parseAmount(amount) {
   const num = parseFloat(amount);
   if (isNaN(num)) return amount;
   return new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: 0,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }).format(amount);
 }
 
@@ -36,8 +41,10 @@ function onFocus() {
     <BaseInput
       type="text"
       v-model="displayValue"
+      v-bind="$attrs"
       @blur="onBlur"
       @focus="onFocus"
+      autocomplete="off"
     />
   </div>
 </template>

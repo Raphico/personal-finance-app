@@ -36,7 +36,11 @@ const showMarkAsVoidModal = ref(false);
     </template>
   </BaseDropdown>
 
-  <MarkAsVoidModal v-model="showMarkAsVoidModal" :transaction-id="row.id" />
+  <MarkAsVoidModal
+    v-model="showMarkAsVoidModal"
+    @done="showMarkAsVoidModal = false"
+    :transaction-id="row.original.id"
+  />
 </template>
 
 <style scoped>
