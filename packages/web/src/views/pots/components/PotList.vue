@@ -14,7 +14,7 @@ defineProps({
   <div class="pot-list">
     <div v-if="pots.length == 0" class="pot-list__empty" role="status">
       <IconPot class="pot-list__empty-icon" />
-      <p>No pots yet! Create a new pot to start saving for your goals</p>
+      <p>No pots yet. Create one to start saving for your goals!</p>
     </div>
     <PotListCard v-for="pot in pots" :key="pot.id" :pot="pot" />
   </div>
@@ -30,8 +30,7 @@ defineProps({
   display: grid;
   place-content: center;
   text-align: center;
-  height: 200px;
-  color: var(--clr-grey-500);
+  height: 400px;
   gap: var(--spacing-100);
 }
 

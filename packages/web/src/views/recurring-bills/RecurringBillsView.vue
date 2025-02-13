@@ -93,7 +93,13 @@ const getRecurringBillsSummary = computed(() => {
         class="recurring-bills__loading-bills-summary animate-pulse"
       ></div>
       <RecurringBillsSummary v-else :summary="getRecurringBillsSummary" />
-      <RecurringBillsTable :recurring-bills="recurringBills ?? []" />
+
+      <div
+        v-if="isPending"
+        role="status"
+        class="recurring-bills__loading-table animate-pulse"
+      ></div>
+      <RecurringBillsTable v-else :recurring-bills="recurringBills ?? []" />
     </div>
   </div>
 </template>
@@ -116,6 +122,13 @@ const getRecurringBillsSummary = computed(() => {
 .recurring-bills__loading-total-bills {
   width: 100%;
   height: 115px;
+  background-color: var(--clr-white);
+  border-radius: 8px;
+}
+
+.recurring-bills__loading-table {
+  width: 100%;
+  height: 400px;
   background-color: var(--clr-white);
   border-radius: 8px;
 }

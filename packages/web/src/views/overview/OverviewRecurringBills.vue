@@ -81,8 +81,13 @@ async function fetchRecurringBills() {
   text-align: center;
   display: grid;
   place-content: center;
+  gap: var(--spacing-100);
   height: 300px;
   color: var(--clr-grey-500);
+}
+
+.recurring-bills__empty p {
+  margin: 0;
 }
 
 .recurring-bills__empty-icon {

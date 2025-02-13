@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/vue-query";
 import { budgets } from "@/api/budgets";
 import { watch, computed } from "vue";
 import { useBudgetsStore } from "@/stores/budgets";
+import IconNavBudgets from "@/components/Icons/IconNavBudgets.vue";
 
 useHead({
   title: "Budgets - Personal Finance App",
@@ -76,7 +77,16 @@ async function fetchBudgets() {
       <AddNewBudgetModal />
     </header>
 
-    <div class="budgets__content">
+    <div
+      v-if="budgetList?.length == 0 && isPending == false"
+      class="budgets__empty"
+      role="status"
+    >
+      <IconNavBudgets class="budgets__empty-icon" />
+      <p>No budgets yet. Create one to start tracking you expense!</p>
+    </div>
+
+    <div v-else class="budgets__content">
       <div
         class="budgets__loading-summary animate-pulse"
         role="status"
@@ -111,6 +121,24 @@ async function fetchBudgets() {
 .budgets {
   display: grid;
   gap: var(--spacing-400);
+}
+
+.budgets__empty {
+  display: grid;
+  place-content: center;
+  gap: var(--spacing-100);
+  text-align: center;
+  height: 400px;
+}
+
+.budgets__empty-icon {
+  justify-self: center;
+}
+
+.budgets__empty p {
+  margin: 0;
+  max-width: 384px;
+  margin: auto;
 }
 
 .budgets__loading-summary {

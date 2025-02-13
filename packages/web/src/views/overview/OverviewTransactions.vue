@@ -117,9 +117,12 @@ async function fetchTransactions() {
   height: 300px;
 }
 
+.transactions__empty p {
+  margin: 0;
+}
+
 .transactions__empty-icon {
   justify-self: center;
-  transform: scale(2);
 }
 
 .transactions__loading {

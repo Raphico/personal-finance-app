@@ -101,9 +101,14 @@ async function fetchBudgets() {
   grid-column: 1 / -1;
   text-align: center;
   display: grid;
+  gap: var(--spacing-100);
   place-content: center;
   height: 300px;
   color: var(--clr-grey-500);
+}
+
+.budgets__empty p {
+  margin: 0;
 }
 
 .budgets__empty-icon {
