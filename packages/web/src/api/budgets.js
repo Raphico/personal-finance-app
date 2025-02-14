@@ -1,3 +1,14 @@
+import { http } from "@/lib/http";
 import { Crud } from "./crud";
 
-export const budgets = new Crud("budgets");
+class Budgets extends Crud {
+  constructor() {
+    super("budgets");
+  }
+
+  getBudgetsSummary() {
+    return http.get(`${this.baseUrl}/summary`);
+  }
+}
+
+export const budgets = new Budgets();

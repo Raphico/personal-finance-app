@@ -10,7 +10,7 @@ import { useToast } from "vue-toast-notification";
 import { watch } from "vue";
 import { budgets } from "@/api/budgets";
 import IconNavBudgets from "@/components/Icons/IconNavBudgets.vue";
-import { QUERY_KEYS } from "@/constants";
+import { colors, QUERY_KEYS } from "@/constants";
 import BudgetPieChart from "@/components/BudgetPieChart.vue";
 import { computed } from "vue";
 
@@ -77,10 +77,14 @@ const getTotalMaximumSpend = computed(() => {
 
 const getPieChartData = computed(() => {
   if (!summary.value) return;
-  summary.value.map((item) => ({
-    percentage: Math.abs(item.amountSpent / getTotalExpense.value).toFixed(2),
-    theme: item.theme,
-  }));
+  return summary.value.map((item) =>
+    Math.abs(item.amountSpent / getTotalExpense.value).toFixed(2)
+  );
+});
+
+const getPieChartColors = computed(() => {
+  if (!summary.value) return;
+  return summary.value.map((item) => colors[item.theme]);
 });
 </script>
 
@@ -110,10 +114,11 @@ const getPieChartData = computed(() => {
       ></div>
       <BudgetPieChart
         v-else
-        class="budgets__chart"
+        class="budgets__chart donut"
         :total-expense="getTotalExpense ?? 0"
         :total-maximum-spend="getTotalMaximumSpend ?? 0"
         :data="getPieChartData ?? []"
+        :colors="getPieChartColors ?? []"
       />
 
       <div
@@ -179,6 +184,8 @@ const getPieChartData = computed(() => {
   grid-column: 1 / -1;
   justify-self: center;
   grid-row: 1 / 2;
+  width: 240px;
+  height: 240px;
 }
 
 .budgets__loading-chart {

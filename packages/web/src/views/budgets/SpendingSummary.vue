@@ -1,20 +1,55 @@
 <script setup>
 import BaseCard from "@/components/BaseCard.vue";
 import BaseCardTitle from "@/components/BaseCardTitle.vue";
+import BudgetPieChart from "@/components/BudgetPieChart.vue";
 import DescriptionList from "@/components/DescriptionList.vue";
+import { colors } from "@/constants";
 import { formatCurrency } from "@/utils/helpers";
+import { computed } from "vue";
 
-defineProps({
+const props = defineProps({
   summary: {
     type: Array,
     required: true,
   },
 });
+
+const getTotalExpense = computed(() =>
+  props.summary.reduce(
+    (accumulator, currentItem) => (accumulator += currentItem.amountSpent),
+    0
+  )
+);
+
+const getTotalMaximumSpend = computed(() =>
+  props.summary.reduce(
+    (accumulator, currentItem) =>
+      (accumulator += Number(currentItem.maximumSpend)),
+    0
+  )
+);
+
+const getPieChartData = computed(() =>
+  props.summary.map(
+    (item) =>
+      Math.abs(item.amountSpent / getTotalExpense.value).toFixed(2) * 100
+  )
+);
+
+const getPieChartColors = computed(() =>
+  props.summary.map((item) => colors[item.theme])
+);
 </script>
 
 <template>
   <BaseCard class="spending-summary">
-    <div class="spending-summary__chart"></div>
+    <BudgetPieChart
+      class="spending-summary__chart donut"
+      :total-expense="getTotalExpense"
+      :total-maximum-spend="getTotalMaximumSpend"
+      :data="getPieChartData"
+      :colors="getPieChartColors"
+    />
     <BaseCardTitle class="spending-summary__header"
       >spending summary</BaseCardTitle
     >
@@ -38,12 +73,10 @@ defineProps({
 
 <style scoped>
 .spending-summary__chart {
-  background-color: var(--clr-beige-100);
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
   justify-self: center;
   margin-block: var(--spacing-250) var(--spacing-400);
+  width: 240px;
+  height: 240px;
 }
 
 .spending-summary__list {

@@ -29,7 +29,9 @@ watch(error, (value) => {
 });
 
 async function fetchRecurringBills() {
-  const response = await transactions.getRecurringBills({ limit: 3 });
+  const response = await transactions.getRecurringBills({
+    params: { limit: 3 },
+  });
   return response.data.bills;
 }
 </script>

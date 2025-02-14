@@ -10,3 +10,22 @@ export const QUERY_KEYS = {
   overviewSummary: ["overview-summary"],
   overviewPotsTotalSaved: ["overview-pots-total-saved"],
 };
+
+export const colors = {
+  green: "#277c78",
+  yellow: "#f2cdac",
+  cyan: "#82c9d7",
+  navy: "#626070",
+  red: "#c94736",
+  purple: "#826cb0",
+  pink: "#af81ba",
+  white: "#ffffff",
+  turquoise: "#597c7c",
+  brown: "#93674f",
+  magenta: "#934f6f",
+  blue: "#3f82b2",
+  "navy-grey": "#97a0ac",
+  "army-green": "#7f9161",
+  gold: "#cab361",
+  orange: "#be6c49",
+};

@@ -232,6 +232,20 @@ input[type="number"] {
   }
 }
 
+.donut {
+  --vis-donut-central-label-font-size: 1.5rem;
+  --vis-donut-central-label-text-color: var(--clr-grey-900);
+  --vis-donut-central-label-font-family: var(--ff);
+  --vis-donut-central-label-font-weight: var(--fw-bold);
+
+  --vis-donut-central-sub-label-font-size: var(--fs-200);
+  --vis-donut-central-sub-label-text-color: var(--clr-grey-500);
+  --vis-donut-central-sub-label-font-family: var(--ff);
+  --vis-donut-central-sub-label-font-weight: var(--fw-regular);
+
+  --vis-donut-background-color: var(--clr-beige-100);
+}
+
 /* VueDatePicker */
 .dp__theme_light {
   --dp-border-color: var(--clr-beige-500);

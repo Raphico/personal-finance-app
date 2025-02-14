@@ -17,6 +17,7 @@
     "@tanstack/vue-query": "^5.66.0",
     "@tanstack/vue-table": "^8.20.5",
     "@unhead/vue": "^1.11.15",
+    "@unovis/vue": "^1.5.0",
     "@vuepic/vue-datepicker": "^11.0.1",
     "@vueuse/core": "^12.5.0",
     "axios": "^1.7.9",

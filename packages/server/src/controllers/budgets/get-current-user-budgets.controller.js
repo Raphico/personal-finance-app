@@ -14,44 +14,29 @@ export const getCurrentUserBudgets = asyncHandler(
         category: budgets.category,
         maximumSpend: budgets.maximumSpend,
         theme: budgets.theme,
-        transactions: {
-          id: transactions.id,
-          name: transactions.name,
-          date: transactions.date,
-          amount: transactions.amount,
-        },
+        transactions: sql`COALESCE(json_agg(
+        json_build_object(
+          'id', ${transactions.id},
+          'name', ${transactions.name},
+          'date', ${transactions.date},
+          'amount', ${transactions.amount}
+        )
+      ) FILTER (WHERE ${transactions.id} IS NOT NULL), '[]')`,
       })
       .from(budgets)
       .leftJoin(
         transactions,
         sql`cast(${budgets.category} as text) = cast(${transactions.category} as text)`
       )
-      .limit(Number(limit))
       .where(eq(budgets.userId, request.user.id))
-      .orderBy(desc(budgets.updatedAt));
-
-    const groupedBudgets = new Map();
-
-    for (const budgetEntry of userBudgets) {
-      if (!groupedBudgets.has(budgetEntry.id)) {
-        groupedBudgets.set(budgetEntry.id, {
-          ...budgetEntry,
-          transactions: budgetEntry.transactions
-            ? [budgetEntry.transactions]
-            : [],
-        });
-        continue;
-      }
-
-      groupedBudgets
-        .get(budgetEntry.id)
-        .transactions.push(budgetEntry.transactions);
-    }
+      .groupBy(budgets.id)
+      .orderBy(desc(budgets.updatedAt))
+      .limit(Number(limit));
 
     return response.status(200).json(
       new ApiResponse({
         data: {
-          budgets: Array.from(groupedBudgets.values()),
+          budgets: userBudgets,
         },
         message: "budgets retrieved successfully",
         status: "ok",
