@@ -4,7 +4,6 @@ import pluginJs from "@eslint/js";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  eslintConfigPrettier,
   { languageOptions: { globals: globals.node } },
   pluginJs.configs.recommended,
   {
@@ -17,4 +16,5 @@ export default [
   {
     ignores: ["dist/**"],
   },
+  eslintConfigPrettier,
 ];
