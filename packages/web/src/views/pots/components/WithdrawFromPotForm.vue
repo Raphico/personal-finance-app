@@ -37,6 +37,10 @@ const { isPending, mutate: withdrawFromPot } = useMutation({
   onSuccess() {
     queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewPots });
     queryClient.invalidateQueries({ queryKey: QUERY_KEYS.pots });
+    queryClient.invalidateQueries({
+      queryKey: QUERY_KEYS.overviewTransactions,
+    });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.transactions });
     form.reset();
     emits("successful");
   },

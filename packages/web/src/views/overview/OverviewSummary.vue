@@ -17,6 +17,7 @@ const {
 } = useQuery({
   queryKey: QUERY_KEYS.overviewSummary,
   queryFn: fetchSummary,
+  staleTime: 300000,
 });
 
 const currentBalance = computed(() => {

@@ -23,6 +23,10 @@ const { isPending, mutate: deletePot } = useMutation({
   onSuccess() {
     queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewPots });
     queryClient.invalidateQueries({ queryKey: QUERY_KEYS.pots });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.transactions });
+    queryClient.invalidateQueries({
+      queryKey: QUERY_KEYS.overviewTransactions,
+    });
     emits("done");
   },
   onError(error) {

@@ -41,6 +41,7 @@ const { isPending, mutate: addTransaction } = useMutation({
     queryClient.invalidateQueries({ queryKey: QUERY_KEYS.budgets });
     queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewBudgets });
     queryClient.invalidateQueries({ queryKey: QUERY_KEYS.transactions });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.recurringBills });
     form.reset();
     emits("successful");
   },

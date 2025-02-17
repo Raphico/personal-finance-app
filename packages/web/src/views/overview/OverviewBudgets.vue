@@ -23,6 +23,7 @@ const {
 } = useQuery({
   queryKey: QUERY_KEYS.overviewBudgets,
   queryFn: fetchBudgets,
+  staleTime: 300000,
 });
 
 watch(error, (value) => {
@@ -33,7 +34,6 @@ watch(error, (value) => {
 
 const {
   isPending: isLoadingSummary,
-  isError: isSummaryError,
   error: summaryError,
   data: summary,
 } = useQuery({

@@ -29,6 +29,7 @@ const {
 } = useQuery({
   queryKey: QUERY_KEYS.pots,
   queryFn: fetchPots,
+  staleTime: 300000,
 });
 
 watch(error, (value) => {

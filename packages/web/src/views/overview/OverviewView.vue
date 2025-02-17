@@ -6,7 +6,6 @@ import OverviewBudgets from "./OverviewBudgets.vue";
 import OverviewRecurringBills from "./OverviewRecurringBills.vue";
 import { useHead } from "@unhead/vue";
 import OverviewTransactions from "./OverviewTransactions.vue";
-import { auth } from "@/api/auth";
 
 useHead({
   title: "Overview - Personal Finance App",
@@ -20,7 +19,6 @@ useHead({
 </script>
 
 <template>
-  <button @click="auth.logout()">logout</button>
   <div class="overview">
     <header>
       <PageHeader class="overview__header">Overview</PageHeader>

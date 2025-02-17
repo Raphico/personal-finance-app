@@ -20,6 +20,7 @@ const {
 } = useQuery({
   queryKey: QUERY_KEYS.overviewRecurringBills,
   queryFn: fetchRecurringBills,
+  staleTime: 300000,
 });
 
 watch(error, (value) => {

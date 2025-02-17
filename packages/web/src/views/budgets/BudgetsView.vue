@@ -31,6 +31,7 @@ const {
 } = useQuery({
   queryKey: QUERY_KEYS.budgets,
   queryFn: fetchBudgets,
+  staleTime: 300000,
 });
 
 watch(error, (value) => {

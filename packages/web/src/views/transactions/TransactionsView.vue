@@ -27,6 +27,7 @@ const {
 } = useQuery({
   queryKey: QUERY_KEYS.transactions,
   queryFn: fetchTransactions,
+  staleTime: 300000,
 });
 
 watch(error, (value) => {

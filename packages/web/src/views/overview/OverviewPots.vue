@@ -21,6 +21,7 @@ const {
 } = useQuery({
   queryKey: QUERY_KEYS.overviewPots,
   queryFn: fetchPots,
+  staleTime: 300000,
 });
 
 const {
@@ -30,6 +31,7 @@ const {
 } = useQuery({
   queryKey: QUERY_KEYS.overviewPotsTotalSaved,
   queryFn: fetchTotalSaved,
+  staleTime: 300000,
 });
 
 watch(potListError, (value) => {

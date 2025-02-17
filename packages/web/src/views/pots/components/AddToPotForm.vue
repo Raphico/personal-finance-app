@@ -36,6 +36,10 @@ const { isPending, mutate: addToPot } = useMutation({
   mutationFn: (data) => pots.addWithdrawMoney(props.pot.id, data),
   onSuccess() {
     queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewPots });
+    queryClient.invalidateQueries({
+      queryKey: QUERY_KEYS.overviewTransactions,
+    });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.transactions });
     queryClient.invalidateQueries({ queryKey: QUERY_KEYS.pots });
     form.reset();
     emits("successful");
