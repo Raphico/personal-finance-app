@@ -115,24 +115,20 @@ function onSubmit() {
           }
         "
       />
-      <BaseFormMessage
-        v-if="form.error.category"
-        :message="form.error.category"
-      />
     </BaseFormItem>
 
     <BaseFormItem>
-      <BaseLabel for="maximumSpend" :data-error="form.error.maximumSpend"
+      <BaseLabel for="maximumSpend" :data-error="!!form.error.maximumSpend"
         >maximum spend</BaseLabel
       >
       <BaseCurrencyInput
         v-model="form.fields.maximumSpend"
         id="maximumSpend"
         name="maximumSpend"
-        :data-error="form.error.maximumSpend"
+        :data-error="!!form.error.maximumSpend"
       />
       <BaseFormMessage
-        v-if="form.error.maximumSpend"
+        v-if="!!form.error.maximumSpend"
         :message="form.error.maximumSpend"
       />
     </BaseFormItem>
@@ -157,7 +153,6 @@ function onSubmit() {
           </span>
         </template>
       </BaseSelect>
-      <BaseFormMessage v-if="form.error.theme" :message="form.error.theme" />
     </BaseFormItem>
 
     <BaseButton :loading="isPending" :disabled="isPending" type="submit">{{

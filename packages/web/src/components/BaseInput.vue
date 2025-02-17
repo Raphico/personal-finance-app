@@ -22,7 +22,7 @@ input {
   -webkit-transition: var(--transition-duration) var(--transition-easing);
 }
 
-input[data-error] {
+input[data-error="true"] {
   --clr-box-shadow: var(--clr-red);
 
   border-color: var(--clr-red);

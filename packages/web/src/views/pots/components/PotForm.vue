@@ -97,29 +97,34 @@ function onSubmit() {
 <template>
   <BaseForm @submit.prevent="onSubmit" autocomplete="off">
     <BaseFormItem>
-      <BaseLabel for="name" :data-error="form.error.name">pot name</BaseLabel>
+      <BaseLabel for="name" :data-error="!!form.error.name">pot name</BaseLabel>
       <BaseInput
         v-model="form.fields.name"
-        :data-error="form.error.name"
+        :data-error="!!form.error.name"
         id="name"
         name="name"
       />
-      <BaseFormMessage v-if="form.error.name" :message="form.error.name" />
+      <BaseFormMessage v-if="!!form.error.name" :message="form.error.name" />
     </BaseFormItem>
 
     <BaseFormItem>
-      <BaseLabel for="target" :data-error="form.error.target">target</BaseLabel>
+      <BaseLabel for="target" :data-error="!!form.error.target"
+        >target</BaseLabel
+      >
       <BaseCurrencyInput
         v-model="form.fields.target"
-        :data-error="form.error.name"
+        :data-error="!!form.error.target"
         id="target"
         name="target"
       />
-      <BaseFormMessage v-if="form.error.target" :message="form.error.target" />
+      <BaseFormMessage
+        v-if="!!form.error.target"
+        :message="form.error.target"
+      />
     </BaseFormItem>
 
     <BaseFormItem>
-      <BaseLabel for="theme" :data-error="form.error.theme">theme</BaseLabel>
+      <BaseLabel for="theme">theme</BaseLabel>
       <BaseSelect
         id="theme"
         :default-value="form.fields.theme"
@@ -138,7 +143,6 @@ function onSubmit() {
           </span>
         </template>
       </BaseSelect>
-      <BaseFormMessage v-if="form.error.theme" :message="form.error.theme" />
     </BaseFormItem>
 
     <BaseButton :loading="isPending" :disabled="isPending" type="submit">{{

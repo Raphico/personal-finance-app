@@ -59,18 +59,18 @@ function onSubmit() {
   <PageHeader>Reset password</PageHeader>
   <BaseForm @submit.prevent="onSubmit">
     <BaseFormItem>
-      <BaseAlert v-if="form.error.general" :message="form.error.general" />
-      <BaseLabel :data-error="form.error.password" for="newPassword"
+      <BaseAlert v-if="!!form.error.general" :message="form.error.general" />
+      <BaseLabel :data-error="!!form.error.password" for="newPassword"
         >new password</BaseLabel
       >
       <BasePasswordInput
         id="newPassword"
         name="newPassword"
-        :data-error="form.error.password"
+        :data-error="!!form.error.password"
         v-model="form.fields.password"
       />
       <BaseFormMessage
-        v-if="form.error.password"
+        v-if="!!form.error.password"
         :message="form.error.password"
       />
     </BaseFormItem>

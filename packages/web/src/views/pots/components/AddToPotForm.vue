@@ -124,16 +124,19 @@ function onSubmit() {
       </p>
     </div>
     <BaseFormItem>
-      <BaseLabel for="amount" :data-error="form.error.amount"
+      <BaseLabel for="amount" :data-error="!!form.error.amount"
         >Amount to add</BaseLabel
       >
       <BaseCurrencyInput
         v-model="form.fields.amount"
-        :data-error="form.error.amount"
+        :data-error="!!form.error.amount"
         id="amount"
         name="amount"
       />
-      <BaseFormMessage v-if="form.error.amount" :message="form.error.amount" />
+      <BaseFormMessage
+        v-if="!!form.error.amount"
+        :message="form.error.amount"
+      />
     </BaseFormItem>
     <BaseButton :loading="isPending" :disabled="isPending" type="submit"
       >confirm addition</BaseButton

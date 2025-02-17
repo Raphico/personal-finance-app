@@ -67,41 +67,41 @@ function onSubmit() {
 <template>
   <PageHeader>Sign up</PageHeader>
   <BaseForm @submit.prevent="onSubmit" novalidate>
-    <BaseAlert v-if="form.error.general" :message="form.error.general" />
+    <BaseAlert v-if="!!form.error.general" :message="form.error.general" />
     <BaseFormItem>
-      <BaseLabel for="name" :data-error="form.error.name">name</BaseLabel>
+      <BaseLabel for="name" :data-error="!!form.error.name">name</BaseLabel>
       <BaseInput
         type="text"
         v-model="form.fields.name"
-        :data-error="form.error.name"
+        :data-error="!!form.error.name"
         id="name"
         name="name"
       />
-      <BaseFormMessage v-if="form.error.name" :message="form.error.name" />
+      <BaseFormMessage v-if="!!form.error.name" :message="form.error.name" />
     </BaseFormItem>
     <BaseFormItem>
-      <BaseLabel :data-error="form.error.email" for="email">email</BaseLabel>
+      <BaseLabel :data-error="!!form.error.email" for="email">email</BaseLabel>
       <BaseInput
-        :data-error="form.error.email"
+        :data-error="!!form.error.email"
         v-model="form.fields.email"
         type="email"
         id="email"
         name="email"
       />
-      <BaseFormMessage v-if="form.error.email" :message="form.error.email" />
+      <BaseFormMessage v-if="!!form.error.email" :message="form.error.email" />
     </BaseFormItem>
     <BaseFormItem>
-      <BaseLabel for="password" :data-error="form.error.password"
+      <BaseLabel for="password" :data-error="!!form.error.password"
         >password</BaseLabel
       >
       <BasePasswordInput
         id="password"
         name="password"
-        :data-error="form.error.password"
+        :data-error="!!form.error.password"
         v-model="form.fields.password"
       />
       <BaseFormMessage
-        v-if="form.error.password"
+        v-if="!!form.error.password"
         :message="form.error.password"
       />
     </BaseFormItem>

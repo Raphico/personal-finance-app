@@ -77,30 +77,30 @@ function onSubmit() {
 <template>
   <PageHeader>Login</PageHeader>
   <BaseForm @submit.prevent="onSubmit" novalidate>
-    <BaseAlert v-if="form.error.general" :message="form.error.general" />
+    <BaseAlert v-if="!!form.error.general" :message="form.error.general" />
     <BaseFormItem>
-      <BaseLabel for="email" :data-error="form.error.email">email</BaseLabel>
+      <BaseLabel for="email" :data-error="!!form.error.email">email</BaseLabel>
       <BaseInput
-        :data-error="form.error.email"
+        :data-error="!!form.error.email"
         v-model="form.fields.email"
         type="email"
         id="email"
         name="email"
       />
-      <BaseFormMessage v-if="form.error.email" :message="form.error.email" />
+      <BaseFormMessage v-if="!!form.error.email" :message="form.error.email" />
     </BaseFormItem>
     <BaseFormItem>
-      <BaseLabel for="password" :data-error="form.error.password"
+      <BaseLabel for="password" :data-error="!!form.error.password"
         >password</BaseLabel
       >
       <BasePasswordInput
         v-model="form.fields.password"
         id="password"
         name="password"
-        :data-error="form.error.password"
+        :data-error="!!form.error.password"
       />
       <BaseFormMessage
-        v-if="form.error.password"
+        v-if="!!form.error.password"
         :message="form.error.password"
       />
       <RouterLink

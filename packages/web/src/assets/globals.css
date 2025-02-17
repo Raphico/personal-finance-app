@@ -233,7 +233,7 @@ input[type="number"] {
 }
 
 .donut {
-  --vis-donut-central-label-font-size: 1.5rem;
+  --vis-donut-central-label-font-size: var(--fs-500);
   --vis-donut-central-label-text-color: var(--clr-grey-900);
   --vis-donut-central-label-font-family: var(--ff);
   --vis-donut-central-label-font-weight: var(--fw-bold);
@@ -251,4 +251,10 @@ input[type="number"] {
   --dp-border-color: var(--clr-beige-500);
   --dp-border-color-hover: var(--clr-beige-500);
   --dp-border-color-focus: var(--clr-grey-900);
+}
+
+.dp__theme_light.data-error {
+  --dp-border-color: var(--clr-red);
+
+  animation: shake var(--shake-duration);
 }

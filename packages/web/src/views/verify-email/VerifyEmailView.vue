@@ -79,7 +79,7 @@ function resendCode() {
       Enter the verification code sent to your email to continue
     </p>
     <BaseForm @submit.prevent="onSubmit">
-      <BaseAlert v-if="form.error.general" :message="form.error.general" />
+      <BaseAlert v-if="!!form.error.general" :message="form.error.general" />
       <BaseOTPInput
         :is-error="!!form.error.code"
         @complete="

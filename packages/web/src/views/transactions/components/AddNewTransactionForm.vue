@@ -86,18 +86,18 @@ function onSubmit() {
 <template>
   <BaseForm @submit.prevent="onSubmit" autocomplete="off">
     <BaseFormItem>
-      <BaseLabel for="name" :data-error="form.error.name">name</BaseLabel>
+      <BaseLabel for="name" :data-error="!!form.error.name">name</BaseLabel>
       <BaseInput
         v-model="form.fields.name"
-        :data-error="form.error.name"
+        :data-error="!!form.error.name"
         id="name"
         name="name"
       />
-      <BaseFormMessage v-if="form.error.name" :message="form.error.name" />
+      <BaseFormMessage v-if="!!form.error.name" :message="form.error.name" />
     </BaseFormItem>
 
     <BaseFormItem>
-      <BaseLabel for="category" :data-error="form.error.category"
+      <BaseLabel for="category" :data-error="!!form.error.category"
         >category</BaseLabel
       >
       <BaseSelect
@@ -116,32 +116,41 @@ function onSubmit() {
         "
       />
       <BaseFormMessage
-        v-if="form.error.category"
+        v-if="!!form.error.category"
         :message="form.error.category"
       />
     </BaseFormItem>
 
     <BaseFormItem>
-      <BaseLabel for="date" :data-error="form.error.date">
+      <BaseLabel for="date" :data-error="!!form.error.date">
         Transaction date
       </BaseLabel>
-      <BaseDatePicker id="date" v-model="form.fields.date" />
-      <BaseFormMessage v-if="form.error.date" :message="form.error.date" />
+      <BaseDatePicker
+        :class="{ 'data-error': !!form.error.date }"
+        id="date"
+        v-model="form.fields.date"
+      />
+      <BaseFormMessage v-if="!!form.error.date" :message="form.error.date" />
     </BaseFormItem>
 
     <BaseFormItem>
-      <BaseLabel for="amount" :data-error="form.error.amount">amount</BaseLabel>
+      <BaseLabel for="amount" :data-error="!!form.error.amount"
+        >amount</BaseLabel
+      >
       <BaseCurrencyInput
         v-model="form.fields.amount"
-        :data-error="form.error.amount"
+        :data-error="!!form.error.amount"
         id="amount"
         name="amount"
       />
-      <BaseFormMessage v-if="form.error.amount" :message="form.error.amount" />
+      <BaseFormMessage
+        v-if="!!form.error.amount"
+        :message="form.error.amount"
+      />
     </BaseFormItem>
 
     <BaseFormItem class="recurring">
-      <BaseLabel for="isRecurring" :data-error="form.error.isRecurring"
+      <BaseLabel for="isRecurring" :data-error="!!form.error.isRecurring"
         >Set as recurring</BaseLabel
       >
       <BaseCheckbox
@@ -151,7 +160,7 @@ function onSubmit() {
         name="isRecurring"
       />
       <BaseFormMessage
-        v-if="form.error.isRecurring"
+        v-if="!!form.error.isRecurring"
         :message="form.error.isRecurring"
       />
     </BaseFormItem>

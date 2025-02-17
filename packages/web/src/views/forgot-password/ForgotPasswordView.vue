@@ -66,17 +66,17 @@ function onSubmit() {
     password
   </p>
   <BaseForm @submit.prevent="onSubmit" novalidate>
-    <BaseAlert v-if="form.error.general" :message="form.error.general" />
+    <BaseAlert v-if="!!form.error.general" :message="form.error.general" />
     <BaseFormItem>
-      <BaseLabel for="email" :data-error="form.error.email">email</BaseLabel>
+      <BaseLabel for="email" :data-error="!!form.error.email">email</BaseLabel>
       <BaseInput
         type="email"
         id="email"
         name="email"
-        :data-error="form.error.email"
+        :data-error="!!form.error.email"
         v-model="form.fields.email"
       />
-      <BaseFormMessage v-if="form.error.email" :message="form.error.email" />
+      <BaseFormMessage v-if="!!form.error.email" :message="form.error.email" />
     </BaseFormItem>
     <BaseButton type="submit" :loading="isPending" :disabled="isPending"
       >continue</BaseButton

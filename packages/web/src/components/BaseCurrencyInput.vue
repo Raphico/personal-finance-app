@@ -56,12 +56,6 @@ function onFocus() {
 .currency-input-container input {
   padding-left: var(--spacing-400);
 }
-.currency-input-container input[data-error] {
-  --clr-box-shadow: var(--clr-red);
-
-  border-color: var(--clr-red);
-  animation: shake var(--shake-duration);
-}
 .currency-symbol {
   position: absolute;
   top: 12.5px;

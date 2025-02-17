@@ -11,7 +11,7 @@ label {
   text-transform: capitalize;
 }
 
-label[data-error] {
+label[data-error="true"] {
   color: var(--clr-red);
 }
 </style>
