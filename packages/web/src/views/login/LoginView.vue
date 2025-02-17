@@ -18,6 +18,8 @@ import BasePasswordInput from "@/components/BasePasswordInput.vue";
 import BaseFormMessage from "@/components/BaseFormMessage.vue";
 import BaseAlert from "@/components/BaseAlert.vue";
 import PageHeader from "@/components/PageHeader.vue";
+import { useMutation } from "@tanstack/vue-query";
+import { getError } from "@/utils/helpers";
 
 useHead({
   title: "Login - Personal Finance App",
@@ -30,44 +32,45 @@ useHead({
 });
 
 const { urlEncodedEmail, redirect, goTo } = useRedirect();
-
-const { login } = useAuthStore();
+const authStore = useAuthStore();
 const router = useRouter();
 const toast = useToast();
+
 const form = useForm({
   email: urlEncodedEmail,
   password: "",
 });
 
-function onSubmit() {
-  form.submit(
-    (fields) => {
-      const { email, password } = fields;
-      loginSchema.parse({
-        email,
-        password,
+const { isPending, mutate: login } = useMutation({
+  mutationFn: ({ email, password }) => auth.login(email, password),
+  async onSuccess(response) {
+    authStore.login(response.data);
+    await nextTick();
+    router.push(redirect);
+  },
+  onError(error) {
+    if (error instanceof AxiosError && error.status == "403") {
+      toast.error("You need to verify your email before logging in", {
+        position: "top",
       });
-      return auth.login(email, password);
-    },
-    {
-      onError(error) {
-        if (error instanceof AxiosError && error.status == 403) {
-          toast.error("You need to verify your email before logging in", {
-            position: "top",
-          });
-
-          router.push(
-            goTo("/auth/verify-email", { redirect, email: form.fields.email })
-          );
-        }
-      },
-      async onSuccess(response) {
-        login(response.data);
-        await nextTick();
-        router.push(redirect);
-      },
+      router.push(
+        goTo("/auth/verify-email", { redirect, email: form.fields.email })
+      );
     }
-  );
+
+    form.setError(getError(error));
+  },
+});
+
+function onSubmit() {
+  const { email, password } = form.fields;
+  form.clearError();
+  const { error, data } = loginSchema.safeParse({ email, password });
+  if (error) {
+    form.setError(getError(error));
+    return;
+  }
+  login(data);
 }
 </script>
 
@@ -108,10 +111,7 @@ function onSubmit() {
         >forgot password?</RouterLink
       >
     </BaseFormItem>
-    <BaseButton
-      :loading="form.isLoading"
-      :disabled="form.isLoading"
-      type="submit"
+    <BaseButton :loading="isPending" :disabled="isPending" type="submit"
       >login</BaseButton
     >
   </BaseForm>

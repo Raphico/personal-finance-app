@@ -5,13 +5,13 @@ import { useHead } from "@unhead/vue";
 import { useRedirect } from "@/composables/useRedirect";
 import { auth } from "@/api/auth";
 import { useRouter } from "vue-router";
-import { ref } from "vue";
-import { emailSchema, verifyEmailSchema } from "@repo/shared-validators/auth";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseForm from "@/components/BaseForm.vue";
 import BaseOTPInput from "@/components/BaseOTPInput.vue";
 import BaseAlert from "@/components/BaseAlert.vue";
 import PageHeader from "@/components/PageHeader.vue";
+import { getError } from "@/utils/helpers";
+import { useMutation } from "@tanstack/vue-query";
 
 useHead({
   title: "Verify email - Personal Finance App",
@@ -24,60 +24,51 @@ useHead({
 });
 
 const { redirect, urlEncodedEmail, goTo } = useRedirect();
-
-const isResendingEmail = ref(false);
 const router = useRouter();
 const toast = useToast();
+
 const form = useForm({
   code: "",
 });
 
-function onSubmit() {
-  form.submit(
-    async (fields) => {
-      const { code } = fields;
-      verifyEmailSchema.parse({
-        code,
+const { isPending: isVerifyingEmail, mutate: verifyEmail } = useMutation({
+  mutationFn: ({ code }) => auth.verifyEmail(code),
+  onSuccess() {
+    router.push(
+      goTo("/auth/login", {
+        redirect,
+        email: urlEncodedEmail,
+      })
+    );
+  },
+  onError(error) {
+    form.setError(getError(error));
+  },
+});
+
+const { isPending: isResendingEmail, mutate: resendEmailVerification } =
+  useMutation({
+    mutationFn: ({ email }) => auth.resendEmailVerification(email),
+    async onSuccess() {
+      toast.success("Verification code has been sent", {
+        position: "top",
       });
-      if (!code) return;
-      return auth.verifyEmail(code);
     },
-    {
-      async onSuccess() {
-        toast.success("Email successfully verified", {
-          position: "top",
-        });
-        router.push(
-          goTo("/auth/login", {
-            redirect,
-            email: urlEncodedEmail,
-          })
-        );
-      },
-    }
-  );
+    onError(error) {
+      form.setError(getError(error));
+    },
+  });
+
+function onSubmit() {
+  const { code } = form.fields;
+  if (!code) return;
+  form.clearError();
+  verifyEmail({ code });
 }
 
 function resendCode() {
-  form.submit(
-    async () => {
-      emailSchema.parse({ email: urlEncodedEmail });
-      return auth.resendEmailVerification(urlEncodedEmail);
-    },
-    {
-      onBefore() {
-        isResendingEmail.value = true;
-      },
-      onSuccess() {
-        toast.success("Verification email has been sent", {
-          position: "top",
-        });
-      },
-      onComplete() {
-        isResendingEmail.value = false;
-      },
-    }
-  );
+  form.clearError();
+  resendEmailVerification({ email: urlEncodedEmail });
 }
 </script>
 
@@ -98,15 +89,15 @@ function resendCode() {
         "
       />
       <BaseButton
-        :loading="form.isLoading && !isResendingEmail"
-        :disabled="isResendingEmail || form.isLoading"
+        :loading="isVerifyingEmail && !isResendingEmail"
+        :disabled="isResendingEmail || isVerifyingEmail"
         type="submit"
         >Verify</BaseButton
       >
     </BaseForm>
     <button
       class="resend-email text-preset-4-bold"
-      :disabled="form.isLoading"
+      :disabled="isVerifyingEmail || isResendingEmail"
       @click="resendCode"
     >
       resend code

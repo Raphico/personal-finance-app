@@ -11,12 +11,13 @@ import { themes, budgetCategories } from "@repo/shared-config";
 import BaseCurrencyInput from "@/components/BaseCurrencyInput.vue";
 import { useBudgetsStore } from "@/stores/budgets";
 import { useToast } from "vue-toast-notification";
-import { useQueryClient } from "@tanstack/vue-query";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { budgetSchema } from "@repo/shared-validators/budgets";
 import { AxiosError } from "axios";
 import { budgets } from "@/api/budgets";
 import { computed } from "vue";
 import { QUERY_KEYS } from "@/constants";
+import { getError } from "@/utils/helpers";
 
 const emits = defineEmits(["successful"]);
 const props = defineProps({
@@ -60,47 +61,50 @@ const form = useForm({
   theme: props.budget?.theme ?? getThemes.value[0].value,
 });
 
+const { isPending, mutate: budgetMutation } = useMutation({
+  mutationFn: (data) =>
+    !props.budget
+      ? budgets.addItem(data)
+      : budgets.updateItem(props.budget.id, data),
+  onSuccess() {
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.budgets });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewBudgets });
+    form.reset();
+    emits("successful");
+  },
+  onError(error) {
+    const message =
+      error instanceof AxiosError ? error.response.data.message : error.message;
+    toast.error(message, {
+      position: "top",
+    });
+  },
+});
+
 function onSubmit() {
-  form.submit(
-    async (fields) => {
-      const { category, maximumSpend, theme } = fields;
+  const { category, maximumSpend, theme } = form.fields;
 
-      const values = budgetSchema.parse({
-        theme,
-        maximumSpend,
-        category,
-      });
+  form.clearError();
 
-      return !props.budget
-        ? budgets.addItem(values)
-        : budgets.updateItem(props.budget.id, values);
-    },
-    {
-      onSuccess() {
-        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.budgets });
-        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewBudgets });
-        form.reset();
-        emits("successful");
-      },
-      onError(error) {
-        if (error instanceof AxiosError) {
-          const message = error.response.data.message;
-          toast.error(message, {
-            position: "top",
-          });
-        }
-      },
-    }
-  );
+  const { data, error } = budgetSchema.safeParse({
+    theme,
+    maximumSpend,
+    category,
+  });
+
+  if (error) {
+    form.setError(getError(error));
+    return;
+  }
+
+  budgetMutation(data);
 }
 </script>
 
 <template>
   <BaseForm @submit.prevent="onSubmit" autocomplete="off">
     <BaseFormItem>
-      <BaseLabel for="category" :data-error="form.error.category"
-        >budget category</BaseLabel
-      >
+      <BaseLabel for="category">budget category</BaseLabel>
       <BaseSelect
         id="category"
         :default-value="form.fields.category"
@@ -125,6 +129,7 @@ function onSubmit() {
         v-model="form.fields.maximumSpend"
         id="maximumSpend"
         name="maximumSpend"
+        :data-error="form.error.maximumSpend"
       />
       <BaseFormMessage
         v-if="form.error.maximumSpend"
@@ -133,7 +138,7 @@ function onSubmit() {
     </BaseFormItem>
 
     <BaseFormItem>
-      <BaseLabel for="theme" :data-error="form.error.theme">theme</BaseLabel>
+      <BaseLabel for="theme">theme</BaseLabel>
       <BaseSelect
         id="theme"
         position="top"
@@ -154,12 +159,10 @@ function onSubmit() {
       </BaseSelect>
       <BaseFormMessage v-if="form.error.theme" :message="form.error.theme" />
     </BaseFormItem>
-    <BaseButton
-      :loading="form.isLoading"
-      :disabled="form.isLoading"
-      type="submit"
-      >{{ props.budget ? "update budget" : "add budget" }}</BaseButton
-    >
+
+    <BaseButton :loading="isPending" :disabled="isPending" type="submit">{{
+      props.budget ? "update budget" : "add budget"
+    }}</BaseButton>
   </BaseForm>
 </template>
 

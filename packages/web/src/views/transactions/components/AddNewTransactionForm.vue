@@ -14,10 +14,11 @@ import { useForm } from "@/composables/useForm";
 import { transactionCategories } from "@repo/shared-config";
 import { transactionSchema } from "@repo/shared-validators/transactions";
 import { watch } from "vue";
-import { useQueryClient } from "@tanstack/vue-query";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { useToast } from "vue-toast-notification";
 import { AxiosError } from "axios";
 import { QUERY_KEYS } from "@/constants";
+import { getError } from "@/utils/helpers";
 
 const queryClient = useQueryClient();
 
@@ -31,6 +32,27 @@ const form = useForm({
   isRecurring: false,
 });
 
+const { isPending, mutate: addTransaction } = useMutation({
+  mutationFn: (data) => transactions.addItem(data),
+  onSuccess() {
+    queryClient.invalidateQueries({
+      queryKey: QUERY_KEYS.overviewTransactions,
+    });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.budgets });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewBudgets });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.transactions });
+    form.reset();
+    emits("successful");
+  },
+  onError(error) {
+    const message =
+      error instanceof AxiosError ? error.response.data.message : error.message;
+    toast.error(message, {
+      position: "top",
+    });
+  },
+});
+
 watch(
   () => form.fields.category,
   (value) => {
@@ -41,41 +63,23 @@ watch(
 );
 
 function onSubmit() {
-  form.submit(
-    async (fields) => {
-      const { name, category, amount, date, isRecurring } = fields;
+  const { name, category, amount, date, isRecurring } = form.fields;
+  form.clearError();
 
-      const values = transactionSchema.parse({
-        name,
-        category,
-        amount,
-        date: date.split("T")[0],
-        isRecurring,
-      });
+  const { data, error } = transactionSchema.safeParse({
+    name,
+    category,
+    amount,
+    date: date.split("T")[0],
+    isRecurring,
+  });
 
-      return transactions.addItem(values);
-    },
-    {
-      onSuccess() {
-        queryClient.invalidateQueries({
-          queryKey: QUERY_KEYS.overviewTransactions,
-        });
-        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.budgets });
-        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewBudgets });
-        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.transactions });
-        form.reset();
-        emits("successful");
-      },
-      onError(error) {
-        if (error instanceof AxiosError) {
-          const message = error.response.data.message;
-          toast.error(message, {
-            position: "top",
-          });
-        }
-      },
-    }
-  );
+  if (error) {
+    form.setError(getError(error));
+    return;
+  }
+
+  addTransaction(data);
 }
 </script>
 
@@ -83,7 +87,12 @@ function onSubmit() {
   <BaseForm @submit.prevent="onSubmit" autocomplete="off">
     <BaseFormItem>
       <BaseLabel for="name" :data-error="form.error.name">name</BaseLabel>
-      <BaseInput v-model="form.fields.name" id="name" name="name" />
+      <BaseInput
+        v-model="form.fields.name"
+        :data-error="form.error.name"
+        id="name"
+        name="name"
+      />
       <BaseFormMessage v-if="form.error.name" :message="form.error.name" />
     </BaseFormItem>
 
@@ -124,6 +133,7 @@ function onSubmit() {
       <BaseLabel for="amount" :data-error="form.error.amount">amount</BaseLabel>
       <BaseCurrencyInput
         v-model="form.fields.amount"
+        :data-error="form.error.amount"
         id="amount"
         name="amount"
       />
@@ -146,10 +156,7 @@ function onSubmit() {
       />
     </BaseFormItem>
 
-    <BaseButton
-      :loading="form.isLoading"
-      :disabled="form.isLoading"
-      type="submit"
+    <BaseButton :loading="isPending" :disabled="isPending" type="submit"
       >add transaction</BaseButton
     >
   </BaseForm>

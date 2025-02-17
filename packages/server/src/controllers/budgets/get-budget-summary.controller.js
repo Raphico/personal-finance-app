@@ -16,9 +16,11 @@ export const getBudgetSummary = asyncHandler(
       .from(budgets)
       .leftJoin(
         transactions,
-        sql`cast(${budgets.category} as text) = cast(${transactions.category} as text)`
+        sql`
+          cast(${budgets.category} as text) = cast(${transactions.category} as text)
+          AND ${transactions.status} = 'active'`
       )
-      .where(eq(budgets.userId, request.user.id))
+      .where(eq(transactions.status, "active"))
       .groupBy(budgets.id);
 
     response.status(200).json(

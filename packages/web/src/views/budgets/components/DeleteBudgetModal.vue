@@ -5,7 +5,6 @@ import BaseModal from "@/components/BaseModal.vue";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { AxiosError } from "axios";
 import { useToast } from "vue-toast-notification";
-import { watchEffect } from "vue";
 import { QUERY_KEYS } from "@/constants";
 
 const emits = defineEmits(["done"]);
@@ -19,28 +18,20 @@ defineProps({
 const queryClient = useQueryClient();
 const toast = useToast();
 
-const {
-  isPending,
-  isError,
-  error,
-  isSuccess,
-  mutate: deleteBudget,
-} = useMutation({
+const { isPending, mutate: deleteBudget } = useMutation({
   mutationFn: (budgetId) => budgets.deleteItem(budgetId),
   onSuccess() {
     queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewBudgets });
     queryClient.invalidateQueries({ queryKey: QUERY_KEYS.budgets });
+    emits("done");
   },
-});
-
-watchEffect(() => {
-  if (isError.value && error.value instanceof AxiosError) {
-    toast.error(error.value.response.data.message, {
+  onError(error) {
+    const message =
+      error instanceof AxiosError ? error.response.data.message : error.message;
+    toast.error(message, {
       position: "top",
     });
-  } else if (isSuccess.value) {
-    emits("done");
-  }
+  },
 });
 </script>
 

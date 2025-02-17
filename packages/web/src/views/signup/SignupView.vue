@@ -14,6 +14,8 @@ import BaseInput from "@/components/BaseInput.vue";
 import BaseLabel from "@/components/BaseLabel.vue";
 import BasePasswordInput from "@/components/BasePasswordInput.vue";
 import PageHeader from "@/components/PageHeader.vue";
+import { getError } from "@/utils/helpers";
+import { useMutation } from "@tanstack/vue-query";
 
 useHead({
   title: "Sign up - Personal Finance App",
@@ -26,33 +28,39 @@ useHead({
 });
 
 const { urlEncodedEmail, redirect, goTo } = useRedirect();
-
 const router = useRouter();
+
 const form = useForm({
   name: "",
   email: urlEncodedEmail,
   password: "",
 });
 
+const { isPending, mutate: signup } = useMutation({
+  mutationFn: ({ name, email, password }) => auth.signup(name, email, password),
+  onSuccess() {
+    router.push(
+      goTo("/auth/verify-email", { redirect, email: form.fields.email })
+    );
+  },
+  onError(error) {
+    form.setError(getError(error));
+  },
+});
+
 function onSubmit() {
-  form.submit(
-    async (fields) => {
-      const { name, email, password } = fields;
-      signupSchema.parse({
-        name,
-        email,
-        password,
-      });
-      return auth.signup(name, email, password);
-    },
-    {
-      onSuccess() {
-        router.push(
-          goTo("/auth/verify-email", { redirect, email: form.fields.email })
-        );
-      },
-    }
-  );
+  const { name, email, password } = form.fields;
+  form.clearError();
+  const { data, error } = signupSchema.safeParse({
+    name,
+    email,
+    password,
+  });
+  if (error) {
+    form.setError(getError(error));
+    return;
+  }
+  signup(data);
 }
 </script>
 
@@ -97,10 +105,7 @@ function onSubmit() {
         :message="form.error.password"
       />
     </BaseFormItem>
-    <BaseButton
-      :loading="form.isLoading"
-      :disabled="form.isLoading"
-      type="submit"
+    <BaseButton :loading="isPending" :disabled="isPending" type="submit"
       >create account</BaseButton
     >
   </BaseForm>

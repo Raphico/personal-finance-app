@@ -1,5 +1,4 @@
 <script setup>
-import { useToast } from "vue-toast-notification";
 import { useRoute, useRouter } from "vue-router";
 import { useForm } from "@/composables/useForm";
 import { auth } from "@/api/auth";
@@ -13,6 +12,8 @@ import BasePasswordInput from "@/components/BasePasswordInput.vue";
 import BaseFormMessage from "@/components/BaseFormMessage.vue";
 import BaseAlert from "@/components/BaseAlert.vue";
 import PageHeader from "@/components/PageHeader.vue";
+import { getError } from "@/utils/helpers";
+import { useMutation } from "@tanstack/vue-query";
 
 useHead({
   title: "Reset Password - Personal Finance App",
@@ -26,29 +27,31 @@ useHead({
 
 const router = useRouter();
 const route = useRoute();
-const toast = useToast();
 const form = useForm({
   password: "",
 });
 
+const { isPending, mutate: resetPassword } = useMutation({
+  mutationFn: ({ token, password }) => auth.resetPassword(token, password),
+  onSuccess() {
+    router.push("/auth/login");
+  },
+  onError(error) {
+    form.setError(getError(error));
+  },
+});
+
 function onSubmit() {
-  form.submit(
-    async (fields) => {
-      const { password } = fields;
-      passwordSchema.parse({
-        password,
-      });
-      return auth.resetPassword(route.params.token, password);
-    },
-    {
-      onSuccess() {
-        router.push("/auth/login");
-        toast.success("Password has been updated successfully", {
-          position: "top",
-        });
-      },
-    }
-  );
+  const { password } = form.fields;
+  form.clearError();
+  const { data, error } = passwordSchema.safeParse({
+    password,
+  });
+  if (error) {
+    form.setError(getError(error));
+    return;
+  }
+  resetPassword({ ...data, token: route.params.token });
 }
 </script>
 
@@ -71,10 +74,7 @@ function onSubmit() {
         :message="form.error.password"
       />
     </BaseFormItem>
-    <BaseButton
-      type="submit"
-      :loading="form.isLoading"
-      :disabled="form.isLoading"
+    <BaseButton type="submit" :loading="isPending" :disabled="isPending"
       >reset password</BaseButton
     >
   </BaseForm>

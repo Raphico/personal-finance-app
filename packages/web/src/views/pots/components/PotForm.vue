@@ -10,7 +10,7 @@ import { useForm } from "@/composables/useForm";
 import { themes } from "@repo/shared-config";
 import BaseCurrencyInput from "@/components/BaseCurrencyInput.vue";
 import BaseInput from "@/components/BaseInput.vue";
-import { useQueryClient } from "@tanstack/vue-query";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { useToast } from "vue-toast-notification";
 import { AxiosError } from "axios";
 import { potSchema } from "@repo/shared-validators/pots";
@@ -18,6 +18,7 @@ import { pots } from "@/api/pots";
 import { computed } from "vue";
 import { usePotsStore } from "@/stores/pots";
 import { QUERY_KEYS } from "@/constants";
+import { getError } from "@/utils/helpers";
 
 const emits = defineEmits(["successful"]);
 const props = defineProps({
@@ -48,46 +49,48 @@ const form = useForm({
   theme: props.pot?.theme ?? getThemes.value[0].value,
 });
 
+const { isPending, mutate: potMutation } = useMutation({
+  mutationFn: (data) =>
+    !props.pot ? pots.addItem(data) : pots.updateItem(props.pot.id, data),
+  onSuccess() {
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewPots });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.pots });
+    form.reset();
+    emits("successful");
+  },
+  onError(error) {
+    const message =
+      error instanceof AxiosError ? error.response.data.message : error.message;
+    toast.error(message, {
+      position: "top",
+    });
+  },
+});
+
 function onSubmit() {
-  form.submit(
-    async (fields) => {
-      const { name, target, theme } = fields;
+  const { name, target, theme } = form.fields;
 
-      if (props.pot && props.pot.totalSaved > target) {
-        throw new Error(
-          JSON.stringify({
-            target: "New target must be greater than the total saved.",
-          })
-        );
-      }
+  form.clearError();
 
-      const values = potSchema.parse({
-        name,
-        target,
-        theme,
-      });
+  if (props.pot && Number(props.pot.totalSaved) > target) {
+    form.setError({
+      target: "New target must be greater than the total saved.",
+    });
+    return;
+  }
 
-      return !props.pot
-        ? pots.addItem(values)
-        : pots.updateItem(props.pot.id, values);
-    },
-    {
-      onSuccess() {
-        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewPots });
-        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.pots });
-        form.reset();
-        emits("successful");
-      },
-      onError(error) {
-        if (error instanceof AxiosError) {
-          const message = error.response.data.message;
-          toast.error(message, {
-            position: "top",
-          });
-        }
-      },
-    }
-  );
+  const { data, error } = potSchema.safeParse({
+    name,
+    target,
+    theme,
+  });
+
+  if (error) {
+    form.setError(getError(error));
+    return;
+  }
+
+  potMutation(data);
 }
 </script>
 
@@ -95,7 +98,12 @@ function onSubmit() {
   <BaseForm @submit.prevent="onSubmit" autocomplete="off">
     <BaseFormItem>
       <BaseLabel for="name" :data-error="form.error.name">pot name</BaseLabel>
-      <BaseInput v-model="form.fields.name" id="name" name="name" />
+      <BaseInput
+        v-model="form.fields.name"
+        :data-error="form.error.name"
+        id="name"
+        name="name"
+      />
       <BaseFormMessage v-if="form.error.name" :message="form.error.name" />
     </BaseFormItem>
 
@@ -103,6 +111,7 @@ function onSubmit() {
       <BaseLabel for="target" :data-error="form.error.target">target</BaseLabel>
       <BaseCurrencyInput
         v-model="form.fields.target"
+        :data-error="form.error.name"
         id="target"
         name="target"
       />
@@ -132,12 +141,9 @@ function onSubmit() {
       <BaseFormMessage v-if="form.error.theme" :message="form.error.theme" />
     </BaseFormItem>
 
-    <BaseButton
-      :loading="form.isLoading"
-      :disabled="form.isLoading"
-      type="submit"
-      >{{ pot ? "update pot" : "add pot" }}</BaseButton
-    >
+    <BaseButton :loading="isPending" :disabled="isPending" type="submit">{{
+      pot ? "update pot" : "add pot"
+    }}</BaseButton>
   </BaseForm>
 </template>
 

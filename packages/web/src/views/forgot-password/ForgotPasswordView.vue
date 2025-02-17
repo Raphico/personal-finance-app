@@ -13,6 +13,8 @@ import BaseInput from "@/components/BaseInput.vue";
 import BaseLabel from "@/components/BaseLabel.vue";
 import BaseAlert from "@/components/BaseAlert.vue";
 import PageHeader from "@/components/PageHeader.vue";
+import { getError } from "@/utils/helpers";
+import { useMutation } from "@tanstack/vue-query";
 
 useHead({
   title: "Forgot Password - Personal Finance App",
@@ -25,30 +27,35 @@ useHead({
 });
 
 const { urlEncodedEmail, redirect, goTo } = useRedirect();
-
 const router = useRouter();
 const form = useForm({
   email: urlEncodedEmail,
 });
 
+const { isPending, mutate: requestPasswordReset } = useMutation({
+  mutationFn: ({ email }) => auth.requestPasswordReset(email),
+  onSuccess() {
+    router.push(
+      goTo(`/auth/forgot-password-confirmation`, {
+        redirect,
+        email: form.fields.email,
+      })
+    );
+  },
+  onError(error) {
+    form.setError(getError(error));
+  },
+});
+
 function onSubmit() {
-  form.submit(
-    async (fields) => {
-      const { email } = fields;
-      emailSchema.parse({ email });
-      return auth.requestPasswordReset(email);
-    },
-    {
-      onSuccess() {
-        router.push(
-          goTo(`/auth/forgot-password-confirmation`, {
-            redirect,
-            email: form.fields.email,
-          })
-        );
-      },
-    }
-  );
+  const { email } = form.fields;
+  form.clearError();
+  const { data, error } = emailSchema.safeParse({ email });
+  if (error) {
+    form.setError(getError(error));
+    return;
+  }
+  requestPasswordReset(data);
 }
 </script>
 
@@ -71,10 +78,7 @@ function onSubmit() {
       />
       <BaseFormMessage v-if="form.error.email" :message="form.error.email" />
     </BaseFormItem>
-    <BaseButton
-      type="submit"
-      :loading="form.isLoading"
-      :disabled="form.isLoading"
+    <BaseButton type="submit" :loading="isPending" :disabled="isPending"
       >continue</BaseButton
     >
     <RouterLink

@@ -26,7 +26,9 @@ export const getCurrentUserBudgets = asyncHandler(
       .from(budgets)
       .leftJoin(
         transactions,
-        sql`cast(${budgets.category} as text) = cast(${transactions.category} as text)`
+        sql`
+          cast(${budgets.category} as text) = cast(${transactions.category} as text)
+          AND ${transactions.status} = 'active'`
       )
       .where(eq(budgets.userId, request.user.id))
       .groupBy(budgets.id)

@@ -4,9 +4,9 @@ import pluginVitest from "@vitest/eslint-plugin";
 import pluginPlaywright from "eslint-plugin-playwright";
 import skipFormatting from "@vue/eslint-config-prettier/skip-formatting";
 import pluginVueA11y from "eslint-plugin-vuejs-accessibility";
+import pluginQuery from "@tanstack/eslint-plugin-query";
 
 export default [
-  ...pluginVueA11y.configs["flat/recommended"],
   {
     name: "app/files-to-lint",
     files: ["**/*.{js,mjs,jsx,vue}"],
@@ -18,7 +18,12 @@ export default [
   },
 
   js.configs.recommended,
+
   ...pluginVue.configs["flat/essential"],
+
+  ...pluginVueA11y.configs["flat/recommended"],
+
+  ...pluginQuery.configs["flat/recommended"],
 
   {
     ...pluginVitest.configs.recommended,

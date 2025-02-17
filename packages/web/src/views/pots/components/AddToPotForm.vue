@@ -6,11 +6,15 @@ import BaseFormItem from "@/components/BaseFormItem.vue";
 import BaseFormMessage from "@/components/BaseFormMessage.vue";
 import BaseLabel from "@/components/BaseLabel.vue";
 import { useForm } from "@/composables/useForm";
-import { formatCurrency, truncateToTwoDecimals } from "@/utils/helpers";
+import {
+  formatCurrency,
+  getError,
+  truncateToTwoDecimals,
+} from "@/utils/helpers";
 import { computed } from "vue";
 import { amountSchema } from "@repo/shared-validators/pots";
 import { pots } from "@/api/pots";
-import { useQueryClient } from "@tanstack/vue-query";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { useToast } from "vue-toast-notification";
 import { AxiosError } from "axios";
 import { QUERY_KEYS } from "@/constants";
@@ -26,6 +30,23 @@ const queryClient = useQueryClient();
 const toast = useToast();
 const form = useForm({
   amount: "",
+});
+
+const { isPending, mutate: addToPot } = useMutation({
+  mutationFn: (data) => pots.addWithdrawMoney(props.pot.id, data),
+  onSuccess() {
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewPots });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.pots });
+    form.reset();
+    emits("successful");
+  },
+  onError(error) {
+    const message =
+      error instanceof AxiosError ? error.response.data.message : error.message;
+    toast.error(message, {
+      position: "top",
+    });
+  },
 });
 
 const getLastTotalSavedPercentage = computed(() =>
@@ -54,41 +75,26 @@ const getTotalSaved = computed(
 );
 
 function onSubmit() {
-  form.submit(
-    async (fields) => {
-      const { amount } = fields;
+  const { amount } = form.fields;
+  form.clearError();
 
-      const values = amountSchema.parse({
-        amount,
-      });
+  const { error, data } = amountSchema.safeParse({
+    amount,
+  });
 
-      if (values.amount > props.pot.target) {
-        throw new Error(
-          JSON.stringify({
-            amount: "Deposit should not exceed target amount",
-          })
-        );
-      }
+  if (error) {
+    form.setError(getError(error));
+    return;
+  }
 
-      return pots.addWithdrawMoney(props.pot.id, values);
-    },
-    {
-      onSuccess() {
-        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.overviewPots });
-        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.pots });
-        form.reset();
-        emits("successful");
-      },
-      onError(error) {
-        if (error instanceof AxiosError) {
-          const message = error.response.data.message;
-          toast.error(message, {
-            position: "top",
-          });
-        }
-      },
-    }
-  );
+  if (data.amount > Number(props.pot.target)) {
+    form.setError({
+      amount: "Deposit should not exceed target amount",
+    });
+    return;
+  }
+
+  addToPot(data);
 }
 </script>
 
@@ -123,15 +129,13 @@ function onSubmit() {
       >
       <BaseCurrencyInput
         v-model="form.fields.amount"
+        :data-error="form.error.amount"
         id="amount"
         name="amount"
       />
       <BaseFormMessage v-if="form.error.amount" :message="form.error.amount" />
     </BaseFormItem>
-    <BaseButton
-      :loading="form.isLoading"
-      :disabled="form.isLoading"
-      type="submit"
+    <BaseButton :loading="isPending" :disabled="isPending" type="submit"
       >confirm addition</BaseButton
     >
   </BaseForm>
