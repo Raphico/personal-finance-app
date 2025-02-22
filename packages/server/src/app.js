@@ -34,7 +34,7 @@ app.use(helmet());
 app.use(morganMiddleware);
 app.use(
   cors({
-    origin: env.CORS_ORIGIN,
+    origin: env.CORS_ORIGIN === "*" ? "*" : env.CORS_ORIGIN.split(","),
     methods: env.CORS_METHODS,
     allowedHeaders: env.CORS_ALLOWED_HEADERS,
     credentials: true,

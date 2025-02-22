@@ -1,14 +1,20 @@
-<script setup>
-import BaseLogo from "@/components/BaseLogo.vue";
-</script>
-
 <template>
   <div class="auth-layout">
     <header class="auth-layout__header">
-      <BaseLogo size="large" />
+      <img
+        src="@/assets/svg/logo-large.svg"
+        alt="Personal Finance app Logo"
+        height="22"
+        width="122"
+      />
     </header>
     <aside class="auth-layout__aside">
-      <BaseLogo size="large" />
+      <img
+        src="@/assets/svg/logo-large.svg"
+        alt="Personal Finance app Logo"
+        height="22"
+        width="122"
+      />
       <div class="auth-layout__brand">
         <h2 class="text-preset-1">
           Keep track of your money and save your future

@@ -6,6 +6,8 @@ import IconNavOverview from "@/components/Icons/IconNavOverview.vue";
 import IconNavPots from "@/components/Icons/IconNavPots.vue";
 import IconNavRecurringBills from "@/components/Icons/IconNavRecurringBills.vue";
 import IconNavTransactions from "@/components/Icons/IconNavTransactions.vue";
+import logoSmall from "@/assets/svg/logo-small.svg";
+import logoLarge from "@/assets/svg/logo-large.svg";
 
 const isMenuMinimize = ref(false);
 
@@ -13,11 +15,7 @@ function toggleIsMenuMinimize() {
   isMenuMinimize.value = !isMenuMinimize.value;
 }
 
-const getLogo = computed(() =>
-  isMenuMinimize.value
-    ? "/src/assets/svg/logo-small.svg"
-    : "/src/assets/svg/logo-large.svg"
-);
+const getLogo = computed(() => (isMenuMinimize.value ? logoSmall : logoLarge));
 
 const links = [
   {

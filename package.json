@@ -11,6 +11,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
+    "preview": "turbo preview",
     "format": "prettier --write \"**/*.{js,md,vue}\"",
     "format:check": "prettier --check \"**/*.{js,md,vue}\"",
     "test:unit": "turbo test:unit",
