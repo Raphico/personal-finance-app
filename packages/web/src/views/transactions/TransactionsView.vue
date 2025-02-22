@@ -49,11 +49,12 @@ async function fetchTransactions() {
       <AddNewTransactionModal />
     </header>
 
-    <div
-      role="status"
-      v-if="isPending"
-      class="transactions__loading animate-pulse"
-    ></div>
+    <div aria-live="polite" class="sr-only">
+      <span v-if="isPending">Loading transactions. Please wait</span>
+      <span v-else>transactions loaded</span>
+    </div>
+
+    <div v-if="isPending" class="transactions__loading animate-pulse"></div>
     <TransactionsTable v-else :transactions="transactionList ?? []" />
   </div>
 </template>

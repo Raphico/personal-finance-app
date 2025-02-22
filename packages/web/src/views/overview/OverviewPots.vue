@@ -72,7 +72,7 @@ async function fetchTotalSaved() {
       <p class="text-preset-4-regular">total saved</p>
       <span
         v-if="isLoadingTotalSaved"
-        role="status"
+        aria-label="Loading pots' total saved"
         class="pots__loading-total-saved animate-pulse"
       ></span>
       <p class="text-preset-1" v-else>{{ formatCurrency(totalSaved ?? 0) }}</p>
@@ -80,8 +80,8 @@ async function fetchTotalSaved() {
 
     <div
       class="pots__loading-pot-list animate-pulse"
-      role="status"
       v-if="isLoadingPots"
+      aria-label="Loading pots"
     ></div>
     <DescriptionList
       class="pots__list"

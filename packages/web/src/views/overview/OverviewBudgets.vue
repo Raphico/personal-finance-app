@@ -99,8 +99,6 @@ const getPieChartColors = computed(() => {
     <div
       class="budgets__empty"
       v-if="isError || (budgetList && budgetList.length == 0)"
-      role="status"
-      aria-live="polite"
     >
       <IconNavBudgets class="budgets__empty-icon" />
       <p>No recent budgets</p>
@@ -109,8 +107,8 @@ const getPieChartColors = computed(() => {
     <div v-else class="budgets__content">
       <div
         v-if="isLoadingSummary"
+        aria-label="Loading budget summary"
         class="budgets__loading-chart animate-pulse"
-        role="status"
       ></div>
       <BudgetPieChart
         v-else
@@ -122,9 +120,9 @@ const getPieChartColors = computed(() => {
       />
 
       <div
+        aria-label="Loading budgets"
         v-if="isPending"
         class="budgets__loading-list animate-pulse"
-        role="status"
       ></div>
       <DescriptionList
         v-else

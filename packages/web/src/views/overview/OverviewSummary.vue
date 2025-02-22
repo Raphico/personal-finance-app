@@ -48,7 +48,7 @@ async function fetchSummary() {
       >
       <span
         v-if="isPending"
-        role="status"
+        aria-label="Loading current balance"
         class="summary__loading animate-pulse"
       ></span>
       <p class="text-preset-1" v-else>
@@ -59,20 +59,20 @@ async function fetchSummary() {
       <BaseCardTitle class="text-preset-4-regular">income</BaseCardTitle>
       <span
         v-if="isPending"
-        role="status"
         class="summary__loading animate-pulse"
+        aria-label="Loading total income"
       ></span>
       <p class="text-preset-1" v-else>
         {{ formatCurrency(summary?.income ?? 0) }}
       </p>
     </BaseCard>
     <BaseCard class="summary__card">
-      <BaseCardTitle class="text-preset-4-regular">expenses</BaseCardTitle>
-      <span
-        v-if="isPending"
-        role="status"
-        class="summary__loading animate-pulse"
-      ></span>
+      <BaseCardTitle
+        class="text-preset-4-regular"
+        aria-label="Loading total expenses"
+        >expenses</BaseCardTitle
+      >
+      <span v-if="isPending" class="summary__loading animate-pulse"></span>
       <p class="text-preset-1">{{ formatCurrency(summary?.expenses ?? 0) }}</p>
     </BaseCard>
   </div>

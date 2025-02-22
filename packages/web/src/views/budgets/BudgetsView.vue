@@ -79,10 +79,14 @@ async function fetchBudgets() {
       <AddNewBudgetModal />
     </header>
 
+    <div aria-live="polite" class="sr-only">
+      <span v-if="isPending">Loading budgets. Please wait</span>
+      <span v-else>budgets loaded</span>
+    </div>
+
     <div
       v-if="budgetList?.length == 0 && isPending == false"
       class="budgets__empty"
-      role="status"
     >
       <IconNavBudgets class="budgets__empty-icon" />
       <p>No budgets yet. Create one to start tracking you expense!</p>
@@ -91,28 +95,15 @@ async function fetchBudgets() {
     <div v-else class="budgets__content">
       <div
         class="budgets__loading-summary animate-pulse"
-        role="status"
         v-if="isPending"
       ></div>
       <SpendingSummary v-else :summary="getSpendingSummary ?? []" />
 
       <div v-if="isPending" class="budgets__loading-list-container">
-        <div
-          class="budgets__loading-list-item animate-pulse"
-          role="status"
-        ></div>
-        <div
-          class="budgets__loading-list-item animate-pulse"
-          role="status"
-        ></div>
-        <div
-          class="budgets__loading-list-item animate-pulse"
-          role="status"
-        ></div>
-        <div
-          class="budgets__loading-list-item animate-pulse"
-          role="status"
-        ></div>
+        <div class="budgets__loading-list-item animate-pulse"></div>
+        <div class="budgets__loading-list-item animate-pulse"></div>
+        <div class="budgets__loading-list-item animate-pulse"></div>
+        <div class="budgets__loading-list-item animate-pulse"></div>
       </div>
       <BudgetList v-else :budgets="budgetList ?? []" />
     </div>

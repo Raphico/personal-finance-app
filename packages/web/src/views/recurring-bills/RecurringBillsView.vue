@@ -81,24 +81,26 @@ const getRecurringBillsSummary = computed(() => {
       <PageHeader class="recurring-bills__header">Recurring Bills</PageHeader>
     </header>
 
+    <div aria-live="polite" class="sr-only">
+      <span v-if="isPending">Loading recurring bills. Please wait</span>
+      <span v-else>Recurring bills loaded</span>
+    </div>
+
     <div class="recurring-bills__content">
       <div
         v-if="isPending"
-        role="status"
         class="recurring-bills__loading-total-bills animate-pulse"
       ></div>
       <RecurringBillsTotalBills v-else :total-bills="getTotalBills ?? 0" />
 
       <div
         v-if="isPending"
-        role="status"
         class="recurring-bills__loading-bills-summary animate-pulse"
       ></div>
       <RecurringBillsSummary v-else :summary="getRecurringBillsSummary" />
 
       <div
         v-if="isPending"
-        role="status"
         class="recurring-bills__loading-table animate-pulse"
       ></div>
       <RecurringBillsTable v-else :recurring-bills="recurringBills ?? []" />

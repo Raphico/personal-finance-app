@@ -70,7 +70,12 @@ const getSpentRemaining = computed(() => {
     <p class="budget-amount text-preset-4-regular">
       Maximum of {{ formatCurrency(budget.maximumSpend) }}
     </p>
-    <div class="progress-bar">
+    <div
+      class="progress-bar"
+      role="progressbar"
+      :aria-valuenow="getRemainingPercentage"
+      aria-label="Remaining percentage"
+    >
       <div
         class="progress"
         :style="`--color: var(--clr-${budget.theme}); --width: ${getRemainingPercentage}%`"

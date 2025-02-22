@@ -41,10 +41,15 @@ const getTotalSavedPercentage = computed(() =>
 
     <div class="pot__overview">
       <p class="pot__overview-total-saved text-preset-1">
-        <span class="text-preset-4-regular">total saved</span>
+        <span class="text-preset-4-regular" id="totalSaved">total saved</span>
         {{ formatCurrency(pot.totalSaved) }}
       </p>
-      <div class="pot__overview-progress">
+      <div
+        class="pot__overview-progress"
+        role="progressbar"
+        aria-labelledby="totalSaved"
+        :aria-valuenow="getTotalSavedPercentage"
+      >
         <div
           class="pot__overview-progress-bar"
           :style="`--width: ${getTotalSavedPercentage}%; --theme: var(--clr-${pot.theme});`"

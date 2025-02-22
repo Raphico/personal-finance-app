@@ -46,12 +46,14 @@ async function fetchRecurringBills() {
       see details
       <IconCaretRight />
     </BaseLink>
-    <div v-if="isPending" role="status" class="recurring-bills__loading"></div>
+    <div
+      v-if="isPending"
+      aria-label="Loading recurring bills"
+      class="recurring-bills__loading"
+    ></div>
     <div
       class="recurring-bills__empty"
       v-else-if="isError || (recurringBills && recurringBills.length == 0)"
-      role="status"
-      aria-live="polite"
     >
       <IconRecurringBills class="recurring-bills__empty-icon" />
       <p>No recent recurring bills</p>

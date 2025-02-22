@@ -51,14 +51,13 @@ async function fetchTransactions() {
 
     <div
       v-if="isPending"
-      role="status"
       class="transactions__loading animate-pulse"
+      aria-label="Loading transactions"
     ></div>
 
     <div
       v-else-if="isError || (transactionList && transactionList.length == 0)"
       aria-live="polite"
-      role="status"
       class="transactions__empty"
     >
       <IconNavTransactions class="transactions__empty-icon" />
