@@ -1,0 +1,28 @@
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+RUN corepack enable
+RUN corepack prepare pnpm@9.0.0 --activate
+
+COPY package.json pnpm-lock.yaml ./
+COPY packages/ ./packages/
+RUN find packages -type f ! -name "package.json" -delete
+
+RUN pnpm install --frozen-lockfile
+
+COPY . .
+
+RUN pnpm build --filter @repo/server
+
+
+FROM node:22-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app .
+
+ENV PORT=8080
+EXPOSE ${PORT}
+
+CMD ["node", "/app/packages/server/dist/index.js"]

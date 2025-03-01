@@ -1,0 +1,21 @@
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+RUN corepack enable
+RUN corepack prepare pnpm@9.0.0 --activate
+
+COPY package.json pnpm-lock.yaml ./
+COPY packages/ ./packages/
+RUN find packages -type f ! -name "package.json" -delete
+
+RUN pnpm install --frozen-lockfile
+
+COPY . .
+
+RUN pnpm --filter @repo/web run build
+
+
+FROM nginx:alpine
+
+COPY --from=builder /app/packages/web/dist /usr/share/nginx/html

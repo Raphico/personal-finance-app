@@ -121,9 +121,6 @@ importers:
       request-ip:
         specifier: ^3.3.0
         version: 3.3.0
-      swagger-ui-express:
-        specifier: ^5.0.1
-        version: 5.0.1(express@4.21.2)
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -134,6 +131,9 @@ importers:
         specifier: ^3.24.1
         version: 3.24.1
     devDependencies:
+      "@babel/cli":
+        specifier: ^7.26.4
+        version: 7.26.4(@babel/core@7.26.0)
       "@babel/core":
         specifier: ^7.26.0
         version: 7.26.0
@@ -262,6 +262,16 @@ packages:
       {
         integrity: sha512-+562v9k4aI80m1+VuMHehNJWLOFjBnXn3tdOitzD0il5b7smkSBal4+a3oKiQTbrwMmN/TBUMDvbdoWDehgOww==,
       }
+
+  "@babel/cli@7.26.4":
+    resolution:
+      {
+        integrity: sha512-+mORf3ezU3p3qr+82WvJSnQNE1GAYeoCfEv4fik6B5/2cvKZ75AX8oawWQdXtM9MmndooQj15Jr9kelRFWsuRw==,
+      }
+    engines: { node: ">=6.9.0" }
+    hasBin: true
+    peerDependencies:
+      "@babel/core": ^7.0.0-0
 
   "@babel/code-frame@7.26.2":
     resolution:
@@ -2382,6 +2392,12 @@ packages:
       }
     engines: { node: ">=18" }
 
+  "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
+    resolution:
+      {
+        integrity: sha512-s88O1aVtXftvp5bCPB7WnmXc5IwOZZ7YPuwNPt+GtOOXpPvad1LfbmjYv+qII7zP6RU2QGnqve27dnLycEnyEQ==,
+      }
+
   "@noble/hashes@1.7.0":
     resolution:
       {
@@ -2678,12 +2694,6 @@ packages:
       }
     cpu: [x64]
     os: [win32]
-
-  "@scarf/scarf@1.4.0":
-    resolution:
-      {
-        integrity: sha512-xxeapPiUXdZAE3che6f3xogoJPeZgig6omHEy1rIY5WVsB3H2BHNnZH+gHG6x91SCWyQCzWGsuL2Hh3ClO5/qQ==,
-      }
 
   "@sec-ant/readable-stream@0.4.1":
     resolution:
@@ -5538,6 +5548,12 @@ packages:
       }
     engines: { node: ">= 8" }
 
+  fs-readdir-recursive@1.1.0:
+    resolution:
+      {
+        integrity: sha512-GNanXlVr2pf02+sPN40XN8HG+ePaNcvM0q5mZBd668Obwb0yD5GiUbZOFgwn8kGMY6I3mdyDJzieUy3PTYyTRA==,
+      }
+
   fs.realpath@1.0.0:
     resolution:
       {
@@ -6679,6 +6695,13 @@ packages:
         integrity: sha512-6g8vyKwMjAvNLuoDuGpJ4UhpvmroQQH9ZYzERC+/tL21Qvrzs2CM/li561rVIsSE+zroC4xSjXYYQ6pfPYYCXQ==,
       }
 
+  make-dir@2.1.0:
+    resolution:
+      {
+        integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==,
+      }
+    engines: { node: ">=6" }
+
   make-dir@3.1.0:
     resolution:
       {
@@ -7452,6 +7475,13 @@ packages:
     engines: { node: ">=0.10" }
     hasBin: true
 
+  pify@4.0.1:
+    resolution:
+      {
+        integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==,
+      }
+    engines: { node: ">=6" }
+
   pinia@2.3.0:
     resolution:
       {
@@ -8005,6 +8035,13 @@ packages:
       }
     engines: { node: ">=v12.22.7" }
 
+  semver@5.7.2:
+    resolution:
+      {
+        integrity: sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==,
+      }
+    hasBin: true
+
   semver@6.3.1:
     resolution:
       {
@@ -8159,6 +8196,13 @@ packages:
         integrity: sha512-BPwJGUeDaDCHihkORDchNyyTvWFhcusy1XMmhEVTQTwGeybFbp8YEmB+njbPnth1FibULBSBVwCQni25XlCUDg==,
       }
     engines: { node: ">=18" }
+
+  slash@2.0.0:
+    resolution:
+      {
+        integrity: sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==,
+      }
+    engines: { node: ">=6" }
 
   slice-ansi@5.0.0:
     resolution:
@@ -8405,21 +8449,6 @@ packages:
       {
         integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==,
       }
-
-  swagger-ui-dist@5.18.2:
-    resolution:
-      {
-        integrity: sha512-J+y4mCw/zXh1FOj5wGJvnAajq6XgHOyywsa9yITmwxIlJbMqITq3gYRZHaeqLVH/eV/HOPphE6NjF+nbSNC5Zw==,
-      }
-
-  swagger-ui-express@5.0.1:
-    resolution:
-      {
-        integrity: sha512-SrNU3RiBGTLLmFU8GIJdOdanJTl4TOmT27tt3bWWHppqYmAZ6IDuEuBvMU6nZq0zLEe6b/1rACXCgLZqO6ZfrA==,
-      }
-    engines: { node: ">= v0.10.32" }
-    peerDependencies:
-      express: ">=4.0.0 || >=5.0.0-beta"
 
   symbol-tree@3.2.4:
     resolution:
@@ -9434,6 +9463,20 @@ snapshots:
       "@jridgewell/trace-mapping": 0.3.25
 
   "@antfu/utils@0.7.10": {}
+
+  "@babel/cli@7.26.4(@babel/core@7.26.0)":
+    dependencies:
+      "@babel/core": 7.26.0
+      "@jridgewell/trace-mapping": 0.3.25
+      commander: 6.2.1
+      convert-source-map: 2.0.0
+      fs-readdir-recursive: 1.1.0
+      glob: 7.2.3
+      make-dir: 2.1.0
+      slash: 2.0.0
+    optionalDependencies:
+      "@nicolo-ribaudo/chokidar-2": 2.1.8-no-fsevents.3
+      chokidar: 3.6.0
 
   "@babel/code-frame@7.26.2":
     dependencies:
@@ -10747,6 +10790,9 @@ snapshots:
       outvariant: 1.4.3
       strict-event-emitter: 0.5.1
 
+  "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
+    optional: true
+
   "@noble/hashes@1.7.0": {}
 
   "@nodelib/fs.scandir@2.1.5":
@@ -10877,8 +10923,6 @@ snapshots:
 
   "@rollup/rollup-win32-x64-msvc@4.29.2":
     optional: true
-
-  "@scarf/scarf@1.4.0": {}
 
   "@sec-ant/readable-stream@0.4.1": {}
 
@@ -12763,6 +12807,8 @@ snapshots:
     dependencies:
       minipass: 3.3.6
 
+  fs-readdir-recursive@1.1.0: {}
+
   fs.realpath@1.0.0: {}
 
   fsevents@2.3.2:
@@ -13405,6 +13451,11 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
+  make-dir@2.1.0:
+    dependencies:
+      pify: 4.0.1
+      semver: 5.7.2
+
   make-dir@3.1.0:
     dependencies:
       semver: 6.3.1
@@ -13818,6 +13869,8 @@ snapshots:
 
   pidtree@0.6.0: {}
 
+  pify@4.0.1: {}
+
   pinia@2.3.0(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2)):
     dependencies:
       "@vue/devtools-api": 6.6.4
@@ -14142,6 +14195,8 @@ snapshots:
     dependencies:
       xmlchars: 2.2.0
 
+  semver@5.7.2: {}
+
   semver@6.3.1: {}
 
   semver@7.6.3: {}
@@ -14285,6 +14340,8 @@ snapshots:
       mrmime: 2.0.0
       totalist: 3.0.1
 
+  slash@2.0.0: {}
+
   slice-ansi@5.0.0:
     dependencies:
       ansi-styles: 6.2.1
@@ -14417,15 +14474,6 @@ snapshots:
   supports-preserve-symlinks-flag@1.0.0: {}
 
   svg-tags@1.0.0: {}
-
-  swagger-ui-dist@5.18.2:
-    dependencies:
-      "@scarf/scarf": 1.4.0
-
-  swagger-ui-express@5.0.1(express@4.21.2):
-    dependencies:
-      express: 4.21.2
-      swagger-ui-dist: 5.18.2
 
   symbol-tree@3.2.4: {}
 

@@ -1,12 +1,7 @@
-import path from "node:path";
-import fs from "node:fs";
-import { parse } from "yaml";
-import { fileURLToPath } from "url";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import swaggerUi from "swagger-ui-express";
 import { env } from "./config.js";
 import { errorMiddleware } from "./middleware/error.middleware.js";
 import { morganMiddleware } from "./logging.js";
@@ -18,15 +13,6 @@ import healthRoute from "./routes/health.route.js";
 import transactionsRoute from "./routes/transactions.route.js";
 import budgetsRoute from "./routes/budgets.route.js";
 import potsRoute from "./routes/pots.route.js";
-
-const __filePath = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filePath);
-
-const swaggerFile = fs.readFileSync(
-  path.resolve(__dirname, "swagger.yml"),
-  "utf8"
-);
-const swaggerDocument = parse(swaggerFile);
 
 export const app = express();
 
@@ -55,13 +41,5 @@ app.use("/api/v1/health", healthRoute);
 app.use("/api/v1/transactions", transactionsRoute);
 app.use("/api/v1/budgets", budgetsRoute);
 app.use("/api/v1/pots", potsRoute);
-
-app.use(
-  "/",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocument, {
-    customSiteTitle: "Personal finance app API docs",
-  })
-);
 
 app.use(errorMiddleware);
