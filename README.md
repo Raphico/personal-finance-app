@@ -36,8 +36,21 @@ This is a solution to the [Personal finance app challenge on Frontend Mentor](ht
     pnpm install
 ```
 
-3. setup env
-4. start development server
+3. Setup environmental variables (see `.env.example`)
+
+4. Start database container
+
+   ```bash
+   docker compose -f docker-compose.dev.yml up --build
+   ```
+
+5. Run database migrations
+
+   ```bash
+   pnpm --filter @repo/server db:migrate
+   ```
+
+6. start development server
 
 ```bash
   pnpm run dev
