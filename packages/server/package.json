@@ -9,9 +9,12 @@
     "preview": "nodemon src/index.js",
     "start": "node dist/index.js",
     "build": "rm -rf dist && babel src --out-dir dist",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "devDependencies": {
+    "@babel/cli": "^7.27.0",
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@repo/eslint-config": "workspace:*",
@@ -20,9 +23,9 @@
     "vitest": "^2.1.8"
   },
   "dependencies": {
-    "@repo/shared-validators": "workspace:*",
-    "@repo/shared-config": "workspace:*",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@repo/shared-config": "workspace:*",
+    "@repo/shared-validators": "workspace:*",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
