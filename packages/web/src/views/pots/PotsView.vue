@@ -70,7 +70,7 @@ async function fetchPots() {
       <div class="pots__loading-item animate-pulse"></div>
     </div>
 
-    <div v-else-if="pots && pots.length == 0" class="pot-list__empty">
+    <div v-else-if="potList && potList.length == 0" class="pot-list__empty">
       <IconPot class="pot-list__empty-icon" />
       <p>No pots yet. Create one to start saving for your goals!</p>
     </div>
